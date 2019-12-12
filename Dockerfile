@@ -1,7 +1,7 @@
 FROM node:lts
 
-WORKDIR /code/frontend
-COPY package.json /code/frontend
+WORKDIR /code/cartographer_frontend
+COPY package.json /code/cartographer_frontend
 
 RUN yarn install
 
