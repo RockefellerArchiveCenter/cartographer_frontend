@@ -96,6 +96,7 @@ class MapForm extends Component {
               onChange={this.handleChange}
               value={this.state.activeMap.title}
               placeholder="Enter Arrangement Map title"
+              disabled={this.state.editable ? false : true }
             />
           </FormGroup>
           {this.state.editable ? (

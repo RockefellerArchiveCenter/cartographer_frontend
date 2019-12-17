@@ -25,7 +25,7 @@ class MapList extends Component {
  };
  handleDelete = item => {
    axios
-     .delete(`http://localhost:8000/api/maps/${item.id}`)
+     .delete(`/api/maps/${item.id}`)
      .then(res => this.refreshList());
    this.toggleModal(item)
  };
