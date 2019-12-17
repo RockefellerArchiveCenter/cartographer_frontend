@@ -52,7 +52,7 @@ export class MapComponentModal extends Component {
   fetchResource = resourceId => {
     this.setState({error: ""})
     axios
-      .get(`api/fetch-resource/${resourceId}`)
+      .get(`/api/fetch-resource/${resourceId}`)
       .then(res => this.toggleData(res))
       .catch(error => this.setState({error: error.response.data}));
   };
