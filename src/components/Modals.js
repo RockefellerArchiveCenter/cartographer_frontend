@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   Alert,
-  Badge,
   Button,
   Col,
   Modal,
