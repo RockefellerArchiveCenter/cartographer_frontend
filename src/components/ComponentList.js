@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import SortableTree, { addNodeUnderParent, changeNodeAtPath, insertNode, removeNode } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
+import { ResizableBox } from 'react-resizable';
+import 'react-resizable/css/styles.css';
 import { MapComponentModal, ConfirmModal } from './Modals'
 import axios from "axios";
 
@@ -94,7 +96,7 @@ class ComponentList extends Component {
                  Add arrangement map component
                </button>
              </div>
-             <div style={{ height: 400 }}>
+             <ResizableBox handleSize={[20, 20]} axis="y" resizeHandles={["s"]} height={400}>
               <SortableTree
                 treeData={this.props.items}
                 onChange={this.props.onChange}
@@ -122,7 +124,7 @@ class ComponentList extends Component {
                   ],
                 })}
               />
-             </div>
+             </ResizableBox>
              {this.state.detailModal ? (
                <MapComponentModal
                  activeComponent={this.state.activeComponent.node}
@@ -141,7 +143,7 @@ class ComponentList extends Component {
                  cancelButtonText="Nope, cancel"
                />) : null}
            </div>
-         </div>
+          </div>
        </div>
      </div>
    );
