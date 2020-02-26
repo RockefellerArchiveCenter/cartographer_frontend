@@ -26,6 +26,10 @@ class MapForm extends Component {
  toggleEditable = () => {
    this.setState({editable: !this.state.editable})
  }
+ togglePublish = map => {
+   map.publish = !this.state.activeMap.publish
+   this.handleSubmit(map);
+ }
  refreshMap = () => {
    if (this.props.match.params.id) {
      axios
@@ -48,7 +52,7 @@ class MapForm extends Component {
      axios
        .put(`/api/maps/${map.id}/`, map)
        .then(res => this.refreshMap())
-       .then(this.toggleEditable());
+       .then(this.setState({editable: false}));
      return;
    }
    axios
@@ -112,6 +116,9 @@ class MapForm extends Component {
           <div>
             <Button color="primary" className="mr-2" onClick={this.toggleEditable}>
             Edit Title
+            </Button>
+            <Button color={this.state.activeMap.publish ? "warning" : "success"} className="ml-5" onClick={() => this.togglePublish(this.state.activeMap)}>
+            {this.state.activeMap.publish ? "Unpublish Map" : "Publish Map"}
             </Button>
           </div>
         )}
