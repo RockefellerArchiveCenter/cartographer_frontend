@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   Alert,
-  Badge,
   Button,
   Col,
   Modal,
@@ -74,7 +73,7 @@ export class MapComponentModal extends Component {
             }
             { this.state.activeComponent.archivesspace_uri ? (
               <div className="mt-2">
-                <h2><Badge color="secondary">{this.state.activeComponent.title}</Badge></h2>
+                <h2>{this.state.activeComponent.title}</h2>
                 <p className="text-muted">{this.state.activeComponent.archivesspace_uri}</p>
                 <Button
                   color="warning"
