@@ -92,7 +92,7 @@ class ComponentList extends Component {
          <div className="col-md-12">
            <div className="card p-3">
              <div className="mb-3">
-               <button onClick={() => this.toggleDetailModal({"node": { title: "", archivesspace_uri: ""}})} className="btn btn-primary">
+               <button onClick={() => this.toggleDetailModal({"node": { title: "", archivesspace_uri: "", level: ""}})} className="btn btn-primary">
                  Add arrangement map component
                </button>
              </div>
@@ -105,7 +105,7 @@ class ComponentList extends Component {
                   buttons: [
                     <button
                       className="btn btn-sm btn-success mr-2"
-                      onClick={() => this.toggleDetailModal({"node": {title: "", archivesspace_uri: "", parent: node.node.id}})}
+                      onClick={() => this.toggleDetailModal({"node": {title: "", archivesspace_uri: "", parent: node.node.id, level: ""}})}
                     >
                       Add Child
                     </button>,
