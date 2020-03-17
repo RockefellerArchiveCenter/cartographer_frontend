@@ -41,12 +41,15 @@ export class MapComponentModal extends Component {
   };
   toggleData = data => {
     if (data.data) {
+      console.log(data)
       this.handleChange({"target": {"name": "archivesspace_uri", "value": data.data.uri}});
       this.handleChange({"target": {"name": "title", "value": data.data.title}});
+      this.handleChange({"target": {"name": "level", "value": data.data.level}});
       return;
     }
     this.handleChange({"target": {"name": "title", "value": ""}});
     this.handleChange({"target": {"name": "archivesspace_uri", "value": ""}});
+    this.handleChange({"target": {"name": "level", "value": ""}});
   };
   fetchResource = resourceId => {
     this.setState({error: ""})
