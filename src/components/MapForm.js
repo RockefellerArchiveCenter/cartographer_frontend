@@ -113,10 +113,19 @@ class MapForm extends Component {
           </FormGroup>
           {this.state.editable ? (
           <div>
-            <Button color="primary" className="mr-2" onClick={() => this.handleSubmit(this.state.activeMap)}>
+            <Button
+              color="primary"
+              className="mr-2"
+              disabled={!this.state.activeMap.title}
+              onClick={() => this.handleSubmit(this.state.activeMap)}
+            >
             Save Title
             </Button>
-            <Button color="danger" className="mr-2" onClick={this.toggleEditable}>
+            <Button
+              color="danger"
+              className="mr-2"
+              onClick={this.toggleEditable}
+            >
             Cancel
             </Button>
           </div>
