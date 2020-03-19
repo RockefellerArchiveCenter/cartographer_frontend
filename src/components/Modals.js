@@ -92,7 +92,6 @@ export class MapComponentModal extends Component {
                       name="resourceId"
                       value={this.state.resourceId}
                       onChange={this.handleResourceIdChange}
-                      placeholder="Enter an ArchivesSpace Resource ID"
                     />
                   </FormGroup>
                 </Form>

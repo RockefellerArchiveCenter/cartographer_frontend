@@ -100,14 +100,13 @@ class MapForm extends Component {
       <h1>{this.props.match.params.id ? "Edit Map" : "Add New Map"}</h1>
       <Form className="row mb-4" inline={true}>
         <FormGroup className="col-md-8">
-          <Label for="title" hidden>Title</Label>
+          <Label for="title" className="mr-2">Arrangement Map Title</Label>
             <Input
-              className="col-md-12"
+              className="col-8"
               type="text"
               name="title"
               onChange={this.handleChange}
               value={this.state.activeMap.title}
-              placeholder="Enter Arrangement Map title"
               disabled={this.state.editable ? false : true }
             />
           </FormGroup>
