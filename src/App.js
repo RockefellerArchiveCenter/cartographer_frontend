@@ -28,15 +28,12 @@ class App extends Component {
       <main className="content">
         <Navbar color="dark" dark expand="md">
           <NavbarBrand href="/">Cartographer</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <Button href="/maps/new" color="primary">Add New Map</Button>
-            </Nav>
-          </Collapse>
+          <Nav className="ml-auto" navbar>
+            <Button href="/maps/new" color="primary">Add New Map</Button>
+          </Nav>
         </Navbar>
         <div className="row mt-4">
-          <div className="col-md-8 col-sm-10 mx-auto p-0">
+          <div className="col-md-8 col-10 mx-auto p-0">
           <Router>
             <Switch>
               <Route exact path="/" component={MapList} />
