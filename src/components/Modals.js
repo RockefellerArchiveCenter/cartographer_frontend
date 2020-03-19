@@ -65,7 +65,7 @@ export class MapComponentModal extends Component {
     const { toggle } = this.props;
     return (
       <Modal isOpen={true} toggle={toggle} className="modal-md">
-        <ModalHeader toggle={toggle}> Arrangement Map Component </ModalHeader>
+        <ModalHeader tag="h2" toggle={toggle}> Arrangement Map Component </ModalHeader>
         <ModalBody>
           <Row>
             <Col sm="12">
@@ -132,7 +132,7 @@ export class ConfirmModal extends Component {
     const { toggle, message, onConfirm, cancelButtonText, confirmButtonText } = this.props;
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}> Confirm Delete </ModalHeader>
+        <ModalHeader tag="h2" toggle={toggle}> Confirm Delete </ModalHeader>
         <ModalBody>
           {message}
         </ModalBody>
