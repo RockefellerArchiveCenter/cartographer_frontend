@@ -15,6 +15,7 @@ class MapForm extends Component {
  constructor(props) {
    super(props);
    this.state = {
+     pageTitle: "",
      activeMap: {"title": "", },
      addModal: false,
      editable: this.props.match.params.id ? false : true,
@@ -22,6 +23,7 @@ class MapForm extends Component {
  };
  componentDidMount() {
    this.refreshMap();
+   document.title = this.props.match.params.id ? document.title + ": Edit Map" : document.title + ": Add New Map"
  };
  toggleEditable = () => {
    this.setState({editable: !this.state.editable})
@@ -90,6 +92,7 @@ class MapForm extends Component {
  render() {
    return (
      <div>
+      <h1>{this.props.match.params.id ? "Edit Map" : "Add New Map"}</h1>
       <Form className="row mb-4" inline={true}>
         <FormGroup className="col-md-8">
           <Label for="title" hidden>Title</Label>
