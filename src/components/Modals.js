@@ -62,7 +62,7 @@ export class MapComponentModal extends Component {
     const { toggle } = this.props;
     return (
       <Modal isOpen={true} toggle={toggle} className="modal-md">
-        <ModalHeader toggle={toggle}> Arrangement Map Component </ModalHeader>
+        <ModalHeader tag="h2" toggle={toggle}> Arrangement Map Component </ModalHeader>
         <ModalBody>
           <Row>
             <Col sm="12">
@@ -73,7 +73,7 @@ export class MapComponentModal extends Component {
             }
             { this.state.activeComponent.archivesspace_uri ? (
               <div className="mt-2">
-                <h2>{this.state.activeComponent.title}</h2>
+                <p className="h5">{this.state.activeComponent.title}</p>
                 <p className="text-muted">{this.state.activeComponent.archivesspace_uri}</p>
                 <Button
                   color="warning"
@@ -129,7 +129,7 @@ export class ConfirmModal extends Component {
     const { toggle, title, message, onConfirm, cancelButtonText, confirmButtonText } = this.props;
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>{title}</ModalHeader>
+        <ModalHeader tag="h2" toggle={toggle}>{title}</ModalHeader>
         <ModalBody>
           {message}
         </ModalBody>

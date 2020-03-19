@@ -13,6 +13,7 @@ class MapList extends Component {
  };
  componentDidMount() {
    this.refreshList();
+   document.title = document.title + ": Arrangement Maps";
  };
  toggleModal = map => {
    this.setState({ activeMap: map, deleteModal: !this.state.deleteModal });
