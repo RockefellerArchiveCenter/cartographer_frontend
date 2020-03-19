@@ -98,8 +98,14 @@ class MapForm extends Component {
    return (
      <div>
       {this.props.match.params.id ? (
-        <Button color={this.state.activeMap.publish ? "danger" : "success"} size="lg" className="float-right" outline="true" onClick={() => this.toggleModal(this.state.activeMap)}>
-        {this.state.activeMap.publish ? "Unpublish Map" : "Publish Map"}
+        <Button
+          color={this.state.activeMap.publish ? "danger" : "success"}
+          size="lg"
+          className="float-right"
+          outline="true"
+          onClick={() => this.toggleModal(this.state.activeMap)}
+        >
+          {this.state.activeMap.publish ? "Unpublish Map" : "Publish Map"}
         </Button>): null}
       <h1>{this.props.match.params.id ? "Edit Map" : "Add New Map"}</h1>
       <Form className="row mb-4" inline={true}>
