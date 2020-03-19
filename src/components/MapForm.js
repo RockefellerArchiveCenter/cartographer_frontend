@@ -139,6 +139,7 @@ class MapForm extends Component {
         ) : null}
         {this.state.publishModal ? (
           <ConfirmModal
+            title={`Confirm ${this.state.activeMap.publish ? "unpublish" : "publish"}`}
             activeItem={this.state.activeMap}
             toggle={() => this.toggleModal(this.state.activeMap)}
             onConfirm={() => this.togglePublish(this.state.activeMap)}

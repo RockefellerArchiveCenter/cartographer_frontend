@@ -66,6 +66,7 @@ class MapList extends Component {
          </ul>
          {this.state.deleteModal ? (
            <ConfirmModal
+             title="Confirm delete"
              activeItem={this.state.activeMap}
              toggle={this.toggleModal}
              onConfirm={() => this.handleDelete(this.state.activeMap)}

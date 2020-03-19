@@ -135,6 +135,7 @@ class ComponentList extends Component {
                />) : null}
              {this.state.confirmModal ? (
                <ConfirmModal
+                 title="Confirm delete"
                  activeItem={this.state.activeComponent}
                  toggle={this.toggleConfirmModal}
                  onConfirm={() => this.nodeDelete(this.state.activeComponent)}
