@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ComponentList from './ComponentList'
+import { ConfirmModal } from "./Modals";
 import { walk } from 'react-sortable-tree';
 import axios from "axios";
 
@@ -17,8 +18,8 @@ class MapForm extends Component {
    this.state = {
      pageTitle: "",
      activeMap: {"title": "", },
-     addModal: false,
      editable: this.props.match.params.id ? false : true,
+     publishModal: false
    };
  };
  componentDidMount() {
@@ -28,8 +29,12 @@ class MapForm extends Component {
  toggleEditable = () => {
    this.setState({editable: !this.state.editable})
  }
+ toggleModal = map => {
+   this.setState({ activeMap: map, publishModal: !this.state.publishModal });
+ };
  togglePublish = map => {
    map.publish = !this.state.activeMap.publish
+   this.toggleModal(map)
    this.handleSubmit(map);
  }
  refreshMap = () => {
@@ -120,7 +125,7 @@ class MapForm extends Component {
             <Button color="primary" className="mr-2" onClick={this.toggleEditable}>
             Edit Title
             </Button>
-            <Button color={this.state.activeMap.publish ? "warning" : "success"} className="ml-5" onClick={() => this.togglePublish(this.state.activeMap)}>
+            <Button color={this.state.activeMap.publish ? "warning" : "success"} className="ml-5" onClick={() => this.toggleModal(this.state.activeMap)}>
             {this.state.activeMap.publish ? "Unpublish Map" : "Publish Map"}
             </Button>
           </div>
@@ -132,6 +137,17 @@ class MapForm extends Component {
             items={this.state.activeMap.children ? this.state.activeMap.children : []}
             refresh={this.refreshMap}
             onChange={this.handleTreeChange}
+          />
+        ) : null}
+        {this.state.publishModal ? (
+          <ConfirmModal
+            title={`Confirm ${this.state.activeMap.publish ? "unpublish" : "publish"}`}
+            activeItem={this.state.activeMap}
+            toggle={() => this.toggleModal(this.state.activeMap)}
+            onConfirm={() => this.togglePublish(this.state.activeMap)}
+            message={`Are you sure you want to ${this.state.activeMap.publish ? "unpublish" : "publish"} ${this.state.activeMap.title}? ${this.state.activeMap.publish ? "Unpublishing" : "Publishing"} this map will result in all related resource records in ArchivesSpace being ${this.state.activeMap.publish ? "unpublished" : "published"} as well.`}
+            cancelButtonText="Cancel"
+            confirmButtonText="Submit"
           />
         ) : null}
       </div>

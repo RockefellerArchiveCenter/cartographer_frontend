@@ -41,15 +41,12 @@ export class MapComponentModal extends Component {
   };
   toggleData = data => {
     if (data.data) {
-      console.log(data)
       this.handleChange({"target": {"name": "archivesspace_uri", "value": data.data.uri}});
       this.handleChange({"target": {"name": "title", "value": data.data.title}});
       this.handleChange({"target": {"name": "level", "value": data.data.level}});
       return;
     }
-    this.handleChange({"target": {"name": "title", "value": ""}});
-    this.handleChange({"target": {"name": "archivesspace_uri", "value": ""}});
-    this.handleChange({"target": {"name": "level", "value": ""}});
+    this.setState({ activeComponent: this.props.activeComponent })
   };
   fetchResource = resourceId => {
     this.setState({error: ""})
@@ -129,10 +126,10 @@ export class MapComponentModal extends Component {
 
 export class ConfirmModal extends Component {
   render() {
-    const { toggle, message, onConfirm, cancelButtonText, confirmButtonText } = this.props;
+    const { toggle, title, message, onConfirm, cancelButtonText, confirmButtonText } = this.props;
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader tag="h2" toggle={toggle}> Confirm Delete </ModalHeader>
+        <ModalHeader tag="h2" toggle={toggle}>{title}</ModalHeader>
         <ModalBody>
           {message}
         </ModalBody>

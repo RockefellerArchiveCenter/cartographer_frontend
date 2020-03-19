@@ -57,6 +57,7 @@ it('renders props correctly', () => {
         archivesspace_uri: "/repositories/2/resources/626"
     }
     render(<ConfirmModal
+      title="Confirm delete"
       activeItem={component}
       message={`Are you sure you want to delete ${component.title}?`}
       confirmButtonText="Yes, delete it"
