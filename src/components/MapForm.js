@@ -34,7 +34,6 @@ class MapForm extends Component {
    map.publish = !this.state.activeMap.publish
    this.toggleModal(map)
    this.handleSubmit(map);
-   this.refreshMap();
  }
  refreshMap = () => {
    if (this.props.match.params.id) {
