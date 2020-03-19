@@ -46,9 +46,7 @@ export class MapComponentModal extends Component {
       this.handleChange({"target": {"name": "level", "value": data.data.level}});
       return;
     }
-    this.handleChange({"target": {"name": "title", "value": ""}});
-    this.handleChange({"target": {"name": "archivesspace_uri", "value": ""}});
-    this.handleChange({"target": {"name": "level", "value": ""}});
+    this.setState({ activeComponent: this.props.activeComponent })
   };
   fetchResource = resourceId => {
     this.setState({error: ""})
