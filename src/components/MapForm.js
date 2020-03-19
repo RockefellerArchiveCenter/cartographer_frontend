@@ -98,7 +98,11 @@ class MapForm extends Component {
    return (
      <div>
       <h1>{this.props.match.params.id ? "Edit Map" : "Add New Map"}</h1>
-      <Form className="row mb-4" inline={true}>
+      <Form
+        className="row mb-4"
+        inline={true}
+        onSubmit={(e) => {e.preventDefault(); this.handleSubmit(this.state.activeMap)}}
+        >
         <FormGroup className="col-md-8">
           <Label for="title" hidden>Title</Label>
             <Input
@@ -113,7 +117,12 @@ class MapForm extends Component {
           </FormGroup>
           {this.state.editable ? (
           <div>
-            <Button color="primary" className="mr-2" onClick={() => this.handleSubmit(this.state.activeMap)}>
+            <Button
+              type="submit"
+              color="primary"
+              className="mr-2"
+              onClick={() => this.handleSubmit(this.state.activeMap)}
+            >
             Save Title
             </Button>
             <Button color="danger" className="mr-2" onClick={this.toggleEditable}>
