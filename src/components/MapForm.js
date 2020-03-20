@@ -95,19 +95,25 @@ class MapForm extends Component {
    });
  };
  render() {
-   return (
-     <div>
-      {this.props.match.params.id ? (
-        <Button
-          color={this.state.activeMap.publish ? "danger" : "success"}
-          size="lg"
-          className="float-right"
-          outline="true"
-          onClick={() => this.toggleModal(this.state.activeMap)}
-        >
-          {this.state.activeMap.publish ? "Unpublish Map" : "Publish Map"}
-        </Button>): null}
-      <h1>{this.props.match.params.id ? "Edit Map" : "Add New Map"}</h1>
+  return (
+    <div>
+      <div className="row">
+        <div className="col-12 col-sm-6">
+          <h1>{this.props.match.params.id ? "Edit Map" : "Add New Map"}</h1>
+        </div>
+        <div className="col-12 col-sm-6">
+         {this.props.match.params.id ? (
+           <Button
+             color={this.state.activeMap.publish ? "danger" : "success"}
+             size="lg"
+             className="float-right"
+             outline="true"
+             onClick={() => this.toggleModal(this.state.activeMap)}
+           >
+             {this.state.activeMap.publish ? "Unpublish Map" : "Publish Map"}
+           </Button>): null}
+         </div>
+     </div>
       <Form className="row mb-4" inline={true}>
         <FormGroup className="col-md-8">
           <Label for="title" hidden>Title</Label>
