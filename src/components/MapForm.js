@@ -97,7 +97,7 @@ class MapForm extends Component {
  render() {
   return (
     <div>
-      <div className="row">
+      <div className="row mb-3">
         <div className="col-12 col-sm-6">
           <h1>{this.props.match.params.id ? "Edit Map" : "Add New Map"}</h1>
         </div>
