@@ -147,7 +147,7 @@ class MapForm extends Component {
             onConfirm={() => this.togglePublish(this.state.activeMap)}
             message={`Are you sure you want to ${this.state.activeMap.publish ? "unpublish" : "publish"} ${this.state.activeMap.title}? ${this.state.activeMap.publish ? "Unpublishing" : "Publishing"} this map will result in all related resource records in ArchivesSpace being ${this.state.activeMap.publish ? "unpublished" : "published"} as well.`}
             cancelButtonText="Cancel"
-            confirmButtonText="Submit"
+            confirmButtonText="Publish"
           />
         ) : null}
       </div>
