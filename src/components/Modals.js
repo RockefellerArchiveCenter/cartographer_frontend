@@ -100,7 +100,8 @@ export class MapComponentModal extends Component {
                     type="submit"
                     className="btn btn-sm btn-secondary"
                     onClick={() => this.fetchResource(this.state.resourceId)}
-                    >
+                    disabled={!this.state.resourceId}
+                  >
                     Fetch from ArchivesSpace
                   </Button>
                 </Form>
