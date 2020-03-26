@@ -95,9 +95,9 @@ class MapForm extends Component {
    });
  };
  redirectToRoot = () => {
-   this.props.history.push('/')
- }
- render() {
+  this.props.history.push('/')
+}
+render() {
   return (
     <div>
       <div className="row mb-3">
@@ -116,16 +116,16 @@ class MapForm extends Component {
              {this.state.activeMap.publish ? "Unpublish Map" : "Publish Map"}
            </Button>): null}
          </div>
-     </div>
+      </div>
       <Form
-        className="row mb-4"
+        className="row mb-4" 
         inline={true}
         onSubmit={(e) => {e.preventDefault(); this.handleSubmit(this.state.activeMap)}}
-        >
+      >
         <FormGroup className="col-12 col-sm-7 col-lg-8">
           <Label for="title" hidden>Title</Label>
             <Input
-              className="col-12"
+              className="col-md-12"
               type="text"
               name="title"
               onChange={this.handleChange}
@@ -137,11 +137,11 @@ class MapForm extends Component {
           {this.state.editable ? (
           <div className="col-6 col-sm-5 col-lg-4">
             <Button
-              type="submit"
               color="primary"
               className="mr-2"
+              disabled={!this.state.activeMap.title}
               onClick={() => this.handleSubmit(this.state.activeMap)}
-              >
+            >
             Save Title
             </Button>
             <Button
@@ -153,7 +153,11 @@ class MapForm extends Component {
           </div>
         ) : (
           <div className="col-6 col-sm-5 col-lg-4">
-            <Button color="primary" className="mr-2" onClick={this.toggleEditable}>
+            <Button
+              color="primary"
+              className="mr-2"
+              onClick={this.toggleEditable}
+            >
             Edit Title
             </Button>
           </div>
