@@ -153,9 +153,9 @@ render() {
           </div>
         ) : (
           <div className="col-6 col-sm-5 col-lg-4">
-            <Button 
-              color="primary" 
-              className="mr-2" 
+            <Button
+              color="primary"
+              className="mr-2"
               onClick={this.toggleEditable}
             >
             Edit Title
