@@ -114,7 +114,11 @@ class MapForm extends Component {
            </Button>): null}
          </div>
      </div>
-      <Form className="row mb-4" inline={true}>
+      <Form
+        className="row mb-4"
+        inline={true}
+        onSubmit={(e) => {e.preventDefault(); this.handleSubmit(this.state.activeMap)}}
+        >
         <FormGroup className="col-12 col-sm-7 col-lg-8">
           <Label for="title" hidden>Title</Label>
             <Input
@@ -128,8 +132,13 @@ class MapForm extends Component {
             />
           </FormGroup>
           {this.state.editable ? (
-          <div class="col-6 col-sm-5 col-lg-4">
-            <Button color="primary" className="mr-2" onClick={() => this.handleSubmit(this.state.activeMap)}>
+          <div className="col-6 col-sm-5 col-lg-4">
+            <Button
+              type="submit"
+              color="primary"
+              className="mr-2"
+              onClick={() => this.handleSubmit(this.state.activeMap)}
+              >
             Save Title
             </Button>
             <Button color="danger" className="mr-2" onClick={this.toggleEditable}>
@@ -137,7 +146,7 @@ class MapForm extends Component {
             </Button>
           </div>
         ) : (
-          <div class="col-6 col-sm-5 col-lg-4">
+          <div className="col-6 col-sm-5 col-lg-4">
             <Button color="primary" className="mr-2" onClick={this.toggleEditable}>
             Edit Title
             </Button>
