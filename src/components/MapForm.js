@@ -116,9 +116,7 @@ render() {
              {this.state.activeMap.publish ? "Unpublish Map" : "Publish Map"}
            </Button>): null}
          </div>
-     </div>
-
-
+      </div>
       <Form
         className="row mb-4" 
         inline={true}
@@ -139,7 +137,6 @@ render() {
           {this.state.editable ? (
           <div className="col-6 col-sm-5 col-lg-4">
             <Button
-              type="submit"
               color="primary"
               className="mr-2"
               disabled={!this.state.activeMap.title}
@@ -156,7 +153,11 @@ render() {
           </div>
         ) : (
           <div className="col-6 col-sm-5 col-lg-4">
-            <Button color="primary" className="mr-2" onClick={this.toggleEditable}>
+            <Button 
+              color="primary" 
+              className="mr-2" 
+              onClick={this.toggleEditable}
+            >
             Edit Title
             </Button>
           </div>
