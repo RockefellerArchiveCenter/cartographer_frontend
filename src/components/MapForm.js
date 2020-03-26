@@ -94,6 +94,9 @@ class MapForm extends Component {
      ignoreCollapsed: false
    });
  };
+ redirectToRoot = () => {
+   this.props.history.push('/')
+ }
  render() {
   return (
     <div>
@@ -141,7 +144,10 @@ class MapForm extends Component {
               >
             Save Title
             </Button>
-            <Button color="danger" className="mr-2" onClick={this.toggleEditable}>
+            <Button
+              color="danger"
+              className="mr-2"
+              onClick={this.props.match.params.id ? this.toggleEditable : this.redirectToRoot}>
             Cancel
             </Button>
           </div>
