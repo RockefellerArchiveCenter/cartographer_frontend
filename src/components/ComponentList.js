@@ -119,7 +119,7 @@ class ComponentList extends Component {
                       className="btn btn-sm btn-danger"
                       onClick={() => this.toggleConfirmModal(node)}
                     >
-                      Remove
+                      Delete
                     </button>,
                   ],
                 })}
@@ -140,8 +140,8 @@ class ComponentList extends Component {
                  toggle={this.toggleConfirmModal}
                  onConfirm={() => this.nodeDelete(this.state.activeComponent)}
                  message={`Are you sure you want to delete ${this.state.activeComponent.node.title}?`}
-                 confirmButtonText="Yes, delete it"
-                 cancelButtonText="Nope, cancel"
+                 confirmButtonText="Yes, delete"
+                 cancelButtonText="No, cancel"
                />) : null}
            </div>
           </div>
