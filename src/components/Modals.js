@@ -61,7 +61,7 @@ export class MapComponentModal extends Component {
   render() {
     const { toggle } = this.props;
     return (
-      <Modal isOpen={true} toggle={toggle} className="modal-md">
+      <Modal isOpen={true} toggle={toggle} autoFocus={false} className="modal-md">
         <ModalHeader tag="h2" toggle={toggle}> Arrangement Map Component </ModalHeader>
         <ModalBody>
           <Row>
@@ -84,23 +84,26 @@ export class MapComponentModal extends Component {
               </div>
             ) : (
               <div>
-                <Form>
+                <Form onSubmit={(e) => {e.preventDefault(); this.fetchResource(this.state.resourceId)}}>
                   <FormGroup>
-                    <Label for="description">ArchivesSpace Resource ID</Label>
+                    <Label for="resourceId">ArchivesSpace Resource ID</Label>
                     <Input
+                      autoFocus={true}
                       type="number"
                       name="resourceId"
                       value={this.state.resourceId}
                       onChange={this.handleResourceIdChange}
                     />
                   </FormGroup>
-                </Form>
-                <Button
-                  className="btn btn-sm btn-secondary"
-                  onClick={() => this.fetchResource(this.state.resourceId)}
+                  <Button
+                    type="submit"
+                    className="btn btn-sm btn-secondary"
+                    onClick={() => this.fetchResource(this.state.resourceId)}
+                    disabled={!this.state.resourceId}
                   >
-                  Fetch from ArchivesSpace
-                </Button>
+                    Fetch from ArchivesSpace
+                  </Button>
+                </Form>
               </div>)}
             </Col>
           </Row>
