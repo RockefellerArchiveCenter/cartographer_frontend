@@ -159,9 +159,6 @@ render() {
             >
             Edit Title
             </Button>
-            <Button color={this.state.activeMap.publish ? "warning" : "success"} className="ml-5" onClick={() => this.toggleModal(this.state.activeMap)}>
-            {this.state.activeMap.publish ? "Unpublish Map" : "Publish Map"}
-            </Button>
           </div>
         )}
         </Form>
