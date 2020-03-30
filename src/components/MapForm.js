@@ -118,14 +118,14 @@ render() {
          </div>
       </div>
       <Form
-        className="row mb-4" 
+        className="row mb-4"
         inline={true}
         onSubmit={(e) => {e.preventDefault(); this.handleSubmit(this.state.activeMap)}}
       >
-        <FormGroup className="col-12 col-sm-7 col-lg-8">
-          <Label for="title" className="mr-2">Arrangement Map Title</Label>
+        <FormGroup className="col-12 col-lg-8">
+          <Label for="title">Arrangement Map Title</Label>
             <Input
-              className="col-md-12"
+              className="col-sm-12"
               type="text"
               name="title"
               onChange={this.handleChange}
@@ -134,7 +134,7 @@ render() {
             />
           </FormGroup>
           {this.state.editable ? (
-          <div className="col-6 col-sm-5 col-lg-4">
+          <div className="col-6 col-lg-4 mt-4">
             <Button
               color="primary"
               className="mr-2"
@@ -151,7 +151,7 @@ render() {
             </Button>
           </div>
         ) : (
-          <div className="col-6 col-sm-5 col-lg-4">
+          <div className="col-6 col-sm-5 col-lg-4 mt-4">
             <Button
               color="primary"
               className="mr-2"
