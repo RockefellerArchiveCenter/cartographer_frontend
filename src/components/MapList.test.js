@@ -29,3 +29,7 @@ it('renders with data', async () => {
   expect(mockAxios.get).toHaveBeenCalledTimes(1);
   expect(instance.state.arrangementMapList).toEqual(mapResponse);
 });
+
+// Test Delete
+
+// Test Edit

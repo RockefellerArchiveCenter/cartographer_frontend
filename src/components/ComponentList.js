@@ -96,7 +96,7 @@ class ComponentList extends Component {
                  Add arrangement map component
                </button>
              </div>
-             <ResizableBox handleSize={[20, 20]} axis="y" resizeHandles={["s"]} height={400}>
+             <ResizableBox handleSize={[20, 20]} axis="y" resizeHandles={["s"]} height={400} width={Infinity}>
               <SortableTree
                 treeData={this.props.items}
                 onChange={this.props.onChange}

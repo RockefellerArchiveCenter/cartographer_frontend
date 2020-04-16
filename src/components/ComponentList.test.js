@@ -21,6 +21,20 @@ afterEach(() => {
 });
 
 it('renders without crashing', async () => {
-  const wrapper = await mount(<ComponentList activeMap={mapResponse} items={mapResponse.children} onChange={function(){}} />);
+  const wrapper = await mount(
+      <ComponentList
+        activeMap={mapResponse}
+        items={mapResponse.children}
+        onChange={function(){}} />);
   const instance = await wrapper.instance();
+
+  expect(instance.props.activeMap).toBe(mapResponse);
 });
+
+// show component modal
+
+// Node add
+
+// Node delete
+
+// Node update

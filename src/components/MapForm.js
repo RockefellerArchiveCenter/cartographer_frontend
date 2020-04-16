@@ -54,18 +54,19 @@ class MapForm extends Component {
    this.setState({ activeMap });
  };
  handleSubmit = map => {
-   console.log(map)
    if (map.id) {
      axios
        .put(`/api/maps/${map.id}/`, map)
        .then(res => this.refreshMap())
-       .then(this.setState({editable: false}));
+       .then(this.setState({editable: false}))
+       .catch(err => console.log(err));
      return;
    }
    axios
      .post("/api/maps/", map)
      .then(res => window.location = `/maps/${res.data.id}`)
-     .then(this.toggleEditable());
+     .then(this.toggleEditable())
+     .catch(err => console.log(err));
  };
  handleComponentSubmit = item => {
    item.map = this.state.activeMap.id;
@@ -110,7 +111,7 @@ render() {
              color={this.state.activeMap.publish ? "danger" : "success"}
              size="lg"
              className="float-right"
-             outline="true"
+             outline={true}
              onClick={() => this.toggleModal(this.state.activeMap)}
            >
              {this.state.activeMap.publish ? "Unpublish Map" : "Publish Map"}
