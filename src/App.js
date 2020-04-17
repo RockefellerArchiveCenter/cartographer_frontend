@@ -5,9 +5,7 @@ import MapList from "./components/MapList";
 
 import {
   Button,
-  Collapse,
   Navbar,
-  NavbarToggler,
   NavbarBrand,
   Nav} from 'reactstrap';
 

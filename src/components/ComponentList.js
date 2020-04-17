@@ -72,18 +72,14 @@ class ComponentList extends Component {
    this.handleDelete(node)
    this.setState({confirmModal: false})
  };
- nodeMove = e => {
-   e.node.parent = e.nextParentNode ? e.nextParentNode.id : null
-   this.onChange(e.treeData);
- };
  nodeUpdate = (e, path) => {
-   const {treeData} = changeNodeAtPath({
+   changeNodeAtPath({
      treeData: this.props.items,
      path: path,
      newNode: e,
      getNodeKey: ({ node }) => node.tree_index
    });
-   return treeData
+   return this.props.items
  };
  render() {
   return (
@@ -96,11 +92,10 @@ class ComponentList extends Component {
                  Add arrangement map component
                </button>
              </div>
-             <ResizableBox handleSize={[20, 20]} axis="y" resizeHandles={["s"]} height={400}>
+             <ResizableBox handleSize={[20, 20]} axis="y" resizeHandles={["s"]} height={400} width={Infinity}>
               <SortableTree
                 treeData={this.props.items}
                 onChange={this.props.onChange}
-                onMoveNode={this.nodeMove}
                 generateNodeProps={ node => ({
                   buttons: [
                     <button
