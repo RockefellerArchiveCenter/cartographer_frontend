@@ -12,7 +12,7 @@ jest.mock('axios')
 let container = null;
 beforeEach(() => {
   jest.resetModules();
-  jest.resetAllMocks()
+  jest.resetAllMocks();
   container = document.createElement("div");
   document.body.appendChild(container);
 });
