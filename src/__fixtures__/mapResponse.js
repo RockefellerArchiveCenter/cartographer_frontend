@@ -26,4 +26,13 @@ const mapResponse = {
   "modified": "2019-11-04T16:19:27.215211-05:00"
 };
 
-export default mapResponse;
+const mapComponent = {
+    "id": 1,
+    "title": "Asian Cultural Council records, Administrative Files, RG 1",
+    "ref": "/api/components/1/",
+    "parent": null,
+    "archivesspace_uri": "/repositories/2/resources/626",
+    "tree_index": 0
+};
+
+export {mapResponse, mapComponent}
