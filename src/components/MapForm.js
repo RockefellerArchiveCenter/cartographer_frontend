@@ -74,7 +74,7 @@ class MapForm extends Component {
      return axios
        .put(`/api/components/${item.id}/`, item)
        .then(res => { return res.data })
-       .catch(err => console.log(err))
+       .catch(err => console.log(err));
     }
     return axios
        .post("/api/components/", item)
@@ -90,7 +90,9 @@ class MapForm extends Component {
        node.node.parent = node.parentNode ? node.parentNode.id : null
        node.node.tree_index = node.treeIndex
        this.handleComponentSubmit(node.node)
-        .then((res) => {node.node.id = res.id});
+        // res.id is undefined
+        .then((res) => {console.log(res); node.node.id = res.id})
+        .catch(err => console.log(err));
      },
      ignoreCollapsed: false
    });
