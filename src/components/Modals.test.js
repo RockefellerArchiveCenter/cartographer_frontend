@@ -1,9 +1,10 @@
 import React from 'react';
-import { findDOMNode, render, unmountComponentAtNode } from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from "react-dom/test-utils";
 import { mount } from 'enzyme';
 import {Modal} from 'reactstrap';
 
+import {mapComponent} from '../__fixtures__/mapResponse';
 import {MapComponentModal, ConfirmModal} from './Modals';
 
 let container = null;
@@ -19,41 +20,37 @@ afterEach(() => {
 });
 
 it('renders with ArchivesSpace resource', () => {
-  act(() => {
-    const component = {
-        id: 5,
-        title: "Asian Cultural Council records, Grants, RG 5",
-        map: 1,
-        parent: null,
-        tree_index: 4,
-        archivesspace_uri: "/repositories/2/resources/626"
-    }
     render(
-      <MapComponentModal
-        activeComponent={component}
-      />, container);
-  });
+      <MapComponentModal activeComponent={mapComponent} />, container
+    );
 });
 
 it('renders without ArchivesSpace resource', () => {
-  act(() => {
     const component = {
         title: "",
         archivesspace_uri: "",
         level: ""
     }
-    render(<MapComponentModal
-            activeComponent={component}
-          />, container);
-  });
+    render(
+        <MapComponentModal activeComponent={component} />, container
+    );
 });
 
-// clear ComponentDetailModal
+it('clears ComponentDetailModal', () => {
+    const wrapper = mount(<MapComponentModal
+                            activeComponent={mapComponent} />,
+                            container);
+    const instance = wrapper.instance();
 
-// cancel and submit (need to mock functions)
+    expect(instance.state.activeComponent).toEqual(mapComponent)
+
+    act(() => {
+      instance.toggleData({})
+    })
+    expect(instance.state.activeComponent).toEqual({ title: "", archivesspace_uri: "", level: ""})
+});
 
 it('renders props correctly', () => {
-  act(() => {
     const component = {
         id: 5,
         title: "Asian Cultural Council records, Grants, RG 5",
@@ -69,13 +66,10 @@ it('renders props correctly', () => {
       confirmButtonText="Yes, delete it"
       cancelButtonText="Nope, cancel"
     />, container);
-    console.log(wrapper.props("children"))
+
     expect(wrapper.props("children").title).toBe("Confirm delete")
     expect(wrapper.props("children").activeItem).toBe(component)
     expect(wrapper.props("children").message).toBe(`Are you sure you want to delete ${component.title}?`)
     expect(wrapper.props("children").confirmButtonText).toBe("Yes, delete it")
     expect(wrapper.props("children").cancelButtonText).toBe("Nope, cancel")
-  })
-})
-
-// call confirm and cancel (will need to mock)
+});
