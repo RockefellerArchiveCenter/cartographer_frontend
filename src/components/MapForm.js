@@ -54,18 +54,19 @@ class MapForm extends Component {
    this.setState({ activeMap });
  };
  handleSubmit = map => {
-   console.log(map)
    if (map.id) {
      axios
        .put(`/api/maps/${map.id}/`, map)
        .then(res => this.refreshMap())
-       .then(this.setState({editable: false}));
+       .then(this.setState({editable: false}))
+       .catch(err => console.log(err));
      return;
    }
    axios
      .post("/api/maps/", map)
      .then(res => window.location = `/maps/${res.data.id}`)
-     .then(this.toggleEditable());
+     .then(this.toggleEditable())
+     .catch(err => console.log(err));
  };
  handleComponentSubmit = item => {
    item.map = this.state.activeMap.id;
@@ -73,7 +74,7 @@ class MapForm extends Component {
      return axios
        .put(`/api/components/${item.id}/`, item)
        .then(res => { return res.data })
-       .catch(err => console.log(err))
+       .catch(err => console.log(err));
     }
     return axios
        .post("/api/components/", item)
@@ -89,7 +90,9 @@ class MapForm extends Component {
        node.node.parent = node.parentNode ? node.parentNode.id : null
        node.node.tree_index = node.treeIndex
        this.handleComponentSubmit(node.node)
-        .then((res) => {node.node.id = res.id});
+        // res.id is undefined
+        .then((res) => {console.log(res); node.node.id = res.id})
+        .catch(err => console.log(err));
      },
      ignoreCollapsed: false
    });
@@ -110,7 +113,7 @@ render() {
              color={this.state.activeMap.publish ? "danger" : "success"}
              size="lg"
              className="float-right"
-             outline="true"
+             outline={true}
              onClick={() => this.toggleModal(this.state.activeMap)}
            >
              {this.state.activeMap.publish ? "Unpublish Map" : "Publish Map"}

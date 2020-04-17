@@ -47,7 +47,7 @@ export class MapComponentModal extends Component {
       this.handleChange({"target": {"name": "level", "value": data.data.level}});
       return;
     }
-    this.setState({ activeComponent: this.props.activeComponent })
+    this.setState({ activeComponent: { title: "", archivesspace_uri: "", level: ""} })
   };
   fetchResource = resourceId => {
     this.setState({archivesSpaceButtonText: "Fetching..."})
