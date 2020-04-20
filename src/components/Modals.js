@@ -21,6 +21,7 @@ export class MapComponentModal extends Component {
     this.toggle = this.props.toggle
     this.onSubmit = this.props.onSubmit
     this.state = {
+      archivesSpaceButtonText: "Fetch from ArchivesSpace",
       activeMap: this.props.activeMap,
       activeComponent: this.props.activeComponent,
       resourceId: "",
@@ -49,11 +50,18 @@ export class MapComponentModal extends Component {
     this.setState({ activeComponent: { title: "", archivesspace_uri: "", level: ""} })
   };
   fetchResource = resourceId => {
+    this.setState({archivesSpaceButtonText: "Fetching..."})
     this.setState({error: ""})
     axios
       .get(`/api/fetch-resource/${resourceId}`)
       .then(res => this.toggleData(res))
-      .catch(error => this.setState({error: error.response.data}));
+      .then(rest => this.setState(
+          {archivesSpaceButtonText: "Fetch from ArchivesSpace"}))
+      .catch(error => this.setState({
+          error: error.response.data,
+          archivesSpaceButtonText: "Fetch from ArchivesSpace"
+      })
+    );
   };
   toggleTab = tab => {
     if(this.activeTab !== tab) this.setState({activeTab: tab});
@@ -101,7 +109,7 @@ export class MapComponentModal extends Component {
                     onClick={() => this.fetchResource(this.state.resourceId)}
                     disabled={!this.state.resourceId}
                   >
-                    Fetch from ArchivesSpace
+                    {this.state.archivesSpaceButtonText}
                   </Button>
                 </Form>
               </div>)}
