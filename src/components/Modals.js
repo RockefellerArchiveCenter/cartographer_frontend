@@ -144,10 +144,10 @@ export class ConfirmModal extends Component {
           {message}
         </ModalBody>
         <ModalFooter>
-          <Button color="danger" onClick={onConfirm}>
+          <Button color="primary" onClick={onConfirm}>
             {confirmButtonText}
           </Button>
-          <Button color="secondary" onClick={toggle}>
+          <Button color="danger" onClick={toggle}>
             {cancelButtonText}
           </Button>
         </ModalFooter>
