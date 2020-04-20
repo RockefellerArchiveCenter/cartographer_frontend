@@ -99,6 +99,7 @@ export class MapComponentModal extends Component {
                       autoFocus={true}
                       type="number"
                       name="resourceId"
+                      id="resourceId"
                       value={this.state.resourceId}
                       onChange={this.handleResourceIdChange}
                     />
