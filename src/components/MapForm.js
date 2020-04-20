@@ -131,6 +131,7 @@ render() {
               className="col-sm-12"
               type="text"
               name="title"
+              id="title"
               onChange={this.handleChange}
               value={this.state.activeMap.title}
               disabled={this.state.editable ? false : true }
