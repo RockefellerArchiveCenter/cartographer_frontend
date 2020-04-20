@@ -55,6 +55,8 @@ export class MapComponentModal extends Component {
     axios
       .get(`/api/fetch-resource/${resourceId}`)
       .then(res => this.toggleData(res))
+      .then(rest => this.setState(
+          {archivesSpaceButtonText: "Fetch from ArchivesSpace"}))
       .catch(error => this.setState({
           error: error.response.data,
           archivesSpaceButtonText: "Fetch from ArchivesSpace"
