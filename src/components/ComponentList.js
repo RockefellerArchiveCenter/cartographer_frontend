@@ -38,6 +38,7 @@ class ComponentList extends Component {
      treeData = this.nodeAddNew(e)
    }
    this.onChange(treeData);
+   console.log(treeData)
    this.setState({detailModal: false})
  };
  nodeAddChild = e => {

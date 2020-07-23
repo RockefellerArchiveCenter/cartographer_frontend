@@ -88,10 +88,10 @@ class MapForm extends Component {
      getNodeKey: ({ node }) => node.id,
      callback: (node) => {
        node.node.parent = node.parentNode ? node.parentNode.id : null
-       node.node.tree_index = node.treeIndex
+       node.node.order = node.treeIndex
        this.handleComponentSubmit(node.node)
         // res.id is undefined
-        .then((res) => {console.log(res); node.node.id = res.id})
+        .then((res) => node.node.id = res.id)
         .catch(err => console.log(err));
      },
      ignoreCollapsed: false
