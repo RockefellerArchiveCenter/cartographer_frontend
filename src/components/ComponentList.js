@@ -77,7 +77,7 @@ class ComponentList extends Component {
      treeData: this.props.items,
      path: path,
      newNode: e,
-     getNodeKey: ({ node }) => node.tree_index
+     getNodeKey: ({ node }) => node.order
    });
    return this.props.items
  };
