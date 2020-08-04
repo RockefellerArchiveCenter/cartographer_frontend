@@ -10,7 +10,7 @@ const mapResponse = {
           "ref": "/api/components/1/",
           "parent": null,
           "archivesspace_uri": "/repositories/2/resources/626",
-          "tree_index": 0
+          "order": 0
       },
       {
           "id": 2,
@@ -18,7 +18,7 @@ const mapResponse = {
           "ref": "/api/components/2/",
           "parent": null,
           "archivesspace_uri": "/repositories/2/resources/12464",
-          "tree_index": 1
+          "order": 1
       }
   ],
   "publish": false,
@@ -32,7 +32,7 @@ const mapComponent = {
     "ref": "/api/components/1/",
     "parent": null,
     "archivesspace_uri": "/repositories/2/resources/626",
-    "tree_index": 0
+    "order": 0
 };
 
 export {mapResponse, mapComponent}
