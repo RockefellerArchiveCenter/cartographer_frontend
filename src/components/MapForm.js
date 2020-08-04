@@ -87,12 +87,14 @@ class MapForm extends Component {
      treeData: newItems,
      getNodeKey: ({ node }) => node.id,
      callback: (node) => {
-       node.node.parent = node.parentNode ? node.parentNode.id : null
-       node.node.order = node.treeIndex
-       this.handleComponentSubmit(node.node)
-        // res.id is undefined
-        .then((res) => node.node.id = res.id)
-        .catch(err => console.log(err));
+       let parentNodeId = node.parentNode ? node.parentNode.id : null
+       if (node.node.parent !== parentNodeId || node.node.order !== node.treeIndex) {
+         node.node.parent = parentNodeId
+         node.node.order = node.treeIndex
+         this.handleComponentSubmit(node.node)
+          .then((res) => node.node.id = res.id)
+          .catch(err => console.log(err));
+       }
      },
      ignoreCollapsed: false
    });

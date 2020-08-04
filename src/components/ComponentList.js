@@ -38,7 +38,6 @@ class ComponentList extends Component {
      treeData = this.nodeAddNew(e)
    }
    this.onChange(treeData);
-   console.log(treeData)
    this.setState({detailModal: false})
  };
  nodeAddChild = e => {
@@ -67,7 +66,7 @@ class ComponentList extends Component {
    const {treeData} = removeNode({
      treeData: this.props.items,
      path: path,
-     getNodeKey: ({node}) => node.tree_index
+     getNodeKey: ({node}) => node.order
    });
    this.onChange(treeData);
    this.handleDelete(node)
