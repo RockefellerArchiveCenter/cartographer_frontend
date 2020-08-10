@@ -68,7 +68,7 @@ class ComponentList extends Component {
    const {treeData} = removeNode({
      treeData: this.props.items,
      path: path,
-     getNodeKey: ({node}) => node.order
+     getNodeKey: ({node}) => node.id
    });
    this.onChange(treeData, this.setState({confirmModal: false, deleteInProgress: false}));
    this.handleDelete(node);
