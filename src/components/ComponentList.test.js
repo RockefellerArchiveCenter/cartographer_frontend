@@ -136,7 +136,7 @@ it('updates node', () => {
   const spy = jest.spyOn(instance, "nodeUpdate")
 
   act(() => {
-    instance.handleNodeAction(mapComponent, [0])
+    instance.handleNodeAction(mapComponent, [1])
   })
 
   expect(spy).toHaveBeenCalledTimes(1)
@@ -158,7 +158,7 @@ it('deletes node', () => {
   const spy = jest.spyOn(instance, "nodeDelete")
 
   act(() => {
-    instance.nodeDelete({"node": mapComponent, "path": [0]})
+    instance.nodeDelete({"node": mapComponent, "path": [1]})
   })
 
   expect(spy).toHaveBeenCalledTimes(1)
