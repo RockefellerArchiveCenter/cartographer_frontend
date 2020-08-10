@@ -39,7 +39,7 @@ class ComponentList extends Component {
    } else {
      treeData = await this.nodeAddNew(e)
    }
-   await this.onChange(treeData);
+   this.onChange(treeData);
    this.setState({detailModal: false})
  };
  nodeAddChild = e => {
@@ -72,7 +72,7 @@ class ComponentList extends Component {
      path: path,
      getNodeKey: ({node}) => node.id
    });
-   await this.onChange(treeData);
+   this.onChange(treeData);
    this.handleDelete(node);
    this.setState({confirmModal: false})
  };
