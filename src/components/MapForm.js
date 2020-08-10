@@ -81,24 +81,27 @@ class MapForm extends Component {
        .then(res => { return res.data })
        .catch(err => console.log(err));
  };
- handleTreeChange = (newItems, callback) => {
+ handleTreeChange = newItems => {
    this.handleChange({"target": {"name": "children", "value": newItems}})
    walk({
      treeData: newItems,
      getNodeKey: ({ node }) => node.id,
      callback: (node) => {
        let parentNodeId = node.parentNode ? node.parentNode.id : null
-       if (node.node.parent !== parentNodeId || node.node.order !== node.treeIndex) {
+       // Check to see if node has been updated
+       if (node.node.parent !== parentNodeId || node.node.order !== node.treeIndex || node.node.updated) {
          node.node.parent = parentNodeId
          node.node.order = node.treeIndex
          this.handleComponentSubmit(node.node)
-          .then((res) => node.node.id = res.id)
+          .then((res) => {
+            node.node.id = res.id;
+            this.handleChange({"target": {"name": "children", "value": newItems}})
+          })
           .catch(err => console.log(err));
        }
      },
      ignoreCollapsed: false
    });
-   return callback;
  };
  redirectToRoot = () => {
   this.props.history.push('/')
@@ -169,15 +172,15 @@ render() {
           </div>
         )}
         </Form>
-        {this.state.activeMap.id ? (
+        {this.state.activeMap.id &&
           <ComponentList
             activeMap={this.state.activeMap}
             items={this.state.activeMap.children ? this.state.activeMap.children : []}
             refresh={this.refreshMap}
             onChange={this.handleTreeChange}
           />
-        ) : null}
-        {this.state.publishModal ? (
+        }
+        {this.state.publishModal &&
           <ConfirmModal
             title={`Confirm ${this.state.activeMap.publish ? "unpublish" : "publish"}`}
             activeItem={this.state.activeMap}
@@ -187,7 +190,7 @@ render() {
             cancelButtonText="Cancel"
             confirmButtonText={this.state.activeMap.publish ? "Unpublish" : "Publish"}
           />
-        ) : null}
+        }
       </div>
     );
   }

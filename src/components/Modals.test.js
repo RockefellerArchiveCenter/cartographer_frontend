@@ -47,7 +47,9 @@ it('clears ComponentDetailModal', () => {
     act(() => {
       instance.toggleData({})
     })
-    expect(instance.state.activeComponent).toEqual({ title: "", archivesspace_uri: "", level: ""})
+    expect(instance.state.activeComponent.title).toEqual("");
+    expect(instance.state.activeComponent.archivesspace_uri).toEqual("");
+    expect(instance.state.activeComponent.level).toEqual("");
 });
 
 it('renders props correctly', () => {

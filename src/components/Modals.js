@@ -47,16 +47,21 @@ export class MapComponentModal extends Component {
       this.handleChange({"target": {"name": "level", "value": data.data.level}});
       return;
     }
-    this.setState({ activeComponent: { title: "", archivesspace_uri: "", level: ""} })
+    var activeComponent = {...this.state.activeComponent}
+    activeComponent.title = "";
+    activeComponent.archivesspace_uri = "";
+    activeComponent.level = "";
+    this.setState({activeComponent})
   };
   fetchResource = resourceId => {
     this.setState({archivesSpaceButtonText: "Fetching..."})
     this.setState({error: ""})
     axios
       .get(`/api/fetch-resource/${resourceId}`)
-      .then(res => this.toggleData(res))
-      .then(rest => this.setState(
-          {archivesSpaceButtonText: "Fetch from ArchivesSpace"}))
+      .then(res => {
+        this.toggleData(res);
+        this.setState({archivesSpaceButtonText: "Fetch from ArchivesSpace"});
+      })
       .catch(error => this.setState({
           error: error.response.data,
           archivesSpaceButtonText: "Fetch from ArchivesSpace"
@@ -137,7 +142,7 @@ export class MapComponentModal extends Component {
 
 export class ConfirmModal extends Component {
   render() {
-    const { toggle, title, message, onConfirm, cancelButtonText, confirmButtonText, inProgress } = this.props;
+    const { toggle, title, message, onConfirm, cancelButtonText, confirmButtonText } = this.props;
     return (
       <Modal isOpen={true} toggle={toggle}>
         <ModalHeader tag="h2" toggle={toggle}>{title}</ModalHeader>
@@ -145,10 +150,10 @@ export class ConfirmModal extends Component {
           {message}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={onConfirm} disabled={inProgress && "disabled"}>
+          <Button color="primary" onClick={onConfirm}>
             {confirmButtonText}
           </Button>
-          <Button color="danger" onClick={toggle} disabled={inProgress && "disabled"}>
+          <Button color="danger" onClick={toggle}>
             {cancelButtonText}
           </Button>
         </ModalFooter>
