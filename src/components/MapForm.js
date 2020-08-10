@@ -81,7 +81,7 @@ class MapForm extends Component {
        .then(res => { return res.data })
        .catch(err => console.log(err));
  };
- handleTreeChange = newItems => {
+ handleTreeChange = (newItems, callback) => {
    this.handleChange({"target": {"name": "children", "value": newItems}})
    walk({
      treeData: newItems,
@@ -98,6 +98,7 @@ class MapForm extends Component {
      },
      ignoreCollapsed: false
    });
+   return callback;
  };
  redirectToRoot = () => {
   this.props.history.push('/')

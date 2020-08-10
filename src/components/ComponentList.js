@@ -14,6 +14,7 @@ class ComponentList extends Component {
    this.state = {
      detailModal: false,
      confirmModal: false,
+     deleteInProgress: false,
      activeComponent: {title: "", archivesspace_uri: ""},
    };
  }
@@ -62,15 +63,15 @@ class ComponentList extends Component {
    return treeData
  };
  nodeDelete = e => {
+   this.setState({deleteInProgress: true})
    let {node, path} = e;
    const {treeData} = removeNode({
      treeData: this.props.items,
      path: path,
      getNodeKey: ({node}) => node.order
    });
-   this.onChange(treeData);
-   this.handleDelete(node)
-   this.setState({confirmModal: false})
+   this.onChange(treeData, this.setState({confirmModal: false, deleteInProgress: false}));
+   this.handleDelete(node);
  };
  nodeUpdate = (e, path) => {
    changeNodeAtPath({
@@ -135,8 +136,9 @@ class ComponentList extends Component {
                  toggle={this.toggleConfirmModal}
                  onConfirm={() => this.nodeDelete(this.state.activeComponent)}
                  message={`Are you sure you want to delete ${this.state.activeComponent.node.title}?`}
-                 confirmButtonText="Yes, delete"
+                 confirmButtonText={this.state.deleteInProgress ? "Deleting..." : "Yes, delete"}
                  cancelButtonText="No, cancel"
+                 inProgress={this.state.deleteInProgress}
                />) : null}
            </div>
           </div>

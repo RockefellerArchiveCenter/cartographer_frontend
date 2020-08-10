@@ -137,7 +137,7 @@ export class MapComponentModal extends Component {
 
 export class ConfirmModal extends Component {
   render() {
-    const { toggle, title, message, onConfirm, cancelButtonText, confirmButtonText } = this.props;
+    const { toggle, title, message, onConfirm, cancelButtonText, confirmButtonText, inProgress } = this.props;
     return (
       <Modal isOpen={true} toggle={toggle}>
         <ModalHeader tag="h2" toggle={toggle}>{title}</ModalHeader>
@@ -145,10 +145,10 @@ export class ConfirmModal extends Component {
           {message}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={onConfirm}>
+          <Button color="primary" onClick={onConfirm} disabled={inProgress && "disabled"}>
             {confirmButtonText}
           </Button>
-          <Button color="danger" onClick={toggle}>
+          <Button color="danger" onClick={toggle} disabled={inProgress && "disabled"}>
             {cancelButtonText}
           </Button>
         </ModalFooter>
