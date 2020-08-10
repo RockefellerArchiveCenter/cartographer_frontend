@@ -172,15 +172,15 @@ render() {
           </div>
         )}
         </Form>
-        {this.state.activeMap.id ? (
+        {this.state.activeMap.id &&
           <ComponentList
             activeMap={this.state.activeMap}
             items={this.state.activeMap.children ? this.state.activeMap.children : []}
             refresh={this.refreshMap}
             onChange={this.handleTreeChange}
           />
-        ) : null}
-        {this.state.publishModal ? (
+        }
+        {this.state.publishModal &&
           <ConfirmModal
             title={`Confirm ${this.state.activeMap.publish ? "unpublish" : "publish"}`}
             activeItem={this.state.activeMap}
@@ -190,7 +190,7 @@ render() {
             cancelButtonText="Cancel"
             confirmButtonText={this.state.activeMap.publish ? "Unpublish" : "Publish"}
           />
-        ) : null}
+        }
       </div>
     );
   }

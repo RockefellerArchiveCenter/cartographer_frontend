@@ -10,6 +10,7 @@ import axios from "axios";
 class ComponentList extends Component {
  constructor(props) {
    super(props);
+   this._isMounted = false;
    this.onChange = this.props.onChange
    this.state = {
      detailModal: false,
@@ -26,19 +27,19 @@ class ComponentList extends Component {
  handleDelete = component => {
     axios
      .delete(`/api/components/${component.id}`)
+     .then(res => { return true; })
      .catch(err => console.log(err));
  };
- handleNodeAction = (e, path) => {
+ handleNodeAction = async (e, path) => {
    let treeData = {}
-   console.log(e)
    if (e.id) {
-     treeData = this.nodeUpdate(e, path)
+     treeData = await this.nodeUpdate(e, path)
    } else if (e.parent) {
-     treeData = this.nodeAddChild(e);
+     treeData = await this.nodeAddChild(e);
    } else {
-     treeData = this.nodeAddNew(e)
+     treeData = await this.nodeAddNew(e)
    }
-   this.onChange(treeData);
+   await this.onChange(treeData);
    this.setState({detailModal: false})
  };
  nodeAddChild = e => {
@@ -64,15 +65,15 @@ class ComponentList extends Component {
    });
    return treeData
  };
- nodeDelete = e => {
+ nodeDelete = async e => {
    let {node, path} = e;
    const {treeData} = removeNode({
      treeData: this.props.items,
      path: path,
      getNodeKey: ({node}) => node.id
    });
-   this.onChange(treeData);
-   this.handleDelete(node)
+   await this.onChange(treeData);
+   this.handleDelete(node);
    this.setState({confirmModal: false})
  };
  nodeUpdate = (e, path) => {
