@@ -88,11 +88,15 @@ class MapForm extends Component {
      getNodeKey: ({ node }) => node.id,
      callback: (node) => {
        let parentNodeId = node.parentNode ? node.parentNode.id : null
-       if (node.node.parent !== parentNodeId || node.node.order !== node.treeIndex) {
+       // Check to see if node has been updated
+       if (node.node.parent !== parentNodeId || node.node.order !== node.treeIndex || node.node.updated) {
          node.node.parent = parentNodeId
          node.node.order = node.treeIndex
          this.handleComponentSubmit(node.node)
-          .then((res) => node.node.id = res.id)
+          .then((res) => {
+            node.node.id = res.id;
+            this.handleChange({"target": {"name": "children", "value": newItems}})
+          })
           .catch(err => console.log(err));
        }
      },

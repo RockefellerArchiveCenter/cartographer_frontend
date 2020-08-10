@@ -30,6 +30,7 @@ class ComponentList extends Component {
  };
  handleNodeAction = (e, path) => {
    let treeData = {}
+   console.log(e)
    if (e.id) {
      treeData = this.nodeUpdate(e, path)
    } else if (e.parent) {
@@ -41,6 +42,7 @@ class ComponentList extends Component {
    this.setState({detailModal: false})
  };
  nodeAddChild = e => {
+   e.updated = true;
    const {treeData} = addNodeUnderParent({
      treeData: this.props.items,
      newNode: e,
@@ -52,6 +54,7 @@ class ComponentList extends Component {
    return treeData
  };
  nodeAddNew = e => {
+   e.updated = true;
    const {treeData} = insertNode({
      treeData: this.props.items,
      depth: 1,
@@ -66,20 +69,21 @@ class ComponentList extends Component {
    const {treeData} = removeNode({
      treeData: this.props.items,
      path: path,
-     getNodeKey: ({node}) => node.order
+     getNodeKey: ({node}) => node.id
    });
    this.onChange(treeData);
    this.handleDelete(node)
    this.setState({confirmModal: false})
  };
  nodeUpdate = (e, path) => {
-   changeNodeAtPath({
+   e.updated = true;
+   const treeData = changeNodeAtPath({
      treeData: this.props.items,
      path: path,
      newNode: e,
-     getNodeKey: ({ node }) => node.order
+     getNodeKey: ({ node }) => node.id
    });
-   return this.props.items
+   return treeData
  };
  render() {
   return (
@@ -96,6 +100,7 @@ class ComponentList extends Component {
               <SortableTree
                 treeData={this.props.items}
                 onChange={this.props.onChange}
+                getNodeKey={({node}) => node.id}
                 generateNodeProps={ node => ({
                   buttons: [
                     <button
@@ -120,15 +125,15 @@ class ComponentList extends Component {
                 })}
               />
              </ResizableBox>
-             {this.state.detailModal ? (
+             {this.state.detailModal &&
                <MapComponentModal
                  activeComponent={this.state.activeComponent.node}
                  activeMap={this.props.activeMap}
                  path={this.state.activeComponent.path}
                  toggle={this.toggleDetailModal}
                  onSubmit={this.handleNodeAction}
-               />) : null}
-             {this.state.confirmModal ? (
+               />}
+             {this.state.confirmModal &&
                <ConfirmModal
                  title="Confirm delete"
                  activeItem={this.state.activeComponent}
@@ -137,7 +142,7 @@ class ComponentList extends Component {
                  message={`Are you sure you want to delete ${this.state.activeComponent.node.title}?`}
                  confirmButtonText="Yes, delete"
                  cancelButtonText="No, cancel"
-               />) : null}
+               />}
            </div>
           </div>
        </div>

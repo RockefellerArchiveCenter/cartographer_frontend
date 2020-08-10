@@ -47,16 +47,21 @@ export class MapComponentModal extends Component {
       this.handleChange({"target": {"name": "level", "value": data.data.level}});
       return;
     }
-    this.setState({ activeComponent: { title: "", archivesspace_uri: "", level: ""} })
+    var activeComponent = {...this.state.activeComponent}
+    activeComponent.title = "";
+    activeComponent.archivesspace_uri = "";
+    activeComponent.level = "";
+    this.setState({activeComponent})
   };
   fetchResource = resourceId => {
     this.setState({archivesSpaceButtonText: "Fetching..."})
     this.setState({error: ""})
     axios
       .get(`/api/fetch-resource/${resourceId}`)
-      .then(res => this.toggleData(res))
-      .then(rest => this.setState(
-          {archivesSpaceButtonText: "Fetch from ArchivesSpace"}))
+      .then(res => {
+        this.toggleData(res);
+        this.setState({archivesSpaceButtonText: "Fetch from ArchivesSpace"});
+      })
       .catch(error => this.setState({
           error: error.response.data,
           archivesSpaceButtonText: "Fetch from ArchivesSpace"
