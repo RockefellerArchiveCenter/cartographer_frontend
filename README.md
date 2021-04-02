@@ -29,7 +29,20 @@ Or, if you want to remove all data
 
 ## Docker Image
 
-Every time a commit is pushed to GitHub in the master branch, this repository builds a [Docker image](https://hub.docker.com/repository/docker/rockarch/cartographer_frontend) in Docker Hub.
+Every time a commit is pushed to GitHub in the base branch, this repository builds a [Docker image](https://hub.docker.com/repository/docker/rockarch/cartographer_frontend) in Docker Hub with the `latest`. Builds are also triggered when tags are created, so that specific releases of the application can be deployed.
+
+
+## Accessibility
+
+The drag and drop interface for arrangement maps (built using [`react-sortable-tree`](https://github.com/frontend-collective/react-sortable-tree)) has a number of accessibility issues:
+- The interface does not fully support keyboard-only interactions, as arrangement map components cannot be moved via the keyboard.
+- Screen readers are not able to effectively read the element:
+  - An aria-label with a value of "grid" is applied to the top-level element containing the draggable tree.
+  - The draggable tree is seen aas a table with 0 columns and 0 rows.
+  - The title and text of arrangement map components could not be read.
+  - Buttons are not associated with the component they are related to.
+
+We have opted to use this library despite these issues because it is the only one we can find which supports dragging and dropping in a multi-level tree. If you know of a more accessible option, please file an issue or get in touch!
 
 
 ## License
