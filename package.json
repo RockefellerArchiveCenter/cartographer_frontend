@@ -4,7 +4,7 @@
   "private": true,
   "proxy": "http://cartographer-backend:8000",
   "dependencies": {
-    "@babel/runtime": "^7.14.0",
+    "@babel/runtime": "^7.14.6",
     "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "enzyme": "^3.11.0",
