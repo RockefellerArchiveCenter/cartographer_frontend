@@ -19,7 +19,7 @@
     "react-scripts": "4.0.3",
     "react-sortable-tree": "2.6.2",
     "react-test-renderer": "^16.12.0",
-    "reactstrap": "^8.10.0",
+    "reactstrap": "^9.0.0",
     "typescript": "^4.4.3"
   },
   "scripts": {
