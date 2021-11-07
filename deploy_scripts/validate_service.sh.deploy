@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+
+# get status endpoint
+curl http://localhost:80
