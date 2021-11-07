@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+files:
+  - source: ./
+    destination: ${ROOT_DIR}
+hooks:
+  AfterInstall:
+    - location: deploy_scripts/set_permissions.sh
+      timeout: 30
+  ApplicationStart:
+    - location: deploy_scripts/application_start.sh
+      timeout: 20
+  ValidateService:
+    - location: deploy_scripts/validate_service.sh
+      timeout: 10
