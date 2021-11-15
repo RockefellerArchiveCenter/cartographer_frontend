@@ -20,20 +20,17 @@ afterEach(() => {
 });
 
 it('renders with ArchivesSpace resource', () => {
-    render(
-      <MapComponentModal activeComponent={mapComponent} />, container
-    );
+  render(<MapComponentModal activeComponent={mapComponent} />, container)
+  const title = document.querySelector('.h5')
+  const uri = document.querySelector('.text-muted')
+  expect(title.textContent).toBe('Asian Cultural Council records, Administrative Files, RG 1')
+  expect(uri.textContent).toBe('/repositories/2/resources/626')
 });
 
 it('renders without ArchivesSpace resource', () => {
-    const component = {
-        title: "",
-        archivesspace_uri: "",
-        level: ""
-    }
-    render(
-        <MapComponentModal activeComponent={component} />, container
-    );
+    render(<MapComponentModal activeComponent={{}} />, container)
+    const title = document.querySelector('input#resourceId')
+    expect(title.textContent).toBe('')
 });
 
 it('clears ComponentDetailModal', () => {

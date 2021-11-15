@@ -21,22 +21,27 @@ class MapForm extends Component {
      editable: this.props.match.params.id ? false : true,
      publishModal: false
    };
- };
+ }
+
  componentDidMount() {
    this.refreshMap();
    document.title = this.props.match.params.id ? document.title + ": Edit Map" : document.title + ": Add New Map"
- };
+ }
+
  toggleEditable = () => {
    this.setState({editable: !this.state.editable})
  }
+
  toggleModal = map => {
    this.setState({ activeMap: map, publishModal: !this.state.publishModal });
- };
+ }
+
  togglePublish = map => {
    map.publish = !this.state.activeMap.publish
    this.toggleModal(map)
    this.handleSubmit(map);
  }
+
  refreshMap = () => {
    if (this.props.match.params.id) {
      axios
@@ -45,6 +50,7 @@ class MapForm extends Component {
        .catch(err => console.log(err));
    }
  }
+
  handleChange = e => {
    let { name, value } = e.target;
    if (e.target.type === "checkbox") {
@@ -52,7 +58,8 @@ class MapForm extends Component {
    }
    const activeMap = { ...this.state.activeMap, [name]: value };
    this.setState({ activeMap });
- };
+ }
+
  handleSubmit = map => {
    if (map.id) {
      axios
@@ -67,7 +74,8 @@ class MapForm extends Component {
      .then(res => window.location = `/maps/${res.data.id}`)
      .then(this.toggleEditable())
      .catch(err => console.log(err));
- };
+ }
+
  handleComponentSubmit = item => {
    item.map = this.state.activeMap.id;
    if (item.id) {
@@ -80,7 +88,8 @@ class MapForm extends Component {
        .post("/api/components/", item)
        .then(res => { return res.data })
        .catch(err => console.log(err));
- };
+ }
+ 
  handleTreeChange = newItems => {
    this.handleChange({"target": {"name": "children", "value": newItems}})
    walk({

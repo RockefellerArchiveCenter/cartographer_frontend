@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { ConfirmModal } from "./Modals";
 import axios from "axios";
 
-
 class MapList extends Component {
  constructor(props) {
    super(props);
@@ -10,26 +9,31 @@ class MapList extends Component {
      deleteModal: false,
      arrangementMapList: []
    };
- };
+ }
+
  componentDidMount() {
    this.refreshList();
    document.title = document.title + ": Arrangement Maps";
- };
+ }
+
  toggleModal = map => {
    this.setState({ activeMap: map, deleteModal: !this.state.deleteModal });
- };
+ }
+
  refreshList = () => {
    axios
      .get("/api/maps/")
      .then(res => this.setState({ arrangementMapList: res.data.results }))
      .catch(err => console.log(err));
- };
+ }
+
  handleDelete = item => {
    axios
      .delete(`/api/maps/${item.id}`)
      .then(res => this.refreshList());
    this.toggleModal(item)
- };
+ }
+
  render() {
    return (
      <div className="row">
