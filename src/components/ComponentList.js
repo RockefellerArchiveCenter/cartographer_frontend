@@ -18,18 +18,22 @@ class ComponentList extends Component {
      activeComponent: {title: "", archivesspace_uri: ""},
    };
  }
+
  toggleDetailModal = item => {
    this.setState({ activeComponent: item, detailModal: !this.state.detailModal });
- };
+ }
+
  toggleConfirmModal = item => {
    this.setState({ activeComponent: item, confirmModal: !this.state.confirmModal });
- };
+ }
+
  handleDelete = component => {
     axios
      .delete(`/api/components/${component.id}`)
      .then(res => { return true; })
      .catch(err => console.log(err));
- };
+ }
+
  handleNodeAction = async (e, path) => {
    let treeData = {}
    if (e.id) {
@@ -41,7 +45,8 @@ class ComponentList extends Component {
    }
    this.onChange(treeData);
    this.setState({detailModal: false})
- };
+ }
+
  nodeAddChild = e => {
    e.updated = true;
    const {treeData} = addNodeUnderParent({
@@ -53,7 +58,8 @@ class ComponentList extends Component {
      expandParent: true
    });
    return treeData
- };
+ }
+
  nodeAddNew = e => {
    e.updated = true;
    const {treeData} = insertNode({
@@ -64,7 +70,8 @@ class ComponentList extends Component {
      minimumTreeIndex: 0,
    });
    return treeData
- };
+ }
+
  nodeDelete = async e => {
    let {node, path} = e;
    const {treeData} = removeNode({
@@ -75,7 +82,8 @@ class ComponentList extends Component {
    this.onChange(treeData);
    this.handleDelete(node);
    this.setState({confirmModal: false})
- };
+ }
+
  nodeUpdate = (e, path) => {
    e.updated = true;
    const treeData = changeNodeAtPath({
@@ -85,7 +93,8 @@ class ComponentList extends Component {
      getNodeKey: ({ node }) => node.id
    });
    return treeData
- };
+ }
+ 
  render() {
   return (
      <div>

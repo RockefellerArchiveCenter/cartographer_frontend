@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import {
   Alert,
   Button,
@@ -12,8 +12,8 @@ import {
   FormGroup,
   Input,
   Label
-} from "reactstrap";
-import axios from "axios";
+} from "reactstrap"
+import axios from "axios"
 
 export class MapComponentModal extends Component {
   constructor(props) {
@@ -28,6 +28,7 @@ export class MapComponentModal extends Component {
       error: "",
     };
   }
+
   handleChange = e => {
     let { name, value } = e.target;
     if (e.target.type === "checkbox") {
@@ -35,24 +36,27 @@ export class MapComponentModal extends Component {
     }
     const activeComponent = { ...this.state.activeComponent, [name]: value };
     this.setState({ activeComponent });
-  };
+  }
+
   handleResourceIdChange = e => {
     let { value } = e.target;
     this.setState({ resourceId: value })
-  };
+  }
+
   toggleData = data => {
     if (data.data) {
       this.handleChange({"target": {"name": "archivesspace_uri", "value": data.data.uri}});
       this.handleChange({"target": {"name": "title", "value": data.data.title}});
       this.handleChange({"target": {"name": "level", "value": data.data.level}});
-      return;
+      return
     }
     var activeComponent = {...this.state.activeComponent}
     activeComponent.title = "";
     activeComponent.archivesspace_uri = "";
     activeComponent.level = "";
     this.setState({activeComponent})
-  };
+  }
+
   fetchResource = resourceId => {
     this.setState({archivesSpaceButtonText: "Fetching..."})
     this.setState({error: ""})
@@ -67,10 +71,12 @@ export class MapComponentModal extends Component {
           archivesSpaceButtonText: "Fetch from ArchivesSpace"
       })
     );
-  };
+  }
+
   toggleTab = tab => {
     if(this.activeTab !== tab) this.setState({activeTab: tab});
-  };
+  }
+
   render() {
     const { toggle } = this.props;
     return (
