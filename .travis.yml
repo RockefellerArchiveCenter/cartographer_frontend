@@ -7,7 +7,6 @@ cache:
 env:
   global:
     - APPLICATION_NAME: cartographer_frontend
-    - PORT: 80
 install:
   - yarn install
 script:
