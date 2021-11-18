@@ -7,14 +7,16 @@ cache:
 env:
   global:
     - APPLICATION_NAME: cartographer_frontend
+    - PORT: 80
 install:
   - yarn install
 script:
   - yarn build
   - yarn test --coverage .
 before_deploy:
+  - if [ ! -d deploy_scripts ]; then git clone https://github.com/RockefellerArchiveCenter/deploy_scripts.git; fi
   - sudo deploy_scripts/substitute_env.sh
-  - sudo deploy_scripts/make_zip.sh $DEPLOY_ZIP_DIR $DEPLOY_ZIP_NAME
+  - sudo deploy_scripts/make_zip_react.sh $DEPLOY_ZIP_DIR $DEPLOY_ZIP_NAME
 deploy:
 - provider: s3
   access_key_id: $AWS_ACCESS_KEY
@@ -27,7 +29,6 @@ deploy:
   bucket: $AWS_BUCKET_NAME
   region: us-east-1
 - provider: codedeploy
-  wait_until_deployed: true
   bucket: $AWS_BUCKET_NAME
   key: $DEPLOY_ZIP_NAME
   bundle_type: zip
