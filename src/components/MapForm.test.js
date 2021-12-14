@@ -1,10 +1,11 @@
 import React from 'react';
-import mockAxios from 'axios';
-import { unmountComponentAtNode } from 'react-dom';
-import { act } from "react-dom/test-utils";
-import { mount } from 'enzyme';
+import '@testing-library/jest-dom'
+import { Route, Router, MemoryRouter } from 'react-router-dom';
+import axios from 'axios';
+import { render, unmountComponentAtNode } from 'react-dom';
+import { act } from 'react-dom/test-utils';
 
-import {mapResponse} from '../__fixtures__/mapResponse';
+import { mapResponse } from '../__fixtures__/mapResponse';
 import MapForm from './MapForm';
 
 jest.mock('axios')
@@ -12,7 +13,7 @@ jest.mock('axios')
 let container = null;
 beforeEach(() => {
   jest.resetAllMocks();
-  container = document.createElement("div");
+  container = document.createElement('div');
   document.body.appendChild(container);
 });
 
@@ -22,79 +23,88 @@ afterEach(() => {
   container = null;
 });
 
-it('renders without match', () => {
-  const params = {
-    params: {id: null}
-  }
-  const wrapper = mount(<MapForm match={params}/>);
-  const instance = wrapper.instance();
+jest.mock('axios')
 
-  expect(instance.state.activeMap).toEqual({"title": "", });
-  expect(instance.state.editable).toBe(true)
+it('renders without match', () => {
+  act(() => {
+    render(
+      <MemoryRouter initialEntries={['maps']}>
+        <Route path='maps'>
+          <MapForm />
+        </Route>
+      </MemoryRouter>, container)
+  })
+
+  expect(document.querySelector('h1').textContent).toBe('Add New Map');
 });
 
 it('renders with match', async () => {
-  mockAxios.get.mockImplementationOnce(() =>
-    Promise.resolve({data: mapResponse})
-  );
-  const params = {
-    params: {id: 1}
-  }
-  const wrapper = await mount(<MapForm match={params}/>);
-  const instance = await wrapper.instance();
+  axios.get.mockImplementationOnce(() => Promise.resolve({data: mapResponse}))
 
-  expect(mockAxios.get).toHaveBeenCalledTimes(1);
-  expect(instance.state.activeMap).toEqual(mapResponse);
-  expect(instance.state.editable).toBe(false)
-  expect(instance.state.activeMap.publish).toBe(false)
+  await act(async () => {
+    await render(
+    <MemoryRouter initialEntries={['maps/1']}>
+      <Route path='maps/:id'>
+        <MapForm />
+      </Route>
+    </MemoryRouter>, container)
+  })
+
+  expect(document.querySelector('h1').textContent).toBe('Edit Map')
+  expect(document.querySelector('.btn-lg.float-right')).toBeVisible()
+  expect(document.querySelector('input#title')).toBeDisabled()
 });
 
 it('toggles editable', async () => {
-  mockAxios.get.mockImplementationOnce(() =>
-    Promise.resolve({data: mapResponse})
-  );
-  const params = {
-    params: {id: 1}
-  }
-  const wrapper = await mount(<MapForm match={params}/>);
-  const instance = await wrapper.instance();
+  axios.get.mockImplementationOnce(() => Promise.resolve({data: mapResponse}))
 
-  act(() => {
-    instance.toggleEditable()
+  await act(async () => {
+    await render(
+      <MemoryRouter initialEntries={['maps/1']}>
+        <Route path='maps/:id'>
+          <MapForm />
+        </Route>
+      </MemoryRouter>, container)
   })
-  expect(instance.state.editable).toBe(true)
 
-  act(() => {
-    instance.toggleEditable()
-  })
-  expect(instance.state.editable).toBe(false)
+  const editButton = document.querySelector('.btn-primary.mr-2')
+  act(() => { editButton.click() })
+  expect(document.querySelector('input#title')).not.toBeDisabled()
+
+  const cancelButton = document.querySelector('.btn-danger.mr-2')
+  act(() => { cancelButton.click() })
+  expect(document.querySelector('input#title')).toBeDisabled()
 });
 
 it('handles publish correctly', async () => {
-  mockAxios.get.mockImplementation(() =>
-    Promise.resolve({data: mapResponse})
-  );
-  mockAxios.put.mockImplementationOnce(() =>
-    Promise.resolve({mapResponse})
-  );
-  const params = {
-    params: {id: 1}
-  }
-  const wrapper = await mount(<MapForm match={params}/>);
-  const instance = await wrapper.instance();
+  axios.get.mockImplementation(() => Promise.resolve({data: mapResponse}))
+  axios.put.mockImplementationOnce(() => Promise.resolve({mapResponse}))
+
+  await act(async () => {
+    await render(
+      <MemoryRouter initialEntries={['maps/1']}>
+        <Route path='maps/:id'>
+          <MapForm />
+        </Route>
+      </MemoryRouter>, container)
+  })
+
+  const modalButton = document.querySelector('.btn-lg.float-right')
+  expect(modalButton.textContent).toBe('Publish Map')
 
   // Toggle publish modal
   act(() => {
-    instance.toggleModal(instance.state.activeMap)
+    modalButton.click()
   })
-  expect(mockAxios.get).toHaveBeenCalledTimes(1)
-  expect(instance.state.publishModal).toBe(true)
+  expect(document.querySelector('.modal__confirm')).toBeVisible()
+
+  const publishButton = document.querySelector('.modal__confirm .btn-primary')
 
   // Publish current map
-  act(() => {
-    instance.togglePublish(instance.state.activeMap)
+  await act(async () => {
+    await publishButton.click()
   })
-  expect(mockAxios.put).toHaveBeenCalledTimes(1)
-  expect(instance.state.publishModal).toBe(false)
-  expect(instance.state.activeMap.publish).toBe(true)
+
+  expect(axios.put).toHaveBeenCalledTimes(1)
+  expect(modalButton.textContent).toBe('Unpublish Map')
 });
