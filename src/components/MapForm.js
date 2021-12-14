@@ -1,208 +1,183 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import ComponentList from './ComponentList'
-import { ConfirmModal } from "./Modals";
+import { ConfirmModal } from './Modals';
 import { walk } from 'react-sortable-tree';
-import axios from "axios";
+import axios from 'axios';
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 
-import {
-  Button,
-  Form,
-  FormGroup,
-  Input,
-  Label
-} from "reactstrap";
+const MapForm = () => {
+  const { id } = useParams()
+  const [activeMap, setActiveMap] = useState({'title': '', })
+  const [publishModal, setPublishModal] = useState(false)
+  const [editable, setEditable] = useState(id ? false : true)
+  const navigate = useNavigate()
 
-class MapForm extends Component {
- constructor(props) {
-   super(props);
-   this.state = {
-     pageTitle: "",
-     activeMap: {"title": "", },
-     editable: this.props.match.params.id ? false : true,
-     publishModal: false
-   };
- }
+  const toggleModal = map => {
+    setActiveMap(map)
+    setPublishModal(!publishModal)
+  }
 
- componentDidMount() {
-   this.refreshMap();
-   document.title = this.props.match.params.id ? document.title + ": Edit Map" : document.title + ": Add New Map"
- }
+  const togglePublish = map => {
+    map.publish = !activeMap.publish
+    toggleModal(map)
+    handleSubmit(map)
+  }
 
- toggleEditable = () => {
-   this.setState({editable: !this.state.editable})
- }
+  const refreshMap = () => {
+    if (id) {
+      axios
+        .get(`/api/maps/${id}`)
+        .then(res => setActiveMap(res.data))
+        .catch(err => console.log(err));
+      }
+  }
 
- toggleModal = map => {
-   this.setState({ activeMap: map, publishModal: !this.state.publishModal });
- }
+  const handleChange = e => {
+    let { name, value } = e.target;
+    if (e.target.type === 'checkbox') {
+      value = e.target.checked;
+    }
+    setActiveMap({ ...activeMap, [name]: value })
+  }
 
- togglePublish = map => {
-   map.publish = !this.state.activeMap.publish
-   this.toggleModal(map)
-   this.handleSubmit(map);
- }
+  const handleSubmit = map => {
+    if (map.id) {
+      axios
+        .put(`/api/maps/${map.id}/`, map)
+        .then(res => {
+          refreshMap()
+          setEditable(false)
+        })
+        .catch(err => console.log(err));
+      return;
+    }
+    axios
+      .post('/api/maps/', map)
+      .then(res => window.location = `/maps/${res.data.id}`)
+      .then(setEditable(!editable))
+      .catch(err => console.log(err));
+  }
 
- refreshMap = () => {
-   if (this.props.match.params.id) {
-     axios
-       .get(`/api/maps/${this.props.match.params.id}`)
-       .then(res => this.setState({ activeMap: res.data }))
-       .catch(err => console.log(err));
-   }
- }
-
- handleChange = e => {
-   let { name, value } = e.target;
-   if (e.target.type === "checkbox") {
-     value = e.target.checked;
-   }
-   const activeMap = { ...this.state.activeMap, [name]: value };
-   this.setState({ activeMap });
- }
-
- handleSubmit = map => {
-   if (map.id) {
-     axios
-       .put(`/api/maps/${map.id}/`, map)
-       .then(res => this.refreshMap())
-       .then(this.setState({editable: false}))
-       .catch(err => console.log(err));
-     return;
-   }
-   axios
-     .post("/api/maps/", map)
-     .then(res => window.location = `/maps/${res.data.id}`)
-     .then(this.toggleEditable())
-     .catch(err => console.log(err));
- }
-
- handleComponentSubmit = item => {
-   item.map = this.state.activeMap.id;
-   if (item.id) {
-     return axios
-       .put(`/api/components/${item.id}/`, item)
-       .then(res => { return res.data })
-       .catch(err => console.log(err));
+  const handleComponentSubmit = item => {
+    item.map = activeMap.id;
+    if (item.id) {
+      return axios
+        .put(`/api/components/${item.id}/`, item)
+        .then(res => { return res.data })
+        .catch(err => console.log(err));
     }
     return axios
-       .post("/api/components/", item)
-       .then(res => { return res.data })
-       .catch(err => console.log(err));
- }
- 
- handleTreeChange = newItems => {
-   this.handleChange({"target": {"name": "children", "value": newItems}})
-   walk({
-     treeData: newItems,
-     getNodeKey: ({ node }) => node.id,
-     callback: (node) => {
-       let parentNodeId = node.parentNode ? node.parentNode.id : null
-       // Check to see if node has been updated
-       if (node.node.parent !== parentNodeId || node.node.order !== node.treeIndex || node.node.updated) {
-         node.node.parent = parentNodeId
-         node.node.order = node.treeIndex
-         this.handleComponentSubmit(node.node)
-          .then((res) => {
-            node.node.id = res.id;
-            this.handleChange({"target": {"name": "children", "value": newItems}})
-          })
-          .catch(err => console.log(err));
-       }
-     },
-     ignoreCollapsed: false
-   });
- };
- redirectToRoot = () => {
-  this.props.history.push('/')
-}
-render() {
+      .post('/api/components/', item)
+      .then(res => { return res.data })
+      .catch(err => console.log(err));
+  }
+
+  const handleTreeChange = newItems => {
+    handleChange({'target': {'name': 'children', 'value': newItems}})
+    walk({
+      treeData: newItems,
+      getNodeKey: ({ node }) => node.id,
+      callback: (node) => {
+        let parentNodeId = node.parentNode ? node.parentNode.id : null
+        // Check to see if node has been updated
+        if (node.node.parent !== parentNodeId || node.node.order !== node.treeIndex || node.node.updated) {
+          node.node.parent = parentNodeId
+          node.node.order = node.treeIndex
+          handleComponentSubmit(node.node)
+            .then((res) => {
+              node.node.id = res.id;
+              handleChange({'target': {'name': 'children', 'value': newItems}})
+            })
+            .catch(err => console.log(err));
+          }
+      },
+      ignoreCollapsed: false
+    });
+  }
+
+  useEffect(() => {
+    refreshMap()
+    document.title = id ? document.title + ': Edit Map' : document.title + ': Add New Map'
+  }, [id])
+
   return (
     <div>
-      <div className="row mb-3">
-        <div className="col-12 col-sm-6">
-          <h1>{this.props.match.params.id ? "Edit Map" : "Add New Map"}</h1>
+      <div className='row mb-3'>
+        <div className='col-12 col-sm-6'>
+          <h1>{id ? 'Edit Map' : 'Add New Map'}</h1>
         </div>
-        <div className="col-12 col-sm-6">
-         {this.props.match.params.id ? (
+        <div className='col-12 col-sm-6'>
+         {id ? (
            <Button
-             color={this.state.activeMap.publish ? "danger" : "success"}
-             size="lg"
-             className="float-right"
+             color={activeMap.publish ? 'danger' : 'success'}
+             size='lg'
+             className='float-right'
              outline={true}
-             onClick={() => this.toggleModal(this.state.activeMap)}
-           >
-             {this.state.activeMap.publish ? "Unpublish Map" : "Publish Map"}
+             onClick={() => toggleModal(activeMap)} >
+             {activeMap.publish ? 'Unpublish Map' : 'Publish Map'}
            </Button>): null}
          </div>
       </div>
       <Form
-        className="row mb-4"
-        inline={true}
-        onSubmit={(e) => {e.preventDefault(); this.handleSubmit(this.state.activeMap)}}
-      >
-        <FormGroup className="col-12 col-lg-8">
-          <Label for="title">Arrangement Map Title</Label>
+        className='row mb-4'
+        onSubmit={(e) => {e.preventDefault(); handleSubmit(activeMap)}} >
+        <FormGroup className='col-12 col-lg-8'>
+          <Label for='title'>Arrangement Map Title</Label>
             <Input
-              className="col-sm-12"
-              type="text"
-              name="title"
-              id="title"
-              onChange={this.handleChange}
-              value={this.state.activeMap.title}
-              disabled={this.state.editable ? false : true }
-            />
+              className='col-sm-12'
+              type='text'
+              name='title'
+              id='title'
+              onChange={handleChange}
+              value={activeMap.title}
+              disabled={!editable} />
           </FormGroup>
-          {this.state.editable ? (
-          <div className="col-6 col-lg-4 mt-4">
+          {editable ? (
+          <div className='col-6'>
             <Button
-              color="primary"
-              className="mr-2"
-              disabled={!this.state.activeMap.title}
-              onClick={() => this.handleSubmit(this.state.activeMap)}
-            >
+              color='primary'
+              className='mr-2'
+              disabled={!activeMap.title}
+              onClick={() => handleSubmit(activeMap)} >
             Save Title
             </Button>
             <Button
-              color="danger"
-              className="mr-2"
-              onClick={this.props.match.params.id ? this.toggleEditable : this.redirectToRoot}>
+              color='danger'
+              className='mr-2'
+              onClick={() => {id ? setEditable(!editable) : navigate('/')}}>
             Cancel
             </Button>
           </div>
         ) : (
-          <div className="col-6 col-sm-5 col-lg-4 mt-4">
+          <div className='col-6'>
             <Button
-              color="primary"
-              className="mr-2"
-              onClick={this.toggleEditable}
-            >
+              color='primary'
+              className='mr-2'
+              onClick={() => setEditable(!editable)} >
             Edit Title
             </Button>
           </div>
         )}
         </Form>
-        {this.state.activeMap.id &&
+        {activeMap.id &&
           <ComponentList
-            activeMap={this.state.activeMap}
-            items={this.state.activeMap.children ? this.state.activeMap.children : []}
-            refresh={this.refreshMap}
-            onChange={this.handleTreeChange}
+            items={activeMap.children ? activeMap.children : []}
+            onChange={handleTreeChange}
           />
         }
-        {this.state.publishModal &&
-          <ConfirmModal
-            title={`Confirm ${this.state.activeMap.publish ? "unpublish" : "publish"}`}
-            activeItem={this.state.activeMap}
-            toggle={() => this.toggleModal(this.state.activeMap)}
-            onConfirm={() => this.togglePublish(this.state.activeMap)}
-            message={`Are you sure you want to ${this.state.activeMap.publish ? "unpublish" : "publish"} ${this.state.activeMap.title}? ${this.state.activeMap.publish ? "Unpublishing" : "Publishing"} this map will result in all related resource records in ArchivesSpace being ${this.state.activeMap.publish ? "unpublished" : "published"} as well.`}
-            cancelButtonText="Cancel"
-            confirmButtonText={this.state.activeMap.publish ? "Unpublish" : "Publish"}
-          />
-        }
+        <ConfirmModal
+          isOpen={publishModal}
+          title={`Confirm ${activeMap.publish ? 'unpublish' : 'publish'}`}
+          activeItem={activeMap}
+          toggle={() => toggleModal(activeMap)}
+          onConfirm={() => togglePublish(activeMap)}
+          message={`Are you sure you want to ${activeMap.publish ? 'unpublish' : 'publish'} ${activeMap.title}? ${activeMap.publish ? 'Unpublishing' : 'Publishing'} this map will result in all related resource records in ArchivesSpace being ${activeMap.publish ? 'unpublished' : 'published'} as well.`}
+          cancelButtonText='Cancel'
+          confirmButtonText={activeMap.publish ? 'Unpublish' : 'Publish'}
+        />
       </div>
-    );
-  }
+    )
 }
 
 export default MapForm;

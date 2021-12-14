@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useEffect, useState } from 'react'
 import {
   Alert,
   Button,
@@ -12,158 +12,121 @@ import {
   FormGroup,
   Input,
   Label
-} from "reactstrap"
-import axios from "axios"
+} from 'reactstrap'
+import axios from 'axios'
 
-export class MapComponentModal extends Component {
-  constructor(props) {
-    super(props);
-    this.toggle = this.props.toggle
-    this.onSubmit = this.props.onSubmit
-    this.state = {
-      archivesSpaceButtonText: "Fetch from ArchivesSpace",
-      activeMap: this.props.activeMap,
-      activeComponent: this.props.activeComponent,
-      resourceId: "",
-      error: "",
-    };
-  }
+export const MapComponentModal = ({ initialComponent, isOpen, onSubmit, path, toggle }) => {
+  const [isFetching, setIsFetching] = useState(false)
+  const [component, setComponent] = useState()
+  const [resourceId, setResourceId] = useState('')
+  const [error, setError] = useState('')
 
-  handleChange = e => {
-    let { name, value } = e.target;
-    if (e.target.type === "checkbox") {
-      value = e.target.checked;
-    }
-    const activeComponent = { ...this.state.activeComponent, [name]: value };
-    this.setState({ activeComponent });
-  }
+  useEffect(() => {
+    setComponent(initialComponent)
+  }, [initialComponent])
 
-  handleResourceIdChange = e => {
+  const handleResourceIdChange = e => {
     let { value } = e.target;
-    this.setState({ resourceId: value })
+    setResourceId(value)
   }
 
-  toggleData = data => {
+  const toggleData = data => {
     if (data.data) {
-      this.handleChange({"target": {"name": "archivesspace_uri", "value": data.data.uri}});
-      this.handleChange({"target": {"name": "title", "value": data.data.title}});
-      this.handleChange({"target": {"name": "level", "value": data.data.level}});
+      setComponent({ ...component, archivesspace_uri: data.data.uri, title: data.data.title, level: data.data.level })
       return
     }
-    var activeComponent = {...this.state.activeComponent}
-    activeComponent.title = "";
-    activeComponent.archivesspace_uri = "";
-    activeComponent.level = "";
-    this.setState({activeComponent})
+    setComponent({ ...component, archivesspace_uri: '', title: '', level: ''})
+    setResourceId('')
   }
 
-  fetchResource = resourceId => {
-    this.setState({archivesSpaceButtonText: "Fetching..."})
-    this.setState({error: ""})
-    axios
-      .get(`/api/fetch-resource/${resourceId}`)
-      .then(res => {
-        this.toggleData(res);
-        this.setState({archivesSpaceButtonText: "Fetch from ArchivesSpace"});
-      })
-      .catch(error => this.setState({
-          error: error.response.data,
-          archivesSpaceButtonText: "Fetch from ArchivesSpace"
-      })
-    );
+  const fetchResource = resourceId => {
+    if (!isFetching) {
+      setIsFetching(true)
+      setError('')
+      axios
+        .get(`/api/fetch-resource/${resourceId}`)
+        .then(res => toggleData(res))
+        .catch(error => setError(error.response.data))
+        .then(res => setIsFetching(false))
+    }
   }
 
-  toggleTab = tab => {
-    if(this.activeTab !== tab) this.setState({activeTab: tab});
-  }
-
-  render() {
-    const { toggle } = this.props;
-    return (
-      <Modal isOpen={true} toggle={toggle} autoFocus={false} className="modal-md">
-        <ModalHeader tag="h2" toggle={toggle}> Arrangement Map Component </ModalHeader>
-        <ModalBody>
-          <Row>
-            <Col sm="12">
-            { this.state.error ? (
-              <Alert className="mt-2" color="danger">
-                {this.state.error}
-              </Alert>) : null
-            }
-            { this.state.activeComponent.archivesspace_uri ? (
-              <div className="mt-2">
-                <p className="h5">{this.state.activeComponent.title}</p>
-                <p className="text-muted">{this.state.activeComponent.archivesspace_uri}</p>
+  return (
+    <Modal isOpen={isOpen} toggle={toggle} autoFocus={true} className='modal__component modal-md'>
+      <ModalHeader tag='h2'>Arrangement Map Component</ModalHeader>
+      <ModalBody>
+        <Row>
+          <Col sm='12'>
+          { error ? (
+            <Alert className='mt-2' color='danger'>
+              {error}
+            </Alert>) : null }
+          { component && component.archivesspace_uri ? (
+            <div className='mt-2'>
+              <p className='h5'>{component.title}</p>
+              <p className='text-muted'>{component.archivesspace_uri}</p>
+              <Button
+                color='warning'
+                onClick={toggleData}>
+                Clear
+              </Button>
+            </div>
+          ) : (
+            <div>
+              <Form onSubmit={(e) => {fetchResource(resourceId); e.preventDefault()}}>
+                <FormGroup>
+                  <Label for='resourceId'>ArchivesSpace Resource ID</Label>
+                  <Input
+                    autoFocus={true}
+                    type='number'
+                    name='resourceId'
+                    id='resourceId'
+                    value={resourceId}
+                    onChange={handleResourceIdChange}
+                  />
+                </FormGroup>
                 <Button
-                  color="warning"
-                  onClick={this.toggleData}
-                  >
-                  Clear
+                  type='submit'
+                  className='btn btn-sm btn-secondary'
+                  onClick={() => fetchResource(resourceId)}
+                  disabled={!resourceId}>
+                  {isFetching ? 'Fetching...' : 'Fetch from ArchivesSpace'}
                 </Button>
-              </div>
-            ) : (
-              <div>
-                <Form onSubmit={(e) => {e.preventDefault(); this.fetchResource(this.state.resourceId)}}>
-                  <FormGroup>
-                    <Label for="resourceId">ArchivesSpace Resource ID</Label>
-                    <Input
-                      autoFocus={true}
-                      type="number"
-                      name="resourceId"
-                      id="resourceId"
-                      value={this.state.resourceId}
-                      onChange={this.handleResourceIdChange}
-                    />
-                  </FormGroup>
-                  <Button
-                    type="submit"
-                    className="btn btn-sm btn-secondary"
-                    onClick={() => this.fetchResource(this.state.resourceId)}
-                    disabled={!this.state.resourceId}
-                  >
-                    {this.state.archivesSpaceButtonText}
-                  </Button>
-                </Form>
-              </div>)}
-            </Col>
-          </Row>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            color="primary"
-            onClick={() => this.onSubmit(this.state.activeComponent, this.props.path)}
-            disabled={!this.state.activeComponent.title}>
-            Save
-          </Button>
-          <Button
-            color="danger"
-            onClick={toggle}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
-    );
-  }
+              </Form>
+            </div>)}
+          </Col>
+        </Row>
+      </ModalBody>
+      <ModalFooter>
+        <Button
+          color='primary'
+          onClick={() => onSubmit(component, path)}
+          disabled={component && !component.title}>
+          Save
+        </Button>
+        <Button
+          color='danger'
+          onClick={toggle}>
+          Cancel
+        </Button>
+      </ModalFooter>
+    </Modal>
+  );
 }
 
-export class ConfirmModal extends Component {
-  render() {
-    const { toggle, title, message, onConfirm, cancelButtonText, confirmButtonText } = this.props;
-    return (
-      <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader tag="h2" toggle={toggle}>{title}</ModalHeader>
-        <ModalBody>
-          {message}
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={onConfirm}>
-            {confirmButtonText}
-          </Button>
-          <Button color="danger" onClick={toggle}>
-            {cancelButtonText}
-          </Button>
-        </ModalFooter>
-      </Modal>
-    );
-  }
-}
+export const ConfirmModal = ({ isOpen, toggle, title, message, onConfirm, cancelButtonText, confirmButtonText }) => (
+  <Modal isOpen={isOpen} toggle={toggle} className='modal__confirm'>
+    <ModalHeader tag='h2' toggle={toggle}>{title}</ModalHeader>
+    <ModalBody>
+      {message}
+    </ModalBody>
+    <ModalFooter>
+      <Button color='primary' onClick={onConfirm}>
+        {confirmButtonText}
+      </Button>
+      <Button color='danger' onClick={toggle}>
+        {cancelButtonText}
+      </Button>
+    </ModalFooter>
+  </Modal>
+)
