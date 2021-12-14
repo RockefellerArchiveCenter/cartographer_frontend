@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom'
-import { Route, Router, MemoryRouter } from 'react-router-dom';
+import { Route, Routes, MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
@@ -28,10 +28,10 @@ jest.mock('axios')
 it('renders without match', () => {
   act(() => {
     render(
-      <MemoryRouter initialEntries={['maps']}>
-        <Route path='maps'>
-          <MapForm />
-        </Route>
+      <MemoryRouter initialEntries={['/maps']}>
+        <Routes>
+          <Route path='/maps' element={<MapForm />} />
+        </Routes>
       </MemoryRouter>, container)
   })
 
@@ -43,10 +43,10 @@ it('renders with match', async () => {
 
   await act(async () => {
     await render(
-    <MemoryRouter initialEntries={['maps/1']}>
-      <Route path='maps/:id'>
-        <MapForm />
-      </Route>
+    <MemoryRouter initialEntries={['/maps/1']}>
+      <Routes>
+        <Route path='/maps/:id' element={<MapForm />} />
+      </Routes>
     </MemoryRouter>, container)
   })
 
@@ -60,10 +60,10 @@ it('toggles editable', async () => {
 
   await act(async () => {
     await render(
-      <MemoryRouter initialEntries={['maps/1']}>
-        <Route path='maps/:id'>
-          <MapForm />
-        </Route>
+      <MemoryRouter initialEntries={['/maps/1']}>
+        <Routes>
+          <Route path='/maps/:id' element={<MapForm />} />
+        </Routes>
       </MemoryRouter>, container)
   })
 
@@ -82,10 +82,10 @@ it('handles publish correctly', async () => {
 
   await act(async () => {
     await render(
-      <MemoryRouter initialEntries={['maps/1']}>
-        <Route path='maps/:id'>
-          <MapForm />
-        </Route>
+      <MemoryRouter initialEntries={['/maps/1']}>
+        <Routes>
+          <Route path='/maps/:id' element={<MapForm />} />
+        </Routes>
       </MemoryRouter>, container)
   })
 
