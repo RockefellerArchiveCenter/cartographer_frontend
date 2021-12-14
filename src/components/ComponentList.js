@@ -1,133 +1,127 @@
-import React, { Component } from "react";
+import React, { useState } from 'react';
 import SortableTree, { addNodeUnderParent, changeNodeAtPath, insertNode, removeNode } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
 import { ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
 import { MapComponentModal, ConfirmModal } from './Modals'
-import axios from "axios";
+import axios from 'axios';
 
 
-class ComponentList extends Component {
- constructor(props) {
-   super(props);
-   this._isMounted = false;
-   this.onChange = this.props.onChange
-   this.state = {
-     detailModal: false,
-     confirmModal: false,
-     activeComponent: {title: "", archivesspace_uri: ""},
-   };
- }
+const ComponentList = ({ items, onChange }) => {
+  const [detailModal, setDetailModal] = useState(false)
+  const [confirmModal, setConfirmModal] = useState(false)
+  const [activeComponent, setActiveComponent] = useState({title: '', archivesspace_uri: ''})
 
- toggleDetailModal = item => {
-   this.setState({ activeComponent: item, detailModal: !this.state.detailModal });
- }
+  const toggleDetailModal = item => {
+    setActiveComponent(item)
+    setDetailModal(!detailModal)
+  }
 
- toggleConfirmModal = item => {
-   this.setState({ activeComponent: item, confirmModal: !this.state.confirmModal });
- }
+  const toggleConfirmModal = item => {
+    setActiveComponent(item)
+    setConfirmModal(!confirmModal)
+  }
 
- handleDelete = component => {
+  const handleDelete = component => {
     axios
      .delete(`/api/components/${component.id}`)
-     .then(res => { return true; })
+     .then(res => { return true })
      .catch(err => console.log(err));
- }
-
- handleNodeAction = async (e, path) => {
-   let treeData = {}
-   if (e.id) {
-     treeData = await this.nodeUpdate(e, path)
-   } else if (e.parent) {
-     treeData = await this.nodeAddChild(e);
-   } else {
-     treeData = await this.nodeAddNew(e)
    }
-   this.onChange(treeData);
-   this.setState({detailModal: false})
- }
 
- nodeAddChild = e => {
-   e.updated = true;
-   const {treeData} = addNodeUnderParent({
-     treeData: this.props.items,
-     newNode: e,
-     parentKey: e.parent,
-     getNodeKey: ({ node }) => node.id,
-     ignoreCollapsed: false,
-     expandParent: true
-   });
-   return treeData
- }
+   const handleNodeAction = async (e, path) => {
+     let treeData = {}
+     if (e.id) {
+       treeData = await nodeUpdate(e, path)
+     } else if (e.parent) {
+       treeData = await nodeAddChild(e);
+     } else {
+       treeData = await nodeAddNew(e)
+     }
+     onChange(treeData)
+     setDetailModal(false)
+   }
 
- nodeAddNew = e => {
-   e.updated = true;
-   const {treeData} = insertNode({
-     treeData: this.props.items,
-     depth: 1,
-     newNode: e,
-     getNodeKey: ({ node }) => node.id,
-     minimumTreeIndex: 0,
-   });
-   return treeData
- }
+   const nodeAddChild = e => {
+     e.updated = true;
+     const {treeData} = addNodeUnderParent({
+       treeData: items,
+       newNode: e,
+       parentKey: e.parent,
+       getNodeKey: ({ node }) => node.id,
+       ignoreCollapsed: false,
+       expandParent: true
+     });
+     return treeData
+   }
 
- nodeDelete = async e => {
-   let {node, path} = e;
-   const {treeData} = removeNode({
-     treeData: this.props.items,
-     path: path,
-     getNodeKey: ({node}) => node.id
-   });
-   this.onChange(treeData);
-   this.handleDelete(node);
-   this.setState({confirmModal: false})
- }
+   const nodeAddNew = e => {
+     e.updated = true;
+     const {treeData} = insertNode({
+       treeData: items,
+       depth: 1,
+       newNode: e,
+       getNodeKey: ({ node }) => node.id,
+       minimumTreeIndex: 0,
+     });
+     return treeData
+   }
 
- nodeUpdate = (e, path) => {
-   e.updated = true;
-   const treeData = changeNodeAtPath({
-     treeData: this.props.items,
-     path: path,
-     newNode: e,
-     getNodeKey: ({ node }) => node.id
-   });
-   return treeData
- }
- 
- render() {
-  return (
+   const nodeDelete = async e => {
+     let {node, path} = e;
+     const {treeData} = removeNode({
+       treeData: items,
+       path: path,
+       getNodeKey: ({node}) => node.id
+     });
+     onChange(treeData)
+     handleDelete(node)
+     setConfirmModal(false)
+   }
+
+   const nodeUpdate = (e, path) => {
+     e.updated = true;
+     const treeData = changeNodeAtPath({
+       treeData: items,
+       path: path,
+       newNode: e,
+       getNodeKey: ({ node }) => node.id
+     });
+     return treeData
+   }
+
+   return (
      <div>
-       <div className="row">
-         <div className="col-md-12">
-           <div className="card p-3">
-             <div className="mb-3">
-               <button onClick={() => this.toggleDetailModal({"node": { title: "", archivesspace_uri: "", level: ""}})} className="btn btn-primary">
+       <div className='row'>
+         <div className='col-md-12'>
+           <div className='card p-3'>
+             <div className='mb-3'>
+               <button onClick={() => toggleDetailModal({'node': { title: '', archivesspace_uri: '', level: ''}})} className='btn btn-primary'>
                  Add arrangement map component
                </button>
              </div>
-             <ResizableBox handleSize={[20, 20]} axis="y" resizeHandles={["s"]} height={400} width={Infinity}>
+             <ResizableBox handleSize={[20, 20]} axis='y' resizeHandles={['s']} height={400} width={Infinity}>
               <SortableTree
-                treeData={this.props.items}
-                onChange={this.props.onChange}
+                treeData={items}
+                onChange={onChange}
                 getNodeKey={({node}) => node.id}
                 generateNodeProps={ node => ({
                   buttons: [
                     <button
-                      className="btn btn-sm btn-success mr-2"
-                      onClick={() => this.toggleDetailModal({"node": {title: "", archivesspace_uri: "", parent: node.node.id, level: ""}})}
+                      className='btn btn-sm btn-success mr-2'
+                      onClick={() => toggleDetailModal({'node': {title: '', archivesspace_uri: '', parent: node.node.id, level: ''}})}
                     >
                       Add Child
                     </button>,
                     <button
-                      className="btn btn-sm btn-secondary mr-2"
-                      onClick={() => this.toggleDetailModal(node)}
+                      className='btn btn-sm btn-secondary mr-2'
+                      onClick={() => toggleDetailModal(node)}
                     >
                       Edit
                     </button>,
                     <button
-                      className="btn btn-sm btn-danger"
-                      onClick={() => this.toggleConfirmModal(node)}
+                      className='btn btn-sm btn-danger'
+                      onClick={() => toggleConfirmModal(node)}
                     >
                       Delete
                     </button>,
@@ -135,30 +129,28 @@ class ComponentList extends Component {
                 })}
               />
              </ResizableBox>
-             {this.state.detailModal &&
-               <MapComponentModal
-                 activeComponent={this.state.activeComponent.node}
-                 activeMap={this.props.activeMap}
-                 path={this.state.activeComponent.path}
-                 toggle={this.toggleDetailModal}
-                 onSubmit={this.handleNodeAction}
-               />}
-             {this.state.confirmModal &&
-               <ConfirmModal
-                 title="Confirm delete"
-                 activeItem={this.state.activeComponent}
-                 toggle={this.toggleConfirmModal}
-                 onConfirm={() => this.nodeDelete(this.state.activeComponent)}
-                 message={`Are you sure you want to delete ${this.state.activeComponent.node.title}?`}
-                 confirmButtonText="Yes, delete"
-                 cancelButtonText="No, cancel"
-               />}
+             <MapComponentModal
+               isOpen={detailModal}
+               initialComponent={activeComponent.node}
+               path={activeComponent.path}
+               toggle={toggleDetailModal}
+               onSubmit={handleNodeAction}
+             />
+             <ConfirmModal
+               isOpen={confirmModal}
+               title='Confirm delete'
+               activeItem={activeComponent}
+               toggle={toggleConfirmModal}
+               onConfirm={() => nodeDelete(activeComponent)}
+               message={`Are you sure you want to delete ${activeComponent.node && activeComponent.node.title}?`}
+               confirmButtonText='Yes, delete'
+               cancelButtonText='No, cancel'
+             />
            </div>
           </div>
        </div>
      </div>
-   );
- }
+   )
 }
 
 export default ComponentList;

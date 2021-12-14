@@ -1,10 +1,9 @@
 import React from 'react';
-import mockAxios from 'axios';
-import { unmountComponentAtNode } from 'react-dom';
-import { act } from "react-dom/test-utils";
-import { mount } from 'enzyme';
+import axios from 'axios';
+import { render, unmountComponentAtNode } from 'react-dom';
+import { act } from 'react-dom/test-utils';
 
-import {mapResponse} from '../__fixtures__/mapResponse';
+import { mapResponse } from '../__fixtures__/mapResponse';
 import MapList from './MapList';
 
 jest.mock('axios')
@@ -12,7 +11,7 @@ jest.mock('axios')
 let container = null;
 beforeEach(() => {
   jest.resetAllMocks();
-  container = document.createElement("div");
+  container = document.createElement('div');
   document.body.appendChild(container);
 });
 
@@ -23,43 +22,40 @@ afterEach(() => {
 });
 
 it('renders with data', async () => {
-  mockAxios.get.mockImplementationOnce(() =>
-    Promise.resolve({data: {results: [mapResponse]}})
-  );
-  const wrapper = await mount(<MapList />);
-  const instance = await wrapper.instance();
+  axios.get.mockImplementation((url) => Promise.resolve({data: {results: [mapResponse]}}))
 
-  expect(mockAxios.get).toHaveBeenCalledTimes(1);
-  expect(instance.state.arrangementMapList).toEqual([mapResponse]);
-  expect(wrapper.find("ul.list-group").length).toEqual(1);
-  expect(wrapper.find("ul.list-group").text()).toContain(mapResponse.title);
+  await act(async () => {
+    await render(<MapList />, container)
+  })
+
+  expect(axios.get).toHaveBeenCalledTimes(1);
+  expect(document.querySelector('ul.list-group').textContent).toContain('Asian Cultural Council records')
 });
 
 it('renders without data', async () => {
-  mockAxios.get.mockImplementationOnce(() =>
-    Promise.resolve({data: {results: []}})
-  );
-  const wrapper = await mount(<MapList />);
-  const instance = await wrapper.instance();
+  axios.get.mockImplementation((url) => Promise.resolve({data: {results: []}}))
 
-  expect(mockAxios.get).toHaveBeenCalledTimes(1);
-  expect(instance.state.arrangementMapList).toEqual([]);
-  expect(wrapper.find("ul.list-group").text()).toEqual("No Arrangement Maps yet")
+  await act(async () => {
+    await render(<MapList />, container)
+  })
+
+  expect(axios.get).toHaveBeenCalledTimes(1);
+  expect(document.querySelector('ul.list-group').textContent).toBe('No Arrangement Maps yet')
 });
 
 it('deletes map', async () => {
-  mockAxios.get.mockImplementation(() =>
-    Promise.resolve({data: {results: [mapResponse]}})
-  );
-  mockAxios.delete.mockImplementationOnce(() =>
-    Promise.resolve({detail: "Map deleted"})
-  );
-  const wrapper = await mount(<MapList />);
-  const instance = await wrapper.instance();
+  axios.get.mockImplementation(() => Promise.resolve({data: {results: [mapResponse]}}))
+  axios.delete.mockImplementation(() => Promise.resolve({detail: 'Map deleted'}))
 
-  act(() => {
-    instance.handleDelete(mapResponse);
+  await act(async () => {
+    await render(<MapList />, container)
   })
 
-  expect(mockAxios.delete).toHaveBeenCalledTimes(1)
+  const modalButton = document.querySelector('.list-group .btn-danger')
+  act(() => { modalButton.click() })
+
+  const deleteButton = document.querySelector('.modal-footer .btn-primary')
+  await act(async () => { await deleteButton.click() })
+
+  expect(axios.delete).toHaveBeenCalledTimes(1)
 });
