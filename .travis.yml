@@ -10,7 +10,7 @@ env:
 install:
   - yarn install
 script:
-  - yarn build
+  - CI=false yarn build
   - yarn test --coverage .
 before_deploy:
   - if [ ! -d deploy_scripts ]; then git clone https://github.com/RockefellerArchiveCenter/deploy_scripts.git; fi
