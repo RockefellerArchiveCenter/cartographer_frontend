@@ -27,5 +27,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: development
           branch: dependency-updates
+          delete-branch: true
           title: Dependency Updates
           commit-message: Dependency updates
