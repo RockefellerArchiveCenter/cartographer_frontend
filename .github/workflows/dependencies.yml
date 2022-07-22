@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: '14'
       - name: update
-        run: npm install && npm update && npm audit fix
+        run: yarn install && yarn upgrade
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
