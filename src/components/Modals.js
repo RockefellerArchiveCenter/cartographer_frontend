@@ -122,7 +122,7 @@ export const MapComponentModal = ({initialComponent, isOpen, onSubmit, path, tog
 };
 
 MapComponentModal.propTypes = {
-  initialComponent: PropTypes.node,
+  initialComponent: PropTypes.object,
   isOpen: PropTypes.bool,
   onSubmit: PropTypes.func,
   path: PropTypes.string,
@@ -156,7 +156,7 @@ export const ConfirmModal = ({
 
 ConfirmModal.propTypes = {
   isOpen: PropTypes.bool,
-  toggle: PropTypes.bool,
+  toggle: PropTypes.func,
   title: PropTypes.string,
   message: PropTypes.string,
   onConfirm: PropTypes.func,

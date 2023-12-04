@@ -180,7 +180,7 @@ const ComponentList = ({items, onChange}) => {
 };
 
 ComponentList.propTypes = {
-  items: PropTypes.object,
+  items: PropTypes.array,
   onChange: PropTypes.func,
 };
 
