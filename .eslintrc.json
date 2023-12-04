@@ -17,6 +17,10 @@
     "rules": {
         "max-len": ["error", { "code": 100 }]
     },
+    "ignorePatterns": [
+        "src/serviceWorker.js",
+        "build/*"
+    ],
     "settings": {
         "react": {
             "version": "detect"
