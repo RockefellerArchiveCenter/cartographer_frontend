@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
 import {
   Alert,
   Button,
@@ -11,45 +12,49 @@ import {
   Form,
   FormGroup,
   Input,
-  Label
-} from 'reactstrap'
-import axios from 'axios'
+  Label,
+} from 'reactstrap';
+import axios from 'axios';
 
-export const MapComponentModal = ({ initialComponent, isOpen, onSubmit, path, toggle }) => {
-  const [isFetching, setIsFetching] = useState(false)
-  const [component, setComponent] = useState()
-  const [resourceId, setResourceId] = useState('')
-  const [error, setError] = useState('')
+export const MapComponentModal = ({initialComponent, isOpen, onSubmit, path, toggle}) => {
+  const [isFetching, setIsFetching] = useState(false);
+  const [component, setComponent] = useState();
+  const [resourceId, setResourceId] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    setComponent(initialComponent)
-  }, [initialComponent])
+    setComponent(initialComponent);
+  }, [initialComponent]);
 
-  const handleResourceIdChange = e => {
-    let { value } = e.target;
-    setResourceId(value)
-  }
+  const handleResourceIdChange = (e) => {
+    const {value} = e.target;
+    setResourceId(value);
+  };
 
-  const toggleData = data => {
+  const toggleData = (data) => {
     if (data.data) {
-      setComponent({ ...component, archivesspace_uri: data.data.uri, title: data.data.title, level: data.data.level })
-      return
+      setComponent(
+          {...component,
+            archivesspace_uri: data.data.uri,
+            title: data.data.title,
+            level: data.data.level});
+      return;
     }
-    setComponent({ ...component, archivesspace_uri: '', title: '', level: ''})
-    setResourceId('')
-  }
+    setComponent({...component, archivesspace_uri: '', title: '', level: ''});
+    setResourceId('');
+  };
 
-  const fetchResource = resourceId => {
+  const fetchResource = (resourceId) => {
     if (!isFetching) {
-      setIsFetching(true)
-      setError('')
+      setIsFetching(true);
+      setError('');
       axios
-        .get(`/api/fetch-resource/${resourceId}`)
-        .then(res => toggleData(res))
-        .catch(error => setError(error.response.data))
-        .then(res => setIsFetching(false))
+          .get(`/api/fetch-resource/${resourceId}`)
+          .then((res) => toggleData(res))
+          .catch((error) => setError(error.response.data))
+          .then((res) => setIsFetching(false));
     }
-  }
+  };
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} autoFocus={true} className='modal__component modal-md'>
@@ -57,11 +62,11 @@ export const MapComponentModal = ({ initialComponent, isOpen, onSubmit, path, to
       <ModalBody>
         <Row>
           <Col sm='12'>
-          { error ? (
+            { error ? (
             <Alert className='mt-2' color='danger'>
               {error}
             </Alert>) : null }
-          { component && component.archivesspace_uri ? (
+            { component && component.archivesspace_uri ? (
             <div className='mt-2'>
               <p className='h5'>{component.title}</p>
               <p className='text-muted'>{component.archivesspace_uri}</p>
@@ -73,7 +78,9 @@ export const MapComponentModal = ({ initialComponent, isOpen, onSubmit, path, to
             </div>
           ) : (
             <div>
-              <Form onSubmit={(e) => {fetchResource(resourceId); e.preventDefault()}}>
+              <Form onSubmit={(e) => {
+                fetchResource(resourceId); e.preventDefault();
+              }}>
                 <FormGroup>
                   <Label for='resourceId'>ArchivesSpace Resource ID</Label>
                   <Input
@@ -112,9 +119,25 @@ export const MapComponentModal = ({ initialComponent, isOpen, onSubmit, path, to
       </ModalFooter>
     </Modal>
   );
-}
+};
 
-export const ConfirmModal = ({ isOpen, toggle, title, message, onConfirm, cancelButtonText, confirmButtonText }) => (
+MapComponentModal.propTypes = {
+  initialComponent: PropTypes.node,
+  isOpen: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  path: PropTypes.string,
+  toggle: PropTypes.func,
+};
+
+export const ConfirmModal = ({
+  isOpen,
+  toggle,
+  title,
+  message,
+  onConfirm,
+  cancelButtonText,
+  confirmButtonText,
+}) => (
   <Modal isOpen={isOpen} toggle={toggle} className='modal__confirm'>
     <ModalHeader tag='h2' toggle={toggle}>{title}</ModalHeader>
     <ModalBody>
@@ -129,4 +152,14 @@ export const ConfirmModal = ({ isOpen, toggle, title, message, onConfirm, cancel
       </Button>
     </ModalFooter>
   </Modal>
-)
+);
+
+ConfirmModal.propTypes = {
+  isOpen: PropTypes.bool,
+  toggle: PropTypes.bool,
+  title: PropTypes.string,
+  message: PropTypes.string,
+  onConfirm: PropTypes.func,
+  cancelButtonText: PropTypes.string,
+  confirmButtonText: PropTypes.string,
+};
