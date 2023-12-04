@@ -41,6 +41,9 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.4"
+    "@testing-library/jest-dom": "^5.16.4",
+    "eslint": ">=5.16.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.33.2"
   }
 }
