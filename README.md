@@ -27,6 +27,9 @@ Or, if you want to remove all data
     $ docker-compose down -v
 
 
+This repository contains a configuration file for a git pre-commit hooks which help ensure that code is linted before it is checked into version control. It is strongly recommended that you install these hooks locally by running `yarn prepare`.
+
+
 ## Accessibility
 
 The drag and drop interface for arrangement maps (built using [`react-sortable-tree`](https://github.com/frontend-collective/react-sortable-tree)) has a number of accessibility issues:
