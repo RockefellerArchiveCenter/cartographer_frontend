@@ -1,13 +1,14 @@
-import React from 'react';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import MapForm from './components/MapForm';
-import MapList from './components/MapList';
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import MapForm from './components/MapForm'
+import MapList from './components/MapList'
 
 import {
   Button,
   Navbar,
   NavbarBrand,
-  Nav} from 'reactstrap';
+  Nav
+} from 'reactstrap'
 
 const App = () => (
   <main className="content">
@@ -29,6 +30,6 @@ const App = () => (
       </div>
     </div>
   </main>
-);
+)
 
-export default App;
+export default App

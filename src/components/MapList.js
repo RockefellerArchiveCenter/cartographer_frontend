@@ -1,37 +1,36 @@
-import React, {useEffect, useState} from 'react';
-import {ConfirmModal} from './Modals';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { ConfirmModal } from './Modals'
+import axios from 'axios'
 
 const MapList = () => {
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [arrangementMapList, setArrangementMapList] = useState([]);
-  const [activeMap, setActiveMap] = useState();
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [arrangementMapList, setArrangementMapList] = useState([])
+  const [activeMap, setActiveMap] = useState()
 
   const refreshList = () => {
     axios
-        .get('/api/maps/')
-        .then((res) => setArrangementMapList(res.data.results))
-        .catch((err) => console.log(err));
-  };
+      .get('/api/maps/')
+      .then((res) => setArrangementMapList(res.data.results))
+      .catch((err) => console.log(err))
+  }
 
   const toggleModal = (map) => {
-    setActiveMap(map);
-    setDeleteModal(!deleteModal);
-  };
+    setActiveMap(map)
+    setDeleteModal(!deleteModal)
+  }
 
   const handleDelete = (item) => {
     axios
-        .delete(`/api/maps/${item.id}`)
-        .then((res) => refreshList())
-        .catch((e) => console.log(e))
-        .then(toggleModal(item));
-  };
+      .delete(`/api/maps/${item.id}`)
+      .then((res) => refreshList())
+      .catch((e) => console.log(e))
+      .then(toggleModal(item))
+  }
 
   useEffect(() => {
-    refreshList();
-    document.title = document.title + ': Arrangement Maps';
-  }, []);
-
+    refreshList()
+    document.title = document.title + ': Arrangement Maps'
+  }, [])
 
   return (
     <div className='row'>
@@ -39,7 +38,8 @@ const MapList = () => {
         <h1>Arrangement Maps</h1>
         <div className='card p-3'>
           <ul className='list-group list-group-flush'>
-            {arrangementMapList.length ? (arrangementMapList.map((item) => (
+            {arrangementMapList.length
+              ? (arrangementMapList.map((item) => (
               <li
                 key = {item.id}
                 className = 'list-group-item d-flex justify-content-between align-items-center'>
@@ -51,7 +51,8 @@ const MapList = () => {
                   </button>
                 </span>
               </li>
-            ))) : 'No Arrangement Maps yet'}
+                )))
+              : 'No Arrangement Maps yet'}
           </ul>
           <ConfirmModal
             isOpen={deleteModal}
@@ -65,7 +66,7 @@ const MapList = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MapList;
+export default MapList

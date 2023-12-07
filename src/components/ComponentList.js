@@ -1,101 +1,101 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import SortableTree, {
   addNodeUnderParent,
   changeNodeAtPath,
   insertNode,
-  removeNode} from 'react-sortable-tree';
-import 'react-sortable-tree/style.css';
-import {ResizableBox} from 'react-resizable';
-import 'react-resizable/css/styles.css';
-import {MapComponentModal, ConfirmModal} from './Modals';
-import axios from 'axios';
+  removeNode
+} from 'react-sortable-tree'
+import 'react-sortable-tree/style.css'
+import { ResizableBox } from 'react-resizable'
+import 'react-resizable/css/styles.css'
+import { MapComponentModal, ConfirmModal } from './Modals'
+import axios from 'axios'
 
-
-const ComponentList = ({items, onChange}) => {
-  const [detailModal, setDetailModal] = useState(false);
-  const [confirmModal, setConfirmModal] = useState(false);
-  const [activeComponent, setActiveComponent] = useState({title: '', archivesspace_uri: ''});
+const ComponentList = ({ items, onChange }) => {
+  const [detailModal, setDetailModal] = useState(false)
+  const [confirmModal, setConfirmModal] = useState(false)
+  const [activeComponent, setActiveComponent] = useState({ title: '', archivesspace_uri: '' })
 
   const toggleDetailModal = (item) => {
-    setActiveComponent(item);
-    setDetailModal(!detailModal);
-  };
+    setActiveComponent(item)
+    setDetailModal(!detailModal)
+  }
 
   const toggleConfirmModal = (item) => {
-    setActiveComponent(item);
-    setConfirmModal(!confirmModal);
-  };
+    setActiveComponent(item)
+    setConfirmModal(!confirmModal)
+  }
 
   const handleDelete = (component) => {
     axios
-        .delete(`/api/components/${component.id}`)
-        .then((res) => {
-          return true;
-        })
-        .catch((err) => console.log(err));
-  };
+      .delete(`/api/components/${component.id}`)
+      .then((res) => {
+        return true
+      })
+      .catch((err) => console.log(err))
+  }
 
   const handleNodeAction = async (e, path) => {
-    let treeData = {};
+    let treeData = {}
     if (e.id) {
-      treeData = await nodeUpdate(e, path);
+      treeData = await nodeUpdate(e, path)
     } else if (e.parent) {
-      treeData = await nodeAddChild(e);
+      treeData = await nodeAddChild(e)
     } else {
-      treeData = await nodeAddNew(e);
+      treeData = await nodeAddNew(e)
     }
-    onChange(treeData);
-    setDetailModal(false);
-  };
+    onChange(treeData)
+    setDetailModal(false)
+  }
 
   const nodeAddChild = (e) => {
-    e.updated = true;
-    const {treeData} = addNodeUnderParent({
+    e.updated = true
+    const { treeData } = addNodeUnderParent({
       treeData: items,
       newNode: e,
       parentKey: e.parent,
-      getNodeKey: ({node}) => node.id,
+      getNodeKey: ({ node }) => node.id,
       ignoreCollapsed: false,
-      expandParent: true,
-    });
-    return treeData;
-  };
+      expandParent: true
+    })
+    return treeData
+  }
 
   const nodeAddNew = (e) => {
-    e.updated = true;
-    const {treeData} = insertNode({
+    e.updated = true
+    const { treeData } = insertNode({
       treeData: items,
       depth: 1,
       newNode: e,
-      getNodeKey: ({node}) => node.id,
-      minimumTreeIndex: 0,
-    });
-    return treeData;
-  };
+      getNodeKey: ({ node }) => node.id,
+      minimumTreeIndex: 0
+    })
+    return treeData
+  }
 
   const nodeDelete = async (e) => {
-    const {node, path} = e;
-    const {treeData} = removeNode({
+    const { node, path } = e
+    const { treeData } = removeNode({
       treeData: items,
-      path: path,
-      getNodeKey: ({node}) => node.id,
-    });
-    onChange(treeData);
-    handleDelete(node);
-    setConfirmModal(false);
-  };
+      path,
+      getNodeKey: ({ node }) => node.id
+    })
+    onChange(treeData)
+    handleDelete(node)
+    setConfirmModal(false)
+  }
 
   const nodeUpdate = (e, path) => {
-    e.updated = true;
+    e.updated = true
     const treeData = changeNodeAtPath({
       treeData: items,
-      path: path,
+      path,
       newNode: e,
-      getNodeKey: ({node}) => node.id,
-    });
-    return treeData;
-  };
+      getNodeKey: ({ node }) => node.id
+    })
+    return treeData
+  }
 
   return (
     <div>
@@ -104,7 +104,7 @@ const ComponentList = ({items, onChange}) => {
           <div className='card p-3'>
             <div className='mb-3'>
               <button onClick={
-                () => toggleDetailModal({'node': {title: '', archivesspace_uri: '', level: ''}})}
+                () => toggleDetailModal({ node: { title: '', archivesspace_uri: '', level: '' } })}
               className='btn btn-primary'>
                  Add arrangement map component
               </button>
@@ -118,7 +118,7 @@ const ComponentList = ({items, onChange}) => {
               <SortableTree
                 treeData={items}
                 onChange={onChange}
-                getNodeKey={({node}) => node.id}
+                getNodeKey={({ node }) => node.id}
                 generateNodeProps={ (node) => ({
                   buttons: [
                     <button
@@ -126,10 +126,12 @@ const ComponentList = ({items, onChange}) => {
                       className='btn btn-sm btn-success mr-2'
                       onClick={
                         () => toggleDetailModal({
-                          'node': {title: '',
+                          node: {
+                            title: '',
                             archivesspace_uri: '',
                             parent: node.node.id,
-                            level: ''},
+                            level: ''
+                          }
                         })
                       }
                     >
@@ -148,8 +150,8 @@ const ComponentList = ({items, onChange}) => {
                       onClick={() => toggleConfirmModal(node)}
                     >
                       Delete
-                    </button>,
-                  ],
+                    </button>
+                  ]
                 })}
               />
             </ResizableBox>
@@ -176,12 +178,12 @@ const ComponentList = ({items, onChange}) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 ComponentList.propTypes = {
   items: PropTypes.array,
-  onChange: PropTypes.func,
-};
+  onChange: PropTypes.func
+}
 
-export default ComponentList;
+export default ComponentList
