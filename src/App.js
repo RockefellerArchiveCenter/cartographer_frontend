@@ -1,25 +1,16 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Header from './components/Header'
 import MapForm from './components/MapForm'
 import MapList from './components/MapList'
-
-import {
-  Button,
-  Navbar,
-  NavbarBrand,
-  Nav
-} from 'reactstrap'
+import SkipLink from './components/SkipLink'
 
 const App = () => (
-  <main className="content">
-    <Navbar color="dark" dark expand="md">
-      <NavbarBrand href="/">Cartographer</NavbarBrand>
-      <Nav className="ml-auto" navbar>
-        <Button href="/maps/new" color="primary">Add New Map</Button>
-      </Nav>
-    </Navbar>
-    <div className="row mt-4">
-      <div className="col-md-8 col-10 mx-auto p-0">
+  <>
+    <SkipLink />
+    <Header />
+    <main id="main" className="content grid">
+      <div className="content-wrapper pb-50">
         <BrowserRouter>
           <Routes>
             <Route exact path="/" element={<MapList />} />
@@ -28,8 +19,8 @@ const App = () => (
           </Routes>
         </BrowserRouter>
       </div>
-    </div>
-  </main>
+    </main>
+  </>
 )
 
 export default App
