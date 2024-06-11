@@ -24,7 +24,8 @@ it('renders without crashing', async () => {
   act(() => {
     render(<ComponentList
       items={mapResponse.children}
-      onChange={jest.fn()} />, container)
+      onChange={jest.fn()}
+      appElement={container} />, container)
   })
 })
 
@@ -32,12 +33,13 @@ it('toggles component detail modal', async () => {
   await act(async () => {
     await render(<ComponentList
       items={mapResponse.children}
-      onChange={jest.fn()} />, container)
+      onChange={jest.fn()}
+      appElement={container} />, container)
   })
 
-  const primary = document.querySelector('.btn-primary')
-  expect(document.querySelector('.modal-md')).toBeNull()
+  const primary = document.querySelector('.btn--md.btn--orange')
+  expect(document.querySelector('.modal--component')).toBeNull()
 
   await act(async () => await primary.click())
-  expect(document.querySelector('.modal-md')).toBeVisible()
+  expect(document.querySelector('.modal--component')).toBeVisible()
 })
