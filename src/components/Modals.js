@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from 'react'
+import Modal from 'react-modal'
 import PropTypes from 'prop-types'
-import {
-  Alert,
-  Button,
-  Col,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Row,
-  Form,
-  FormGroup,
-  Input,
-  Label
-} from 'reactstrap'
+import Button from './Button'
 import axios from 'axios'
 
-export const MapComponentModal = ({ initialComponent, isOpen, onSubmit, path, toggle }) => {
+export const MapComponentModal = ({
+  appElement,
+  initialComponent,
+  isOpen,
+  onSubmit,
+  path,
+  toggle
+}) => {
   const [isFetching, setIsFetching] = useState(false)
   const [component, setComponent] = useState()
   const [resourceId, setResourceId] = useState('')
@@ -59,75 +54,82 @@ export const MapComponentModal = ({ initialComponent, isOpen, onSubmit, path, to
   }
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} autoFocus={true} className='modal__component modal-md'>
-      <ModalHeader tag='h2'>Arrangement Map Component</ModalHeader>
-      <ModalBody>
-        <Row>
-          <Col sm='12'>
-            { error
-              ? (
-            <Alert className='mt-2' color='danger'>
-              {error}
-            </Alert>)
-              : null }
-            { component && component.archivesspace_uri
-              ? (
-            <div className='mt-2'>
-              <p className='h5'>{component.title}</p>
-              <p className='text-muted'>{component.archivesspace_uri}</p>
-              <Button
-                color='warning'
-                onClick={toggleData}>
-                Clear
-              </Button>
+    <Modal
+      isOpen={isOpen}
+      autoFocus={true}
+      className='modal modal--component'
+      appElement={appElement ?? Modal.setAppElement('#root')} >
+      <div className='modal__header'>
+        <h2 className='modal__header-title'>Arrangement Map Component</h2>
+        <button className='modal__header-button' aria-label='Close' onClick={toggle}>
+          X
+        </button>
+      </div>
+      <div className='modal-body p-20'>
+        { error
+          ? (
+            <div className="alert alert--orange" role="alert">
+            <div className="alert__text-wrapper">
+              <p className="alert__text">
+                {error}
+              </p>
             </div>
-                )
-              : (
-            <div>
-              <Form onSubmit={(e) => {
-                fetchResource(resourceId); e.preventDefault()
-              }}>
-                <FormGroup>
-                  <Label for='resourceId'>ArchivesSpace Resource ID</Label>
-                  <Input
-                    autoFocus={true}
-                    type='number'
-                    name='resourceId'
-                    id='resourceId'
-                    value={resourceId}
-                    onChange={handleResourceIdChange}
-                  />
-                </FormGroup>
-                <Button
-                  type='submit'
-                  className='btn btn-sm btn-secondary'
-                  onClick={() => fetchResource(resourceId)}
-                  disabled={!resourceId}>
-                  {isFetching ? 'Fetching...' : 'Fetch from ArchivesSpace'}
-                </Button>
-              </Form>
-            </div>)}
-          </Col>
-        </Row>
-      </ModalBody>
-      <ModalFooter>
-        <Button
-          color='primary'
-          onClick={() => onSubmit(component, path)}
-          disabled={component && !component.title}>
-          Save
-        </Button>
-        <Button
-          color='danger'
-          onClick={toggle}>
-          Cancel
-        </Button>
-      </ModalFooter>
+          </div>)
+          : null }
+        { component && component.archivesspace_uri
+          ? (
+        <div className='card mt-2'>
+          <div>
+            <h3 className='component__title'>{component.title}</h3>
+            <p className='component__uri'>{component.archivesspace_uri}</p>
+            <Button
+              className='btn--sm btn--orange'
+              onClick={toggleData}
+              label='Clear' />
+          </div>
+        </div>
+            )
+          : (
+        <div>
+          <form onSubmit={(e) => {
+            fetchResource(resourceId); e.preventDefault()
+          }}>
+            <div className="input">
+              <label htmlFor="resourceId">ArchivesSpace Resource ID</label>
+              <input
+                name="resourceId"
+                type="number"
+                id="resourceId"
+                value={resourceId}
+                onChange={handleResourceIdChange}
+                autoFocus={true} />
+            </div>
+            <Button
+              type='submit'
+              className='btn btn--sm btn--dark-gray mt-10'
+              onClick={() => fetchResource(resourceId)}
+              disabled={!resourceId}
+              label= {isFetching ? 'Fetching...' : 'Fetch from ArchivesSpace'}/>
+          </form>
+        </div>)}
+        <div className='mt-20'>
+          <Button
+            className='btn--md btn--blue mr-10'
+            onClick={() => onSubmit(component, path)}
+            disabled={component && !component.title}
+            label='Save' />
+          <Button
+            className='btn--md btn--orange'
+            onClick={toggle}
+            label='Cancel' />
+        </div>
+      </div>
     </Modal>
   )
 }
 
 MapComponentModal.propTypes = {
+  appElement: PropTypes.object,
   initialComponent: PropTypes.object,
   isOpen: PropTypes.bool,
   onSubmit: PropTypes.func,
@@ -135,32 +137,37 @@ MapComponentModal.propTypes = {
   toggle: PropTypes.func
 }
 
-export const ConfirmModal = ({
-  isOpen,
-  toggle,
-  title,
-  message,
-  onConfirm,
-  cancelButtonText,
-  confirmButtonText
-}) => (
-  <Modal isOpen={isOpen} toggle={toggle} className='modal__confirm'>
-    <ModalHeader tag='h2' toggle={toggle}>{title}</ModalHeader>
-    <ModalBody>
-      {message}
-    </ModalBody>
-    <ModalFooter>
-      <Button color='primary' onClick={onConfirm}>
-        {confirmButtonText}
-      </Button>
-      <Button color='danger' onClick={toggle}>
-        {cancelButtonText}
-      </Button>
-    </ModalFooter>
+export const ConfirmModal = (props) => (
+  <Modal
+    appElement={props.appElement ?? Modal.setAppElement('#root')}
+    isOpen={props.isOpen}
+    className='modal modal--confirm'>
+    <div className='modal__header'>
+      <h2 className='modal__header-title'>{props.title}</h2>
+      <button className='modal__header-button' aria-label='Close' onClick={props.toggle}>
+        X
+      </button>
+    </div>
+    <div className='modal-body--confirm'>
+      <div className='modal-message px-40 py-40'>
+        {props.message}
+      </div>
+      <div className='modal-buttons px-40'>
+        <Button
+          className='btn--md btn--blue mr-10'
+          onClick={props.onConfirm}
+          label={props.confirmButtonText} />
+        <Button
+          className='btn--md btn--orange'
+          onClick={props.toggle}
+          label={props.cancelButtonText} />
+      </div>
+    </div>
   </Modal>
 )
 
 ConfirmModal.propTypes = {
+  appElement: PropTypes.object,
   isOpen: PropTypes.bool,
   toggle: PropTypes.func,
   title: PropTypes.string,

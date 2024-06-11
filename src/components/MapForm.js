@@ -3,11 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 import ComponentList from './ComponentList'
 import { ConfirmModal } from './Modals'
 import { walk } from 'react-sortable-tree'
+import PropTypes from 'prop-types'
 import axios from 'axios'
 import classnames from 'classnames'
 import Button from './Button'
 
-const MapForm = () => {
+const MapForm = ({ appElement }) => {
   const { id } = useParams()
   const [activeMap, setActiveMap] = useState({ title: '' })
   const [publishModal, setPublishModal] = useState(false)
@@ -117,7 +118,7 @@ const MapForm = () => {
         {id
           ? (
           <Button
-            className={classnames('btn--lg', 'btn--blue')}
+            className={classnames('btn--lg', 'btn--blue', 'btn--publish')}
             onClick={() => toggleModal(activeMap)}
             label={activeMap.publish ? 'Unpublish Map' : 'Publish Map'} />)
           : null}
@@ -132,7 +133,8 @@ const MapForm = () => {
             type="text"
             id="title"
             value={activeMap.title}
-            onChange={handleChange} />
+            onChange={handleChange}
+            disabled={!editable} />
         </div>
         {editable
           ? (
@@ -145,7 +147,7 @@ const MapForm = () => {
               }}
               label='Save Title' />
             <Button
-              className={classnames('btn--orange', 'btn--md')}
+              className={classnames('btn--orange', 'btn--md', 'btn--cancel-edit')}
               onClick={() => {
                 id ? setEditable(!editable) : navigate('/')
               }}
@@ -155,7 +157,7 @@ const MapForm = () => {
           : (
           <div className='mb-20'>
             <Button
-              className={classnames('btn--blue', 'btn--md')}
+              className={classnames('btn--blue', 'btn--md', 'btn--edit')}
               onClick={(e) => { e.preventDefault(); setEditable(!editable) }}
               label='Edit Title'/>
           </div>
@@ -163,11 +165,13 @@ const MapForm = () => {
       </form>
       {activeMap.id &&
           <ComponentList
+            appElement={appElement}
             items={activeMap.children ? activeMap.children : []}
             onChange={handleTreeChange}
           />
       }
       <ConfirmModal
+        appElement={appElement}
         isOpen={publishModal}
         title={`Confirm ${activeMap.publish ? 'unpublish' : 'publish'}`}
         activeItem={activeMap}
@@ -183,6 +187,10 @@ const MapForm = () => {
       />
     </div>
   )
+}
+
+MapForm.propTypes = {
+  appElement: PropTypes.object
 }
 
 export default MapForm
