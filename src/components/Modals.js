@@ -71,7 +71,7 @@ export const MapComponentModal = ({
             <div className="alert alert--orange" role="alert">
             <div className="alert__text-wrapper">
               <p className="alert__text">
-                {error}
+                Error message: {error}
               </p>
             </div>
           </div>)
