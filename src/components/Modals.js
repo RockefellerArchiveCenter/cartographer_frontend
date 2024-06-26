@@ -150,11 +150,11 @@ export const ConfirmModal = (props) => (
         X
       </button>
     </div>
-    <div className='modal-body--confirm'>
-      <div className='modal-message px-40 py-40'>
+    <div className='modal-body--confirm px-40 py-40'>
+      <div className='modal-message pb-40'>
         {props.message}
       </div>
-      <div className='modal-buttons px-40'>
+      <div className='modal-buttons'>
         <Button
           className='btn--md btn--blue mr-10'
           onClick={props.onConfirm}

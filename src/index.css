@@ -23,3 +23,21 @@
 .card--block {
   display: block
 }
+
+.modal--component {
+  @media screen and (min-width: 1024px) { 
+    top: 10%;
+    left: 30%;
+    right: 30%;
+    bottom: auto;
+   }
+}
+
+.modal--confirm {
+  @media screen and (min-width: 1024px) { 
+    top: 10%;
+    left: 30%;
+    right: 30%;
+    bottom: auto;
+   }
+}
