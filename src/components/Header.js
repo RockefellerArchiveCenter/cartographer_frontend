@@ -12,15 +12,6 @@ const Header = () => (
             Mapping Large Collections
           </p>
         </div>
-        <nav className='nav-right' aria-label='Main'>
-          <ul className='nav__list'>
-            <li className="nav__item btn--navy">
-              <a className="nav__link" href="/maps/new">
-                Add New Map
-              </a>
-            </li>
-          </ul>
-        </nav>
       </div>
     </div>
   </header>)

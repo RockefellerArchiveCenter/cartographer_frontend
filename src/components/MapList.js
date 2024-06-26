@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { ConfirmModal } from './Modals'
 import Button from './Button'
 import axios from 'axios'
+import classnames from 'classnames'
 
 const MapList = ({ appElement }) => {
   const [deleteModal, setDeleteModal] = useState(false)
@@ -36,9 +37,16 @@ const MapList = ({ appElement }) => {
 
   return (
     <>
-      <h1>Arrangement Maps</h1>
+      <div className='map__header'>
+        <h1>Arrangement Maps</h1>
+        <a
+          className={classnames('btn', 'btn--lg', 'btn--blue', 'btn--new-map')}
+          href="/maps/new">
+            Add New Map
+        </a>
+      </div>
       <div className='card card--container'>
-        <ul className='mapList list--unstyled mt-0'>
+        <ul className={classnames('mapList', 'list--unstyled', 'mt-0')}>
           {arrangementMapList.length
             ? (arrangementMapList.map((item) => (
             <li key = {item.id}
@@ -47,13 +55,13 @@ const MapList = ({ appElement }) => {
               <span>
                 <a
                   href={`/maps/${item.id}`}
-                  className='btn btn--sm btn--blue mr-2'
+                  className={classnames('btn', 'btn--sm', 'btn--blue', 'mr-2')}
                   aria-label={`Edit ${item.title}`}>Edit
                 </a>
                 <Button
                   ariaLabel={`Delete ${item.title}`}
                   onClick={() => toggleModal(item)}
-                  className='btn btn--sm btn--orange'
+                  className={classnames('btn', 'btn--sm', 'btn--orange')}
                   label='Delete' />
               </span>
             </li>
