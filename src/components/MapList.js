@@ -45,8 +45,13 @@ const MapList = ({ appElement }) => {
               className='mapList__item'>
               <span className='mr-10'>{ item.title }</span>
               <span>
-                <a href={`/maps/${item.id}`} className='btn btn--sm btn--blue mr-2'>Edit</a>
+                <a
+                  href={`/maps/${item.id}`}
+                  className='btn btn--sm btn--blue mr-2'
+                  aria-label={`Edit ${item.title}`}>Edit
+                </a>
                 <Button
+                  ariaLabel={`Delete ${item.title}`}
                   onClick={() => toggleModal(item)}
                   className='btn btn--sm btn--orange'
                   label='Delete' />
