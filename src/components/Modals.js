@@ -142,8 +142,8 @@ export const ConfirmModal = (props) => (
   <Modal
     appElement={props.appElement ?? Modal.setAppElement('#root')}
     isOpen={props.isOpen}
-    className='modal modal--confirm'>
     onRequestClose={props.toggle}
+    className='modal modal--confirm'>
     <div className='modal__header'>
       <h2 className='modal__header-title'>{props.title}</h2>
       <button className='modal__header-button' aria-label='Close' onClick={props.toggle}>
