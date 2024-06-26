@@ -58,6 +58,7 @@ export const MapComponentModal = ({
       isOpen={isOpen}
       autoFocus={true}
       className='modal modal--component'
+      onRequestClose={toggle}
       appElement={appElement ?? Modal.setAppElement('#root')} >
       <div className='modal__header'>
         <h2 className='modal__header-title'>Arrangement Map Component</h2>
@@ -142,6 +143,7 @@ export const ConfirmModal = (props) => (
     appElement={props.appElement ?? Modal.setAppElement('#root')}
     isOpen={props.isOpen}
     className='modal modal--confirm'>
+    onRequestClose={props.toggle}
     <div className='modal__header'>
       <h2 className='modal__header-title'>{props.title}</h2>
       <button className='modal__header-button' aria-label='Close' onClick={props.toggle}>
