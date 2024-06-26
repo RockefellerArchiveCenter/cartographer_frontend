@@ -38,7 +38,7 @@ const MapList = ({ appElement }) => {
     <>
       <h1>Arrangement Maps</h1>
       <div className='card'>
-        <ul className='map--list list--unstyled mt-0'>
+        <ul className='mapList list--unstyled mt-0'>
           {arrangementMapList.length
             ? (arrangementMapList.map((item) => (
             <li key = {item.id}
