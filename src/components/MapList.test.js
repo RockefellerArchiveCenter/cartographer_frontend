@@ -30,7 +30,7 @@ it('renders with data', async () => {
 
   expect(axios.get).toHaveBeenCalledTimes(1)
   expect(
-    document.querySelector('.map--list').textContent).toContain(
+    document.querySelector('.mapList').textContent).toContain(
     'Asian Cultural Council records')
 })
 
@@ -42,7 +42,7 @@ it('renders without data', async () => {
   })
 
   expect(axios.get).toHaveBeenCalledTimes(1)
-  expect(document.querySelector('.map--list').textContent).toBe('No Arrangement Maps yet')
+  expect(document.querySelector('.mapList').textContent).toBe('No Arrangement Maps yet')
 })
 
 it('deletes map', async () => {
