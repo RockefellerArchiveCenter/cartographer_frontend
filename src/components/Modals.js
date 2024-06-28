@@ -79,7 +79,7 @@ export const MapComponentModal = ({
           : <div role="alert"></div> }
         { component && component.archivesspace_uri
           ? (
-        <div className='card mt-2'>
+        <div className='card card--container mt-2'>
           <div>
             <h3 className='component__title'>{component.title}</h3>
             <p className='component__uri'>{component.archivesspace_uri}</p>
