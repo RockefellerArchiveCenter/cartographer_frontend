@@ -12,7 +12,7 @@ import 'react-resizable/css/styles.css'
 import { MapComponentModal, ConfirmModal } from './Modals'
 import axios from 'axios'
 
-const ComponentList = ({ items, onChange }) => {
+const ComponentList = ({ appElement, items, onChange }) => {
   const [detailModal, setDetailModal] = useState(false)
   const [confirmModal, setConfirmModal] = useState(false)
   const [activeComponent, setActiveComponent] = useState({ title: '', archivesspace_uri: '' })
@@ -99,89 +99,86 @@ const ComponentList = ({ items, onChange }) => {
 
   return (
     <div>
-      <div className='row'>
-        <div className='col-md-12'>
-          <div className='card p-3'>
-            <div className='mb-3'>
-              <button onClick={
-                () => toggleDetailModal({ node: { title: '', archivesspace_uri: '', level: '' } })}
-              className='btn btn-primary'>
-                 Add arrangement map component
-              </button>
-            </div>
-            <ResizableBox
-              handleSize={[20, 20]}
-              axis='y'
-              resizeHandles={['s']}
-              height={400}
-              width={Infinity}>
-              <SortableTree
-                treeData={items}
-                onChange={onChange}
-                getNodeKey={({ node }) => node.id}
-                generateNodeProps={ (node) => ({
-                  buttons: [
-                    <button
-                      key={`${node.id}-add`}
-                      className='btn btn-sm btn-success mr-2'
-                      onClick={
-                        () => toggleDetailModal({
-                          node: {
-                            title: '',
-                            archivesspace_uri: '',
-                            parent: node.node.id,
-                            level: ''
-                          }
-                        })
+      <div className='card card--container card--block'>
+        <button onClick={
+          () => toggleDetailModal({ node: { title: '', archivesspace_uri: '', level: '' } })}
+        className='btn btn--md btn--orange'>
+            Add arrangement map component
+        </button>
+        <ResizableBox
+          handleSize={[20, 20]}
+          axis='y'
+          resizeHandles={['s']}
+          height={400}
+          width={Infinity}>
+          <SortableTree
+            treeData={items}
+            onChange={onChange}
+            getNodeKey={({ node }) => node.id}
+            generateNodeProps={ (node) => ({
+              buttons: [
+                <button
+                  key={`${node.id}-add`}
+                  className='btn btn--sm btn--blue mr-2'
+                  onClick={
+                    () => toggleDetailModal({
+                      node: {
+                        title: '',
+                        archivesspace_uri: '',
+                        parent: node.node.id,
+                        level: ''
                       }
-                    >
-                      Add Child
-                    </button>,
-                    <button
-                      key={`${node.id}-edit`}
-                      className='btn btn-sm btn-secondary mr-2'
-                      onClick={() => toggleDetailModal(node)}
-                    >
-                      Edit
-                    </button>,
-                    <button
-                      key={`${node.id}-delete`}
-                      className='btn btn-sm btn-danger'
-                      onClick={() => toggleConfirmModal(node)}
-                    >
-                      Delete
-                    </button>
-                  ]
-                })}
-              />
-            </ResizableBox>
-            <MapComponentModal
-              isOpen={detailModal}
-              initialComponent={activeComponent.node}
-              path={activeComponent.path}
-              toggle={toggleDetailModal}
-              onSubmit={handleNodeAction}
-            />
-            <ConfirmModal
-              isOpen={confirmModal}
-              title='Confirm delete'
-              activeItem={activeComponent}
-              toggle={toggleConfirmModal}
-              onConfirm={() => nodeDelete(activeComponent)}
-              message={
-                `Are you sure you want to delete \
-                ${activeComponent.node && activeComponent.node.title}?`}
-              confirmButtonText='Yes, delete'
-              cancelButtonText='No, cancel'
-            />
-          </div>
-        </div>
+                    })
+                  }
+                >
+                  Add Child
+                </button>,
+                <button
+                  key={`${node.id}-edit`}
+                  className='btn btn--sm btn--dark-gray mr-2'
+                  onClick={() => toggleDetailModal(node)}
+                >
+                  Edit
+                </button>,
+                <button
+                  key={`${node.id}-delete`}
+                  className='btn btn--sm btn--orange'
+                  onClick={() => toggleConfirmModal(node)}
+                >
+                  Delete
+                </button>
+              ]
+            })}
+          />
+        </ResizableBox>
       </div>
+      <MapComponentModal
+          appElement={appElement}
+          isOpen={detailModal}
+          initialComponent={activeComponent.node}
+          path={activeComponent.path}
+          toggle={toggleDetailModal}
+          onSubmit={handleNodeAction}
+        />
+        <ConfirmModal
+          appElement={appElement}
+          isOpen={confirmModal}
+          title='Confirm delete'
+          activeItem={activeComponent}
+          toggle={toggleConfirmModal}
+          onConfirm={() => nodeDelete(activeComponent)}
+          message={
+            `Are you sure you want to delete \
+            ${activeComponent.node && activeComponent.node.title}?`}
+          confirmButtonText='Yes, delete'
+          cancelButtonText='No, cancel'
+        />
     </div>
   )
 }
 
 ComponentList.propTypes = {
+  appElement: PropTypes.object,
   items: PropTypes.array,
   onChange: PropTypes.func
 }
