@@ -30,7 +30,7 @@ it('renders without match', () => {
     render(
         <MemoryRouter initialEntries={['/maps']}>
           <Routes>
-            <Route path='/maps' element={<MapForm />} />
+            <Route path='/maps' element={<MapForm appElement={container} />} />
           </Routes>
         </MemoryRouter>, container)
   })
@@ -45,13 +45,13 @@ it('renders with match', async () => {
     await render(
         <MemoryRouter initialEntries={['/maps/1']}>
           <Routes>
-            <Route path='/maps/:id' element={<MapForm />} />
+            <Route path='/maps/:id' element={<MapForm appElement={container} />} />
           </Routes>
         </MemoryRouter>, container)
   })
 
   expect(document.querySelector('h1').textContent).toBe('Edit Map')
-  expect(document.querySelector('.btn-lg.float-right')).toBeVisible()
+  expect(document.querySelector('.btn--publish')).toBeVisible()
   expect(document.querySelector('input#title')).toBeDisabled()
 })
 
@@ -62,18 +62,18 @@ it('toggles editable', async () => {
     await render(
         <MemoryRouter initialEntries={['/maps/1']}>
           <Routes>
-            <Route path='/maps/:id' element={<MapForm />} />
+            <Route path='/maps/:id' element={<MapForm appElement={container} />} />
           </Routes>
         </MemoryRouter>, container)
   })
 
-  const editButton = document.querySelector('.btn-primary.mr-2')
+  const editButton = document.querySelector('.btn--edit')
   act(() => {
     editButton.click()
   })
   expect(document.querySelector('input#title')).not.toBeDisabled()
 
-  const cancelButton = document.querySelector('.btn-danger.mr-2')
+  const cancelButton = document.querySelector('.btn--cancel-edit')
   act(() => {
     cancelButton.click()
   })
@@ -88,21 +88,21 @@ it('handles publish correctly', async () => {
     await render(
         <MemoryRouter initialEntries={['/maps/1']}>
           <Routes>
-            <Route path='/maps/:id' element={<MapForm />} />
+            <Route path='/maps/:id' element={<MapForm appElement={container} />} />
           </Routes>
         </MemoryRouter>, container)
   })
 
-  const modalButton = document.querySelector('.btn-lg.float-right')
+  const modalButton = document.querySelector('.btn--publish')
   expect(modalButton.textContent).toBe('Publish Map')
 
   // Toggle publish modal
   act(() => {
     modalButton.click()
   })
-  expect(document.querySelector('.modal__confirm')).toBeVisible()
+  expect(document.querySelector('.modal--confirm')).toBeVisible()
 
-  const publishButton = document.querySelector('.modal__confirm .btn-primary')
+  const publishButton = document.querySelector('.modal--confirm .btn--blue')
 
   // Publish current map
   await act(async () => {

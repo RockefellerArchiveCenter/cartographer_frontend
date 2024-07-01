@@ -3,10 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 import ComponentList from './ComponentList'
 import { ConfirmModal } from './Modals'
 import { walk } from 'react-sortable-tree'
+import PropTypes from 'prop-types'
 import axios from 'axios'
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap'
+import classnames from 'classnames'
+import Button from './Button'
 
-const MapForm = () => {
+const MapForm = ({ appElement }) => {
   const { id } = useParams()
   const [activeMap, setActiveMap] = useState({ title: '' })
   const [publishModal, setPublishModal] = useState(false)
@@ -111,78 +113,65 @@ const MapForm = () => {
 
   return (
     <div>
-      <div className='row mb-3'>
-        <div className='col-12 col-sm-6'>
-          <h1>{id ? 'Edit Map' : 'Add New Map'}</h1>
+      <div className='map__header'>
+        <h1>{id ? 'Edit Map' : 'Add New Map'}</h1>
+        {id
+          ? (
+          <Button
+            className={classnames('btn--lg', 'btn--blue', 'btn--publish')}
+            onClick={() => toggleModal(activeMap)}
+            label={activeMap.publish ? 'Unpublish Map' : 'Publish Map'} />)
+          : null}
         </div>
-        <div className='col-12 col-sm-6'>
-          {id
-            ? (
-           <Button
-             color={activeMap.publish ? 'danger' : 'success'}
-             size='lg'
-             className='float-right'
-             outline={true}
-             onClick={() => toggleModal(activeMap)} >
-             {activeMap.publish ? 'Unpublish Map' : 'Publish Map'}
-           </Button>)
-            : null}
-        </div>
-      </div>
-      <Form
-        className='row mb-4'
-        onSubmit={(e) => {
-          e.preventDefault(); handleSubmit(activeMap)
-        }} >
-        <FormGroup className='col-12 col-lg-8'>
-          <Label for='title'>Arrangement Map Title</Label>
-          <Input
-            className='col-sm-12'
-            type='text'
-            name='title'
-            id='title'
-            onChange={handleChange}
+      <form
+        onSubmit={(e) => e.preventDefault()}>
+        <div className="input">
+          <label htmlFor="title">Arrangement Map Title</label>
+          <input
+            className='mb-10'
+            name="title"
+            type="text"
+            id="title"
             value={activeMap.title}
+            onChange={handleChange}
             disabled={!editable} />
-        </FormGroup>
+        </div>
         {editable
           ? (
-          <div className='col-6'>
+          <div className='mb-20'>
             <Button
-              color='primary'
-              className='mr-2'
+              className={classnames('btn--blue', 'btn--md', 'mr-10')}
               disabled={!activeMap.title}
-              onClick={() => handleSubmit(activeMap)} >
-            Save Title
-            </Button>
+              onClick={() => {
+                handleSubmit(activeMap)
+              }}
+              label='Save Title' />
             <Button
-              color='danger'
-              className='mr-2'
+              className={classnames('btn--orange', 'btn--md', 'btn--cancel-edit')}
               onClick={() => {
                 id ? setEditable(!editable) : navigate('/')
-              }}>
-            Cancel
-            </Button>
+              }}
+              label='Cancel' />
           </div>
             )
           : (
-          <div className='col-6'>
+          <div className='mb-20'>
             <Button
-              color='primary'
-              className='mr-2'
-              onClick={() => setEditable(!editable)} >
-            Edit Title
-            </Button>
+              className={classnames('btn--blue', 'btn--md', 'btn--edit')}
+              onClick={(e) => { e.preventDefault(); setEditable(!editable) }}
+              label='Edit Title'/>
           </div>
             )}
-      </Form>
+      </form>
       {activeMap.id &&
           <ComponentList
+            appElement={appElement}
             items={activeMap.children ? activeMap.children : []}
             onChange={handleTreeChange}
           />
       }
       <ConfirmModal
+        appElement={appElement}
         isOpen={publishModal}
         title={`Confirm ${activeMap.publish ? 'unpublish' : 'publish'}`}
         activeItem={activeMap}
@@ -198,6 +187,10 @@ const MapForm = () => {
       />
     </div>
   )
+}
+
+MapForm.propTypes = {
+  appElement: PropTypes.object
 }
 
 export default MapForm
