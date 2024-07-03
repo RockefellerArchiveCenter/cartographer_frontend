@@ -8,6 +8,7 @@ import { MapComponentModal, ConfirmModal } from './Modals'
 let container = null
 beforeEach(() => {
   container = document.createElement('div')
+  container.setAttribute('id', 'root')
   document.body.appendChild(container)
 })
 
@@ -18,27 +19,37 @@ afterEach(() => {
 })
 
 it('renders with ArchivesSpace resource', () => {
-  render(<MapComponentModal isOpen={true} initialComponent={mapComponent} />, container)
-  const title = document.querySelector('.h5')
-  const uri = document.querySelector('.text-muted')
+  render(<MapComponentModal
+    isOpen={true}
+    initialComponent={mapComponent}
+    appElement={container}/>, container)
+  const title = document.querySelector('.component__title')
+  const uri = document.querySelector('.component__uri')
   expect(title.textContent).toBe('Asian Cultural Council records, Administrative Files, RG 1')
   expect(uri.textContent).toBe('/repositories/2/resources/626')
 })
 
 it('renders without ArchivesSpace resource', () => {
-  render(<MapComponentModal isOpen={true} initialComponent={{}} />, container)
+  render(<MapComponentModal
+    isOpen={true}
+    initialComponent={{}}
+    appElement={container} />, container)
   const title = document.querySelector('input#resourceId')
   expect(title.textContent).toBe('')
 })
 
 it('clears ComponentDetailModal', () => {
-  render(<MapComponentModal isOpen={true} initialComponent={mapComponent} />, container)
-  const title = document.querySelector('.h5')
-  const uri = document.querySelector('.text-muted')
+  render(<MapComponentModal
+    isOpen={true}
+    initialComponent={mapComponent}
+    appElement={container}
+  />, container)
+  const title = document.querySelector('.component__title')
+  const uri = document.querySelector('.component__uri')
   expect(title.textContent).toBe('Asian Cultural Council records, Administrative Files, RG 1')
   expect(uri.textContent).toBe('/repositories/2/resources/626')
 
-  const button = document.querySelector('.btn-warning')
+  const button = document.querySelector('.btn--sm.btn--orange')
   act(() => {
     button.click()
   })
@@ -57,7 +68,9 @@ it('renders props correctly', () => {
     archivesspace_uri: '/repositories/2/resources/626'
   }
   render(<ConfirmModal
+    appElement={container}
     isOpen={true}
+    toggle={jest.fn()}
     title='Confirm delete'
     activeItem={component}
     message={`Are you sure you want to delete ${component.title}?`}
@@ -65,10 +78,10 @@ it('renders props correctly', () => {
     cancelButtonText='Nope, cancel'
   />, container)
 
-  expect(document.querySelector('.modal-title').textContent).toBe('Confirm delete')
+  expect(document.querySelector('.modal__header-title').textContent).toBe('Confirm delete')
   expect(
-    document.querySelector('.modal-body').textContent).toBe(
+    document.querySelector('.modal-message').textContent).toBe(
       `Are you sure you want to delete ${component.title}?`)
-  expect(document.querySelector('.btn-primary').textContent).toBe('Yes, delete it')
-  expect(document.querySelector('.btn-danger').textContent).toBe('Nope, cancel')
+  expect(document.querySelector('.btn--blue').textContent).toBe('Yes, delete it')
+  expect(document.querySelector('.btn--orange').textContent).toBe('Nope, cancel')
 })

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { ConfirmModal } from './Modals'
+import Button from './Button'
 import axios from 'axios'
+import classnames from 'classnames'
 
-const MapList = () => {
+const MapList = ({ appElement }) => {
   const [deleteModal, setDeleteModal] = useState(false)
   const [arrangementMapList, setArrangementMapList] = useState([])
   const [activeMap, setActiveMap] = useState()
@@ -33,40 +36,55 @@ const MapList = () => {
   }, [])
 
   return (
-    <div className='row'>
-      <div className='col-md-12'>
+    <>
+      <div className='map__header'>
         <h1>Arrangement Maps</h1>
-        <div className='card p-3'>
-          <ul className='list-group list-group-flush'>
-            {arrangementMapList.length
-              ? (arrangementMapList.map((item) => (
-              <li
-                key = {item.id}
-                className = 'list-group-item d-flex justify-content-between align-items-center'>
-                <span className='mr-2'>{ item.title }</span>
-                <span>
-                  <a href={`/maps/${item.id}`} className='btn btn-secondary mr-2'>Edit</a>
-                  <button onClick = {() => toggleModal(item)} className='btn btn-danger'>
-                    Delete
-                  </button>
-                </span>
-              </li>
-                )))
-              : 'No Arrangement Maps yet'}
-          </ul>
-          <ConfirmModal
-            isOpen={deleteModal}
-            title='Confirm delete'
-            activeItem={activeMap}
-            toggle={toggleModal}
-            onConfirm={() => handleDelete(activeMap)}
-            message={`Are you sure you want to delete ${activeMap && activeMap.title}?`}
-            cancelButtonText = 'No, cancel'
-            confirmButtonText = 'Yes, delete' />
-        </div>
+        <a
+          className={classnames('btn', 'btn--lg', 'btn--blue', 'btn--new-map')}
+          href="/maps/new">
+            Add New Map
+        </a>
       </div>
-    </div>
+      <div className='card card--container'>
+        <ul className={classnames('mapList', 'list--unstyled', 'mt-0')}>
+          {arrangementMapList.length
+            ? (arrangementMapList.map((item) => (
+            <li key = {item.id}
+              className='mapList__item'>
+              <span className='mr-10'>{ item.title }</span>
+              <span>
+                <a
+                  href={`/maps/${item.id}`}
+                  className={classnames('btn', 'btn--sm', 'btn--blue', 'mr-2')}
+                  aria-label={`Edit ${item.title}`}>Edit
+                </a>
+                <Button
+                  ariaLabel={`Delete ${item.title}`}
+                  onClick={() => toggleModal(item)}
+                  className={classnames('btn', 'btn--sm', 'btn--orange')}
+                  label='Delete' />
+              </span>
+            </li>
+              )))
+            : 'No Arrangement Maps yet'}
+        </ul>
+      </div>
+      <ConfirmModal
+          appElement={appElement}
+          isOpen={deleteModal}
+          title='Confirm delete'
+          activeItem={activeMap}
+          toggle={toggleModal}
+          onConfirm={() => handleDelete(activeMap)}
+          message={`Are you sure you want to delete ${activeMap && activeMap.title}?`}
+          cancelButtonText = 'No, cancel'
+          confirmButtonText = 'Yes, delete' />
+    </>
   )
+}
+
+MapList.propTypes = {
+  appElement: PropTypes.object
 }
 
 export default MapList

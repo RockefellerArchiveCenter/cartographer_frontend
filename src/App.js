@@ -1,35 +1,31 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import Header from './components/Header'
 import MapForm from './components/MapForm'
 import MapList from './components/MapList'
+import SkipLink from './components/SkipLink'
 
-import {
-  Button,
-  Navbar,
-  NavbarBrand,
-  Nav
-} from 'reactstrap'
-
-const App = () => (
-  <main className="content">
-    <Navbar color="dark" dark expand="md">
-      <NavbarBrand href="/">Cartographer</NavbarBrand>
-      <Nav className="ml-auto" navbar>
-        <Button href="/maps/new" color="primary">Add New Map</Button>
-      </Nav>
-    </Navbar>
-    <div className="row mt-4">
-      <div className="col-md-8 col-10 mx-auto p-0">
+const App = ({ appElement }) => (
+  <>
+    <SkipLink />
+    <Header />
+    <main id="main" className="content grid">
+      <div className="content-wrapper pb-50">
         <BrowserRouter>
           <Routes>
-            <Route exact path="/" element={<MapList />} />
-            <Route exact path="/maps/new" element={<MapForm />} />
-            <Route path="/maps/:id" element={<MapForm />} />
+            <Route exact path="/" element={<MapList appElement={appElement} />} />
+            <Route exact path="/maps/new" element={<MapForm appElement={appElement} />} />
+            <Route path="/maps/:id" element={<MapForm appElement={appElement} />} />
           </Routes>
         </BrowserRouter>
       </div>
-    </div>
-  </main>
+    </main>
+  </>
 )
 
 export default App
+
+App.propTypes = {
+  appElement: PropTypes.object
+}

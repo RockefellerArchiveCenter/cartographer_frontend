@@ -12,19 +12,10 @@ Install [git](https://git-scm.com/) and clone the repository
 
     $ git clone https://github.com/RockefellerArchiveCenter/cartographer_frontend.git
 
-With [Docker](https://store.docker.com/search?type=edition&offering=community) installed, run docker-compose from the root directory
+Install dependencies and run the development server:
 
-    $ docker-compose up
-
-Once the application starts successfully, you should be able to access the application in your browser at `http://localhost:8000`
-
-When you're done, shut down docker-compose
-
-    $ docker-compose down
-
-Or, if you want to remove all data
-
-    $ docker-compose down -v
+    $ yarn install
+    $ yarn start
 
 
 This repository contains a configuration file for a git pre-commit hooks which help ensure that code is linted before it is checked into version control. It is strongly recommended that you install these hooks locally by running `yarn prepare`.
