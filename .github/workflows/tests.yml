@@ -1,0 +1,35 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - development
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4.0.3
+      with:
+        node-version: 'lts/*'
+        cache: 'yarn'
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Build project
+      run: CI=false yarn build
+
+    - name: Run linter
+      run: yarn lint
+
+    - name: Run tests
+      run: yarn test
