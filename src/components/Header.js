@@ -8,9 +8,9 @@ const Header = () => (
           <a href='/' id='home' className='header__brand-title'>
             Cartographer
           </a>
-          <p className='header__brand-subtitle'>
+          <div className='header__brand-subtitle'>
             Mapping Large Collections
-          </p>
+          </div>
         </div>
       </div>
     </div>

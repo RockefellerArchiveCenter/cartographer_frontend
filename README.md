@@ -4,8 +4,6 @@ A React application which provides a user-facing frontend to manage JSON tree re
 
 cartographer_frontend is part of [Project Electron](https://github.com/RockefellerArchiveCenter/project_electron), an initiative to build sustainable, open and user-centered infrastructure for the archival management of digital records at the [Rockefeller Archive Center](http://rockarch.org/).
 
-[![Build Status](https://travis-ci.org/RockefellerArchiveCenter/cartographer_frontend.svg?branch=base)](https://travis-ci.org/RockefellerArchiveCenter/cartographer_frontend)
-
 ## Local Development
 
 Install [git](https://git-scm.com/) and clone the repository
