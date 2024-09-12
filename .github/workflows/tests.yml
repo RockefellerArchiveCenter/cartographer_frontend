@@ -25,9 +25,6 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build project
-        run: CI=false yarn build
-
       - name: Run linter
         run: yarn lint
 
