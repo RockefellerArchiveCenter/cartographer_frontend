@@ -40,7 +40,7 @@ const MapList = ({ appElement }) => {
       <div className='map__header'>
         <h1>Arrangement Maps</h1>
         <a
-          className={classnames('btn', 'btn--lg', 'btn--blue', 'btn--new-map')}
+          className={classnames('btn', 'btn--lg', 'btn--blue', 'btn--new-map', 'ml-15')}
           href="/maps/new">
             Add New Map
         </a>
