@@ -17,10 +17,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6.0.0
+        uses: actions/checkout@v6.0.1
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6.0.0
+        uses: actions/setup-node@v6.1.0
         with:
           node-version: 'lts/*'
           cache: 'yarn'
@@ -32,7 +32,7 @@ jobs:
         run: CI=false yarn build
 
       - name: Export secrets to environment variables
-        uses: oNaiPs/secrets-to-env-action@v1.5
+        uses: oNaiPs/secrets-to-env-action@v1.7
         with:
           secrets: ${{ toJSON(secrets) }}
 
