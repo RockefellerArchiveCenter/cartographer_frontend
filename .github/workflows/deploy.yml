@@ -56,7 +56,12 @@ jobs:
         run: chmod +x deploy_scripts/*.sh
 
       - name: Create deployable zip
-        run: sudo deploy_scripts/make_zip_react.sh $DEPLOY_ZIP_DIR $DEPLOY_ZIP_NAME
+        run: |
+          cp appspec.yml build/
+          cp -r deploy_scripts/ build/
+          zip -r $DEPLOY_ZIP_NAME build
+          mkdir -p $DEPLOY_ZIP_DIR
+          mv $DEPLOY_ZIP_NAME $DEPLOY_ZIP_DIR/$DEPLOY_ZIP_NAME
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6.1.3
