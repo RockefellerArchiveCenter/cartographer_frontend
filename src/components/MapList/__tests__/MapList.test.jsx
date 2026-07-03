@@ -1,7 +1,5 @@
-import React from 'react'
 import axios from 'axios'
-import { render, unmountComponentAtNode } from 'react-dom'
-import { act } from 'react-dom/test-utils'
+import { render, act } from '@testing-library/react'
 
 import { mapResponse } from '../../../__fixtures__/mapResponse'
 import MapList from '../index.jsx'
@@ -16,7 +14,6 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  unmountComponentAtNode(container)
   container.remove()
   container = null
 })

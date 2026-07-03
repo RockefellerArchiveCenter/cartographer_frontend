@@ -1,12 +1,15 @@
-import React from 'react'
-import '@testing-library/jest-dom'
-import { render, unmountComponentAtNode } from 'react-dom'
-import { act } from 'react-dom/test-utils'
+import { render, act } from '@testing-library/react'
 
 import { mapResponse } from '../../../__fixtures__/mapResponse'
 import ComponentList from '../index.jsx'
 
 vi.mock('axios')
+
+global.ResizeObserver = vi.fn(class {
+  observe = vi.fn()
+  unobserve = vi.fn()
+  disconnect = vi.fn()
+});
 
 let container = null
 beforeEach(() => {
@@ -15,7 +18,6 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  unmountComponentAtNode(container)
   container.remove()
   container = null
 })
@@ -41,5 +43,6 @@ it('toggles component detail modal', async () => {
   expect(document.querySelector('.modal--component')).toBeNull()
 
   await act(async () => await primary.click())
-  expect(document.querySelector('.modal--component')).toBeVisible()
+  expect(document.querySelector('.modal--component')).toBeVisible()  
+  
 })

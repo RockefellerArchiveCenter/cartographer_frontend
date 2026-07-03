@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import SortableTree, {
+import { useState } from 'react'
+import axios from 'axios'
+import {
+  SortableTree,
   addNodeUnderParent,
   changeNodeAtPath,
   insertNode,
   removeNode
-} from 'react-sortable-tree'
-import 'react-sortable-tree/style.css'
+} from '@nosferatu500/react-sortable-tree'
 import { ResizableBox } from 'react-resizable'
 import 'react-resizable/css/styles.css'
 import { MapComponentModal, ConfirmModal } from '../Modals'
-import axios from 'axios'
+
 
 const ComponentList = ({ appElement, items, onChange }) => {
   const [detailModal, setDetailModal] = useState(false)
@@ -175,12 +175,6 @@ const ComponentList = ({ appElement, items, onChange }) => {
         />
     </div>
   )
-}
-
-ComponentList.propTypes = {
-  appElement: PropTypes.object,
-  items: PropTypes.array,
-  onChange: PropTypes.func
 }
 
 export default ComponentList

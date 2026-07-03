@@ -1,14 +1,18 @@
-import React from 'react'
-import '@testing-library/jest-dom'
+import { render, act } from '@testing-library/react'
+
 import { Route, Routes, MemoryRouter } from 'react-router-dom'
 import axios from 'axios'
-import { render, unmountComponentAtNode } from 'react-dom'
-import { act } from 'react-dom/test-utils'
 
 import { mapResponse } from '../../../__fixtures__/mapResponse'
 import MapForm from '../index.jsx'
 
 vi.mock('axios')
+
+global.ResizeObserver = vi.fn(class {
+  observe = vi.fn()
+  unobserve = vi.fn()
+  disconnect = vi.fn()
+});
 
 let container = null
 beforeEach(() => {
@@ -18,7 +22,6 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  unmountComponentAtNode(container)
   container.remove()
   container = null
 })

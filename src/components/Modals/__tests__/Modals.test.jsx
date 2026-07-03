@@ -1,6 +1,4 @@
-import React from 'react'
-import { render, unmountComponentAtNode } from 'react-dom'
-import { act } from 'react-dom/test-utils'
+import { render, act } from '@testing-library/react'
 
 import { mapComponent } from '../../../__fixtures__/mapResponse'
 import { MapComponentModal, ConfirmModal } from '../index.jsx'
@@ -13,7 +11,6 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  unmountComponentAtNode(container)
   container.remove()
   container = null
 })

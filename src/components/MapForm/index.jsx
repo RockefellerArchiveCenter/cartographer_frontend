@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import ComponentList from '../ComponentList'
-import { ConfirmModal } from '../Modals'
-import { walk } from 'react-sortable-tree'
-import PropTypes from 'prop-types'
 import axios from 'axios'
 import classnames from 'classnames'
+import { walk } from '@nosferatu500/react-sortable-tree'
+
 import Button from '../Button'
+import ComponentList from '../ComponentList'
+import { ConfirmModal } from '../Modals'
+
 
 const MapForm = ({ appElement }) => {
   const { id } = useParams()
@@ -187,10 +188,6 @@ const MapForm = ({ appElement }) => {
       />
     </div>
   )
-}
-
-MapForm.propTypes = {
-  appElement: PropTypes.object
 }
 
 export default MapForm

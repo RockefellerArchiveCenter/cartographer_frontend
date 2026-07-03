@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import Modal from 'react-modal'
-import PropTypes from 'prop-types'
-import Button from '../Button'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
+
+import Modal from 'react-modal'
+import Button from '../Button'
+
 
 export const MapComponentModal = ({
   appElement,
@@ -129,15 +130,6 @@ export const MapComponentModal = ({
   )
 }
 
-MapComponentModal.propTypes = {
-  appElement: PropTypes.object,
-  initialComponent: PropTypes.object,
-  isOpen: PropTypes.bool,
-  onSubmit: PropTypes.func,
-  path: PropTypes.string,
-  toggle: PropTypes.func
-}
-
 export const ConfirmModal = (props) => (
   <Modal
     appElement={props.appElement ?? Modal.setAppElement('#root')}
@@ -167,14 +159,3 @@ export const ConfirmModal = (props) => (
     </div>
   </Modal>
 )
-
-ConfirmModal.propTypes = {
-  appElement: PropTypes.object,
-  isOpen: PropTypes.bool,
-  toggle: PropTypes.func,
-  title: PropTypes.string,
-  message: PropTypes.string,
-  onConfirm: PropTypes.func,
-  cancelButtonText: PropTypes.string,
-  confirmButtonText: PropTypes.string
-}

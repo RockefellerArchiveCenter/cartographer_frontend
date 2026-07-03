@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { ConfirmModal } from '../Modals'
-import Button from '../Button'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import classnames from 'classnames'
+
+import { ConfirmModal } from '../Modals'
+import Button from '../Button'
+
 
 const MapList = ({ appElement }) => {
   const [deleteModal, setDeleteModal] = useState(false)
@@ -81,10 +82,6 @@ const MapList = ({ appElement }) => {
           confirmButtonText = 'Yes, delete' />
     </>
   )
-}
-
-MapList.propTypes = {
-  appElement: PropTypes.object
 }
 
 export default MapList
