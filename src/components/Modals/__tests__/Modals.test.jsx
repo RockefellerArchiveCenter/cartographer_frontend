@@ -3,7 +3,7 @@ import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
 
 import { mapComponent } from '../../../__fixtures__/mapResponse'
-import { MapComponentModal, ConfirmModal } from '..'
+import { MapComponentModal, ConfirmModal } from '../index.jsx'
 
 let container = null
 beforeEach(() => {
@@ -70,7 +70,7 @@ it('renders props correctly', () => {
   render(<ConfirmModal
     appElement={container}
     isOpen={true}
-    toggle={jest.fn()}
+    toggle={vi.fn()}
     title='Confirm delete'
     activeItem={component}
     message={`Are you sure you want to delete ${component.title}?`}

@@ -4,9 +4,9 @@ import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
 
 import { mapResponse } from '../../../__fixtures__/mapResponse'
-import ComponentList from './ComponentList'
+import ComponentList from '../index.jsx'
 
-jest.mock('axios')
+vi.mock('axios')
 
 let container = null
 beforeEach(() => {
@@ -24,7 +24,7 @@ it('renders without crashing', async () => {
   act(() => {
     render(<ComponentList
       items={mapResponse.children}
-      onChange={jest.fn()}
+      onChange={vi.fn()}
       appElement={container} />, container)
   })
 })
@@ -33,7 +33,7 @@ it('toggles component detail modal', async () => {
   await act(async () => {
     await render(<ComponentList
       items={mapResponse.children}
-      onChange={jest.fn()}
+      onChange={vi.fn()}
       appElement={container} />, container)
   })
 

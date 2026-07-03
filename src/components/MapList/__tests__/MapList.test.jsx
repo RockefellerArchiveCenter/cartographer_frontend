@@ -4,13 +4,13 @@ import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
 
 import { mapResponse } from '../../../__fixtures__/mapResponse'
-import MapList from '..'
+import MapList from '../index.jsx'
 
-jest.mock('axios')
+vi.mock('axios')
 
 let container = null
 beforeEach(() => {
-  jest.resetAllMocks()
+  vi.resetAllMocks()
   container = document.createElement('div')
   document.body.appendChild(container)
 })
