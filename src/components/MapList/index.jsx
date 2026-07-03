@@ -47,7 +47,7 @@ const MapList = ({ appElement }) => {
       </div>
       <div className='card card--container'>
         <ul className={classnames('mapList', 'list--unstyled', 'mt-0')}>
-          {arrangementMapList.length
+          {arrangementMapList && arrangementMapList.length
             ? (arrangementMapList.map((item) => (
             <li key = {item.id}
               className='mapList__item'>
