@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { ConfirmModal } from './Modals'
-import Button from './Button'
+import { ConfirmModal } from '../Modals'
+import Button from '../Button'
 import axios from 'axios'
 import classnames from 'classnames'
 

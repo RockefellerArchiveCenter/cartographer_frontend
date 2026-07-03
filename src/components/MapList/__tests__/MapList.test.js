@@ -3,8 +3,8 @@ import axios from 'axios'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
 
-import { mapResponse } from '../__fixtures__/mapResponse'
-import MapList from './MapList'
+import { mapResponse } from '../../../__fixtures__/mapResponse'
+import MapList from '..'
 
 jest.mock('axios')
 

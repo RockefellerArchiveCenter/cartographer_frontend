@@ -9,7 +9,7 @@ import SortableTree, {
 import 'react-sortable-tree/style.css'
 import { ResizableBox } from 'react-resizable'
 import 'react-resizable/css/styles.css'
-import { MapComponentModal, ConfirmModal } from './Modals'
+import { MapComponentModal, ConfirmModal } from '../Modals'
 import axios from 'axios'
 
 const ComponentList = ({ appElement, items, onChange }) => {

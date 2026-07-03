@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import ComponentList from './ComponentList'
-import { ConfirmModal } from './Modals'
+import ComponentList from '../ComponentList'
+import { ConfirmModal } from '../Modals'
 import { walk } from 'react-sortable-tree'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import classnames from 'classnames'
-import Button from './Button'
+import Button from '../Button'
 
 const MapForm = ({ appElement }) => {
   const { id } = useParams()

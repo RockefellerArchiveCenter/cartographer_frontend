@@ -2,8 +2,8 @@ import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
 
-import { mapComponent } from '../__fixtures__/mapResponse'
-import { MapComponentModal, ConfirmModal } from './Modals'
+import { mapComponent } from '../../../__fixtures__/mapResponse'
+import { MapComponentModal, ConfirmModal } from '..'
 
 let container = null
 beforeEach(() => {
