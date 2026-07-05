@@ -153,26 +153,24 @@ const ComponentList = ({ appElement, items, onChange }) => {
         </ResizableBox>
       </div>
       <MapComponentModal
-          appElement={appElement}
-          isOpen={detailModal}
-          initialComponent={activeComponent.node}
-          path={activeComponent.path}
-          toggle={toggleDetailModal}
-          onSubmit={handleNodeAction}
-        />
-        <ConfirmModal
-          appElement={appElement}
-          isOpen={confirmModal}
-          title='Confirm delete'
-          activeItem={activeComponent}
-          toggle={toggleConfirmModal}
-          onConfirm={() => nodeDelete(activeComponent)}
-          message={
-            `Are you sure you want to delete \
-            ${activeComponent.node && activeComponent.node.title}?`}
-          confirmButtonText='Yes, delete'
-          cancelButtonText='No, cancel'
-        />
+        appElement={appElement}
+        isOpen={detailModal}
+        initialComponent={activeComponent.node}
+        path={activeComponent.path}
+        toggle={toggleDetailModal}
+        onSubmit={handleNodeAction} />
+      <ConfirmModal
+        appElement={appElement}
+        isOpen={confirmModal}
+        title='Confirm delete'
+        activeItem={activeComponent}
+        toggle={toggleConfirmModal}
+        onConfirm={() => nodeDelete(activeComponent)}
+        message={
+          `Are you sure you want to delete \
+          ${activeComponent.node && activeComponent.node.title}?`}
+        confirmButtonText='Yes, delete'
+        cancelButtonText='No, cancel' />
     </div>
   )
 }
