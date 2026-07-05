@@ -102,6 +102,7 @@ export const MapComponentModal = ({
                 name="resourceId"
                 type="number"
                 id="resourceId"
+                required={true}
                 value={resourceId}
                 onChange={handleResourceIdChange}
                 autoFocus={true} />
@@ -110,7 +111,6 @@ export const MapComponentModal = ({
               type='submit'
               className='btn btn--sm btn--dark-gray mt-10'
               onClick={() => fetchResource(resourceId)}
-              disabled={!resourceId}
               label= {isFetching ? 'Fetching...' : 'Fetch from ArchivesSpace'}/>
           </form>
         </div>)}
