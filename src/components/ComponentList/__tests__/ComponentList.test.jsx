@@ -23,7 +23,7 @@ afterEach(() => {
 })
 
 it('renders without crashing', async () => {
-  act(() => {
+  await act(async () => {
     render(<ComponentList
       items={mapResponse.children}
       onChange={vi.fn()}
