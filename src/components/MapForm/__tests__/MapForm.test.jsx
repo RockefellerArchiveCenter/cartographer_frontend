@@ -55,32 +55,6 @@ it('renders with match', async () => {
 
   expect(document.querySelector('h1').textContent).toBe('Edit Map')
   expect(document.querySelector('.btn--publish')).toBeVisible()
-  expect(document.querySelector('input#title')).toBeDisabled()
-})
-
-it('toggles editable', async () => {
-  axios.get.mockImplementationOnce(() => Promise.resolve({ data: mapResponse }))
-
-  await act(async () => {
-    await render(
-        <MemoryRouter initialEntries={['/maps/1']}>
-          <Routes>
-            <Route path='/maps/:id' element={<MapForm appElement={container} />} />
-          </Routes>
-        </MemoryRouter>, container)
-  })
-
-  const editButton = document.querySelector('.btn--edit')
-  act(() => {
-    editButton.click()
-  })
-  expect(document.querySelector('input#title')).not.toBeDisabled()
-
-  const cancelButton = document.querySelector('.btn--cancel-edit')
-  act(() => {
-    cancelButton.click()
-  })
-  expect(document.querySelector('input#title')).toBeDisabled()
 })
 
 it('handles publish correctly', async () => {

@@ -13,7 +13,6 @@ const MapForm = ({ appElement }) => {
   const { id } = useParams()
   const [activeMap, setActiveMap] = useState({ title: '' })
   const [publishModal, setPublishModal] = useState(false)
-  const [editable, setEditable] = useState(!id)
   const navigate = useNavigate()
 
   const toggleModal = (map) => {
@@ -50,7 +49,6 @@ const MapForm = ({ appElement }) => {
         .put(`/api/maps/${map.id}/`, map)
         .then((res) => {
           refreshMap()
-          setEditable(false)
         })
         .catch((err) => console.log(err))
       return
@@ -58,7 +56,6 @@ const MapForm = ({ appElement }) => {
     axios
       .post('/api/maps/', map)
       .then((res) => (window.location = `/maps/${res.data.id}`))
-      .then(setEditable(!editable))
       .catch((err) => console.log(err))
   }
 
@@ -127,50 +124,34 @@ const MapForm = ({ appElement }) => {
       <form
         onSubmit={(e) => e.preventDefault()}>
         <div className="input">
-          <label htmlFor="title">Arrangement Map Title</label>
+          <label htmlFor="title">Arrangement Map Title *</label>
           <input
             className='mb-10'
             name="title"
             type="text"
             id="title"
-            value={activeMap.title}
+            required={true}
             onChange={handleChange}
-            disabled={!editable} />
+            value={activeMap.title} />
         </div>
-        {editable
-          ? (
-          <div className='mb-20'>
-            <Button
-              className={classnames('btn--blue', 'btn--md', 'mr-10')}
-              disabled={!activeMap.title}
-              onClick={() => {
-                handleSubmit(activeMap)
-              }}
-              label='Save Title' />
-            <Button
-              className={classnames('btn--orange', 'btn--md', 'btn--cancel-edit')}
-              onClick={() => {
-                id ? setEditable(!editable) : navigate('/')
-              }}
-              label='Cancel' />
-          </div>
-            )
-          : (
-          <div className='mb-20'>
-            <Button
-              className={classnames('btn--blue', 'btn--md', 'btn--edit')}
-              onClick={(e) => { e.preventDefault(); setEditable(!editable) }}
-              label='Edit Title'/>
-          </div>
-            )}
+        <div className='mb-20'>
+          <Button
+            className={classnames('btn--blue', 'btn--md', 'mr-10')}
+            onClick={() => {
+              handleSubmit(activeMap)
+            }}
+            label='Save Title' />
+          <Button
+            className={classnames('btn--orange', 'btn--md', 'btn--cancel-edit')}
+            onClick={() => navigate('/')}
+            label='Cancel' />
+        </div>
       </form>
-      {activeMap.id &&
-          <ComponentList
-            appElement={appElement}
-            items={activeMap.children ? activeMap.children : []}
-            onChange={handleTreeChange}
-          />
-      }
+      <ComponentList
+        appElement={appElement}
+        items={activeMap.children ? activeMap.children : []}
+        onChange={handleTreeChange}
+      />
       <ConfirmModal
         appElement={appElement}
         isOpen={publishModal}
