@@ -4,7 +4,6 @@ import { SortableTree } from '@nosferatu500/react-sortable-tree'
 import { mapResponse } from '../../../__fixtures__/mapResponse'
 import ComponentList from '../index.jsx'
 
-vi.mock('axios')
 vi.mock('@nosferatu500/react-sortable-tree', async () => {
   const actual = await vi.importActual(
     '@nosferatu500/react-sortable-tree'
