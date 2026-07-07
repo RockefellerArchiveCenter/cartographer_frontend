@@ -50,7 +50,7 @@ it('renders with match', async () => {
           <Routes>
             <Route path='/maps/:id' element={<MapForm appElement={container} />} />
           </Routes>
-        </MemoryRouter>, container)
+        </MemoryRouter>)
   })
 
   expect(document.querySelector('h1').textContent).toBe('Edit Map')
@@ -67,7 +67,7 @@ it('handles publish correctly', async () => {
           <Routes>
             <Route path='/maps/:id' element={<MapForm appElement={container} />} />
           </Routes>
-        </MemoryRouter>, container)
+        </MemoryRouter>)
   })
 
   const modalButton = document.querySelector('.btn--publish')

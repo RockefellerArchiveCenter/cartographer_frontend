@@ -19,7 +19,7 @@ it('renders with ArchivesSpace resource', () => {
   render(<MapComponentModal
     isOpen={true}
     initialComponent={mapComponent}
-    appElement={container}/>, container)
+    appElement={container}/>)
   const title = document.querySelector('.component__title')
   const uri = document.querySelector('.component__uri')
   expect(title.textContent).toBe('Asian Cultural Council records, Administrative Files, RG 1')
@@ -30,7 +30,7 @@ it('renders without ArchivesSpace resource', () => {
   render(<MapComponentModal
     isOpen={true}
     initialComponent={{}}
-    appElement={container} />, container)
+    appElement={container} />)
   const title = document.querySelector('input#resourceId')
   expect(title.textContent).toBe('')
 })
@@ -40,7 +40,7 @@ it('clears ComponentDetailModal', () => {
     isOpen={true}
     initialComponent={mapComponent}
     appElement={container}
-  />, container)
+  />)
   const title = document.querySelector('.component__title')
   const uri = document.querySelector('.component__uri')
   expect(title.textContent).toBe('Asian Cultural Council records, Administrative Files, RG 1')
@@ -73,7 +73,7 @@ it('renders props correctly', () => {
     message={`Are you sure you want to delete ${component.title}?`}
     confirmButtonText='Yes, delete it'
     cancelButtonText='Nope, cancel'
-  />, container)
+  />)
 
   expect(document.querySelector('.modal__header-title').textContent).toBe('Confirm delete')
   expect(

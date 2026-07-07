@@ -22,7 +22,7 @@ it('renders with data', async () => {
   axios.get.mockImplementation((url) => Promise.resolve({ data: { results: [mapResponse] } }))
 
   await act(async () => {
-    await render(<MapList appElement={container} />, container)
+    await render(<MapList appElement={container} />)
   })
 
   expect(axios.get).toHaveBeenCalledTimes(1)
@@ -35,7 +35,7 @@ it('renders without data', async () => {
   axios.get.mockImplementation((url) => Promise.resolve({ data: { results: [] } }))
 
   await act(async () => {
-    await render(<MapList appElement={container} />, container)
+    await render(<MapList appElement={container} />)
   })
 
   expect(axios.get).toHaveBeenCalledTimes(1)
@@ -47,7 +47,7 @@ it('deletes map', async () => {
   axios.delete.mockImplementation(() => Promise.resolve({ detail: 'Map deleted' }))
 
   await act(async () => {
-    await render(<MapList appElement={container} />, container)
+    await render(<MapList appElement={container} />)
   })
 
   const modalButton = document.querySelector('.btn--sm.btn--orange')

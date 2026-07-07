@@ -5,8 +5,6 @@ import Button from '../index.jsx'
 
 
 it('renders with expected props', () => {
-    let container = document.createElement('div')
-    document.body.appendChild(container)
     const onClick = vi.fn()
     render(
         <Button
@@ -19,8 +17,7 @@ it('renders with expected props', () => {
             ariaPressed={false}
             disabled={true}
             label='label'
-            />, 
-        container)
+            />)
 
     const button = document.getElementsByClassName('btn')[0]
     expect(button.getAttribute('type')).toBe('submit')

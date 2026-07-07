@@ -85,7 +85,7 @@ it('Add button toggles component detail modal', async () => {
     await render(<ComponentList
       items={mapResponse.children}
       onChange={vi.fn()}
-      appElement={container} />, container)
+      appElement={container} />)
   })
 
   const primary = document.querySelector('.btn--md.btn--orange')

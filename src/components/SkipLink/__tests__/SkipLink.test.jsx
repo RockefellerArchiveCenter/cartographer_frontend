@@ -5,7 +5,5 @@ import SkipLink from '../index.jsx'
 
 
 it('renders without crashing', () => {
-    let container = document.createElement('div')
-    document.body.appendChild(container)
-    render(<SkipLink/>, container)
+    render(<SkipLink/>)
 })

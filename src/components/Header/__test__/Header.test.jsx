@@ -5,7 +5,5 @@ import Header from '../index.jsx'
 
 
 it('renders without crashing', () => {
-    let container = document.createElement('div')
-    document.body.appendChild(container)
-    render(<Header/>, container)
+    render(<Header/>)
 })
