@@ -41,7 +41,7 @@ const MapList = ({ appElement }) => {
       <div className='map__header'>
         <h1>Arrangement Maps</h1>
         <a
-          className={classnames('btn', 'btn--lg', 'btn--blue', 'btn--new-map', 'ml-15')}
+          className={classnames('btn', 'btn--lg', 'btn--blue', 'btn--new-map')}
           href="/maps/new">
             Add New Map
         </a>
@@ -52,8 +52,8 @@ const MapList = ({ appElement }) => {
             ? (arrangementMapList.map((item) => (
             <li key = {item.id}
               className='mapList__item'>
-              <span className='mr-10'>{ item.title }</span>
-              <span>
+              <div className='mr-10'>{ item.title }</div>
+              <div className='mapList__item-actions'>
                 <a
                   href={`/maps/${item.id}`}
                   className={classnames('btn', 'btn--sm', 'btn--blue', 'mr-2')}
@@ -64,10 +64,10 @@ const MapList = ({ appElement }) => {
                   onClick={() => toggleModal(item)}
                   className={classnames('btn', 'btn--sm', 'btn--orange')}
                   label='Delete' />
-              </span>
+              </div>
             </li>
               )))
-            : 'No Arrangement Maps yet'}
+            : <li>No Arrangement Maps yet</li>}
         </ul>
       </div>
       <ConfirmModal

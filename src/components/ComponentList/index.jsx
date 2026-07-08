@@ -103,7 +103,7 @@ const ComponentList = ({ appElement, items, onChange }) => {
         <button onClick={
           () => toggleDetailModal({ node: { title: '', archivesspace_uri: '', level: '' } })}
         className='btn btn--md btn--orange'>
-            Add arrangement map component
+            Add map component
         </button>
         <ResizableBox
           handleSize={[20, 20]}
