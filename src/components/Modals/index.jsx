@@ -115,7 +115,7 @@ export const MapComponentModal = ({
               type='submit'
               className='btn btn--sm btn--dark-gray mt-10'
               onClick={() => fetchResource(resourceId)}
-              label= {isFetching ? 'Fetching...' : 'Fetch from ArchivesSpace'}/>
+              label= {isFetching ? 'Fetching...' : 'Fetch Resource'}/>
           </form>
         </div>)}
         <div className='mt-20'>
