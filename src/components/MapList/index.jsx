@@ -33,7 +33,7 @@ const MapList = ({ appElement }) => {
 
   useEffect(() => {
     refreshList()
-    document.title = document.title + ': Arrangement Maps'
+    document.title = 'Arrangement Maps: Cartographer'
   }, [])
 
   return (
