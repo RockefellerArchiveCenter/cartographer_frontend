@@ -53,7 +53,7 @@ it('renders with match', async () => {
         </MemoryRouter>)
   })
 
-  expect(document.querySelector('h1').textContent).toBe('Edit Map')
+  expect(document.querySelector('h1').textContent).toBe('Edit Map: Asian Cultural Council records')
   expect(document.querySelector('.btn--publish')).toBeVisible()
 })
 

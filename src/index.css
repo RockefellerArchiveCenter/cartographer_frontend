@@ -1,5 +1,9 @@
 .content-wrapper {
-  grid-column: 3 / span 8;
+  grid-column: 2 / span 10;
+
+  @media screen and (min-width: 64em) {
+    grid-column: 3 / span 8;
+  }
 }
 
 .mapList {
@@ -53,7 +57,7 @@
 }
 
 .modal--confirm {
-  @media screen and (min-width: 64em) { 
+  @media screen and (min-width: 64em) {
     top: 10%;
     left: 30%;
     right: 30%;
