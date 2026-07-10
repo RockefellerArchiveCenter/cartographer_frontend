@@ -14,6 +14,7 @@ export const MapComponentModal = ({
   toggle
 }) => {
   const closeButtonRef = useRef(null)
+  const componentTitleRef = useRef(null)
   const [isFetching, setIsFetching] = useState(false)
   const [component, setComponent] = useState()
   const [resourceId, setResourceId] = useState('')
@@ -22,6 +23,12 @@ export const MapComponentModal = ({
   useEffect(() => {
     setComponent(initialComponent)
   }, [initialComponent])
+
+  useEffect(() => {
+    if (component?.title) {
+      componentTitleRef.current?.focus()
+    }
+}, [component])
 
   const handleResourceIdChange = (e) => {
     const { value } = e.target
@@ -87,7 +94,11 @@ export const MapComponentModal = ({
           ? (
         <div className='card card--container mt-2'>
           <div>
-            <h3 className='component__title'>{component.title}</h3>
+            <h3
+              ref={componentTitleRef}
+              tabIndex={-1}
+              className='component__title'>{component.title}
+            </h3>
             <p className='component__uri'>{component.archivesspace_uri}</p>
             <Button
               className='btn--sm btn--orange'
