@@ -32,7 +32,7 @@ it('renders without ArchivesSpace resource', () => {
     initialComponent={{}}
     appElement={container} />)
   const title = document.querySelector('input#resourceId')
-  expect(title.textContent).toBe('')
+    expect(title.value).toBe('')
 })
 
 it('clears ComponentDetailModal', () => {
@@ -52,7 +52,7 @@ it('clears ComponentDetailModal', () => {
   })
 
   const updatedTitle = document.querySelector('input#resourceId')
-  expect(updatedTitle.textContent).toBe('')
+  expect(updatedTitle.value).toBe('')
 })
 
 it('renders props correctly', () => {
@@ -75,10 +75,14 @@ it('renders props correctly', () => {
     cancelButtonText='Nope, cancel'
   />)
 
+  const dialog = document.querySelector('.ReactModal__Content')
+
   expect(document.querySelector('.modal__header-title').textContent).toBe('Confirm delete')
   expect(
     document.querySelector('.modal-message').textContent).toBe(
       `Are you sure you want to delete ${component.title}?`)
   expect(document.querySelector('.btn--blue').textContent).toBe('Yes, delete it')
   expect(document.querySelector('.btn--orange').textContent).toBe('Nope, cancel')
+  expect(dialog.getAttribute('aria-labelledby')).toBe('confirm-modal')
 })
+

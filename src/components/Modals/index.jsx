@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 
 import Modal from 'react-modal'
@@ -13,6 +13,7 @@ export const MapComponentModal = ({
   path,
   toggle
 }) => {
+  const closeButtonRef = useRef(null)
   const [isFetching, setIsFetching] = useState(false)
   const [component, setComponent] = useState()
   const [resourceId, setResourceId] = useState('')
@@ -56,15 +57,19 @@ export const MapComponentModal = ({
 
   return (
     <Modal
+      appElement={appElement ?? Modal.setAppElement('#root')}
       isOpen={isOpen}
-      autoFocus={true}
-      className='modal modal--component'
       onRequestClose={toggle}
-      appElement={appElement ?? Modal.setAppElement('#root')} >
+      className='modal modal--component'
+      overlayClassName='modal__overlay'
+      onAfterOpen={() => {
+        closeButtonRef.current?.focus()
+      }}
+      aria={{ labelledby: 'arrangement-map-component' }} >
       <div className='modal__header'>
-        <h2 className='modal__header-title'>Arrangement Map Component</h2>
-        <button className='modal__header-button' aria-label='Close' onClick={toggle}>
-          X
+        <h2 id='arrangement-map-component' className='modal__header-title'>Arrangement Map Component</h2>
+        <button className='modal__header-button' aria-label='Close' ref={closeButtonRef} onClick={toggle}>
+          <span className="material-icon" aria-hidden="true">close</span>
         </button>
       </div>
       <div className='modal-body p-20'>
@@ -104,8 +109,7 @@ export const MapComponentModal = ({
                 id="resourceId"
                 required={true}
                 value={resourceId}
-                onChange={handleResourceIdChange}
-                autoFocus={true} />
+                onChange={handleResourceIdChange} />
             </div>
             <Button
               type='submit'
@@ -130,32 +134,40 @@ export const MapComponentModal = ({
   )
 }
 
-export const ConfirmModal = (props) => (
-  <Modal
-    appElement={props.appElement ?? Modal.setAppElement('#root')}
-    isOpen={props.isOpen}
-    onRequestClose={props.toggle}
-    className='modal modal--confirm'>
-    <div className='modal__header'>
-      <h2 className='modal__header-title'>{props.title}</h2>
-      <button className='modal__header-button' aria-label='Close' onClick={props.toggle}>
-        X
-      </button>
-    </div>
-    <div className='modal-body--confirm px-40 py-40'>
-      <div className='modal-message pb-40'>
-        {props.message}
+export const ConfirmModal = (props) => {
+  const closeButtonRef = useRef(null);
+
+  return (
+    <Modal
+      appElement={props.appElement ?? Modal.setAppElement('#root')}
+      isOpen={props.isOpen}
+      onRequestClose={props.toggle}
+      className='modal modal--confirm'
+      overlayClassName='modal__overlay'
+      onAfterOpen={() => {
+        closeButtonRef.current?.focus();
+      }}
+      aria={{ labelledby: 'confirm-modal' }}>
+      <div className='modal__header'>
+        <h2 id='confirm-modal' className='modal__header-title'>{props.title}</h2>
+        <button className='modal__header-button' aria-label='Close' ref={closeButtonRef} onClick={props.toggle}>
+          <span className="material-icon" aria-hidden="true">close</span>
+        </button>
       </div>
-      <div className='modal-buttons'>
-        <Button
-          className='btn--md btn--blue mr-10'
-          onClick={props.onConfirm}
-          label={props.confirmButtonText} />
-        <Button
-          className='btn--md btn--orange'
-          onClick={props.toggle}
-          label={props.cancelButtonText} />
+      <div className='modal-body--confirm px-40 py-40'>
+        <div className='modal-message pb-40'>
+          {props.message}
+        </div>
+        <div className='modal-buttons'>
+          <Button
+            className='btn--md btn--blue mr-10'
+            onClick={props.onConfirm}
+            label={props.confirmButtonText} />
+          <Button
+            className='btn--md btn--orange'
+            onClick={props.toggle}
+            label={props.cancelButtonText} />
+        </div>
       </div>
-    </div>
-  </Modal>
-)
+    </Modal>
+  )}
