@@ -1,5 +1,9 @@
 .content-wrapper {
-  grid-column: 3 / span 8;
+  grid-column: 2 / span 10;
+
+  @media screen and (min-width: 64em) {
+    grid-column: 3 / span 8;
+  }
 }
 
 .mapList {
@@ -8,16 +12,35 @@
 
 .mapList__item {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
+  gap: 5px;
   padding: 12px 20px;
   border-bottom: 1px solid #5c5c5c;
+
+  @media screen and (min-width: 64em) {
+    align-items: center;
+    flex-direction: row;
+  }
 }
 
 .map__header {
+  align-items: flex-start;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  margin: 0 0 15px 0;
+
+  @media screen and (min-width: 64em) {
+    align-items: center;
+    flex-direction: row;
+  }
+}
+
+.btn--new-map {
+  @media screen and (min-width: 64em) {
+    margin-left: 15px;
+  }
 }
 
 .card--block {
@@ -25,7 +48,7 @@
 }
 
 .modal--component {
-  @media screen and (min-width: 1024px) { 
+  @media screen and (min-width: 64em) {
     top: 10%;
     left: 30%;
     right: 30%;
@@ -34,10 +57,16 @@
 }
 
 .modal--confirm {
-  @media screen and (min-width: 1024px) { 
+  @media screen and (min-width: 64em) {
     top: 10%;
     left: 30%;
     right: 30%;
     bottom: auto;
    }
+}
+
+/* Fit modal title in header on small/magnified screens */
+.modal__header {
+  height: auto;
+  min-height: 52px;
 }

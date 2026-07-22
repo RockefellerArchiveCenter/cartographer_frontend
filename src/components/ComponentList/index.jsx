@@ -103,7 +103,7 @@ const ComponentList = ({ appElement, items, onChange }) => {
         <button onClick={
           () => toggleDetailModal({ node: { title: '', archivesspace_uri: '', level: '' } })}
         className='btn btn--md btn--orange'>
-            Add arrangement map component
+            Add map component
         </button>
         <ResizableBox
           handleSize={[20, 20]}
@@ -120,6 +120,7 @@ const ComponentList = ({ appElement, items, onChange }) => {
                 <button
                   key={`${node.id}-add`}
                   className='btn btn--sm btn--blue mr-2'
+                  aria-label={`Add child to ${node.node.title}`}
                   onClick={
                     () => toggleDetailModal({
                       node: {
@@ -136,6 +137,7 @@ const ComponentList = ({ appElement, items, onChange }) => {
                 <button
                   key={`${node.id}-edit`}
                   className='btn btn--sm btn--dark-gray mr-2'
+                  aria-label={`Edit ${node.node.title}`}
                   onClick={() => toggleDetailModal(node)}
                 >
                   Edit
@@ -143,6 +145,7 @@ const ComponentList = ({ appElement, items, onChange }) => {
                 <button
                   key={`${node.id}-delete`}
                   className='btn btn--sm btn--orange'
+                  aria-label={`Delete ${node.node.title}`}
                   onClick={() => toggleConfirmModal(node)}
                 >
                   Delete

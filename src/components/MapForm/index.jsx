@@ -12,6 +12,7 @@ import { ConfirmModal } from '../Modals'
 const MapForm = ({ appElement }) => {
   const { id } = useParams()
   const [activeMap, setActiveMap] = useState({ title: '' })
+  const [savedTitle, setSavedTitle] = useState('')
   const [publishModal, setPublishModal] = useState(false)
   const navigate = useNavigate()
 
@@ -30,7 +31,10 @@ const MapForm = ({ appElement }) => {
     if (id) {
       axios
         .get(`/api/maps/${id}`)
-        .then((res) => setActiveMap(res.data))
+        .then((res) => {
+          setActiveMap(res.data)
+          setSavedTitle(res.data.title || '')
+        })
         .catch((err) => console.log(err))
     }
   }
@@ -49,6 +53,8 @@ const MapForm = ({ appElement }) => {
         .put(`/api/maps/${map.id}/`, map)
         .then((res) => {
           refreshMap()
+          setActiveMap(res.data)
+          setSavedTitle(res.data.title || '')
         })
         .catch((err) => console.log(err))
       return
@@ -105,14 +111,23 @@ const MapForm = ({ appElement }) => {
   }
 
   useEffect(() => {
-    refreshMap()
-    document.title = id ? document.title + ': Edit Map' : document.title + ': Add New Map'
+    if (id) {
+      refreshMap()
+    }
   }, [id])
+
+  useEffect(() => {
+    if (!id) {
+      document.title = 'Add New Map: Cartographer'
+    } else if (savedTitle) {
+      document.title = `Edit Map ${savedTitle}: Cartographer`
+    }
+  }, [id, savedTitle])
 
   return (
     <div>
       <div className='map__header'>
-        <h1>{id ? 'Edit Map' : 'Add New Map'}</h1>
+        <h1>{id ? `Edit Map: ${savedTitle}` : 'Add New Map'}</h1>
         {id
           ? (
           <Button
