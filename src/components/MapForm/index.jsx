@@ -96,9 +96,8 @@ const MapForm = ({ appElement }) => {
             node.node.order !== node.treeIndex ||
             node.node.updated
         ) {
-          node.node.parent = parentNodeId
-          node.node.order = node.treeIndex
-          handleComponentSubmit(node.node)
+          var newNode = { ...node.node, parent: parentNodeId, order: node.treeIndex}
+          handleComponentSubmit(newNode)
             .then((res) => {
               node.node.id = res.id
               handleChange({ target: { name: 'children', value: newItems } })
