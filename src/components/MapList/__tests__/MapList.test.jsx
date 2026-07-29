@@ -62,3 +62,33 @@ it('deletes map', async () => {
 
   expect(axios.delete).toHaveBeenCalledTimes(1)
 })
+
+
+it('handles publish correctly', async () => {
+  axios.get.mockImplementation(() => Promise.resolve({ data: { results: [mapResponse] } }))
+  axios.delete.mockImplementation(() => Promise.resolve({ detail: 'Map deleted' }))
+  axios.put.mockImplementation(() => Promise.resolve({ }))
+
+  await act(async () => {
+    await render(<MapList appElement={container} />)
+  })
+
+  const modalButton = document.querySelector('.btn--publish')
+  expect(modalButton.textContent).toBe('Publish Map')
+
+  // Toggle publish modal
+  act(() => {
+    modalButton.click()
+  })
+  expect(document.querySelector('.modal--confirm')).toBeVisible()
+
+  const publishButton = document.querySelector('.modal--confirm .btn--blue')
+
+  // Publish current map
+  await act(async () => {
+    await publishButton.click()
+  })
+
+  expect(axios.put).toHaveBeenCalledTimes(1)
+  expect(modalButton.textContent).toBe('Unpublish Map')
+})

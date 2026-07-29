@@ -16,17 +16,6 @@ const MapForm = ({ appElement }) => {
   const [publishModal, setPublishModal] = useState(false)
   const navigate = useNavigate()
 
-  const toggleModal = (map) => {
-    setActiveMap(map)
-    setPublishModal(!publishModal)
-  }
-
-  const togglePublish = (map) => {
-    map.publish = !activeMap.publish
-    toggleModal(map)
-    handleSubmit(map)
-  }
-
   const refreshMap = () => {
     if (id) {
       axios
@@ -127,14 +116,7 @@ const MapForm = ({ appElement }) => {
     <div>
       <div className='map__header'>
         <h1>{id ? `Edit Map: ${savedTitle}` : 'Add New Map'}</h1>
-        {id
-          ? (
-          <Button
-            className={classnames('btn--lg', 'btn--blue', 'btn--publish')}
-            onClick={() => toggleModal(activeMap)}
-            label={activeMap.publish ? 'Unpublish Map' : 'Publish Map'} />)
-          : null}
-        </div>
+      </div>
       <form
         onSubmit={(e) => e.preventDefault()}>
         <div className="input">
@@ -165,21 +147,6 @@ const MapForm = ({ appElement }) => {
         appElement={appElement}
         items={activeMap.children ? activeMap.children : []}
         onChange={handleTreeChange}
-      />
-      <ConfirmModal
-        appElement={appElement}
-        isOpen={publishModal}
-        title={`Confirm ${activeMap.publish ? 'unpublish' : 'publish'}`}
-        activeItem={activeMap}
-        toggle={() => toggleModal(activeMap)}
-        onConfirm={() => togglePublish(activeMap)}
-        message={
-          `Are you sure you want to ${activeMap.publish ? 'unpublish' : 'publish'} \
-          ${activeMap.title}? ${activeMap.publish ? 'Unpublishing' : 'Publishing'} \
-          this map will result in all related resource records in ArchivesSpace being \
-          ${activeMap.publish ? 'unpublished' : 'published'} as well.`}
-        cancelButtonText='Cancel'
-        confirmButtonText={activeMap.publish ? 'Unpublish' : 'Publish'}
       />
     </div>
   )

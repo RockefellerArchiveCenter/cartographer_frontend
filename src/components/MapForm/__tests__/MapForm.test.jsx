@@ -54,38 +54,4 @@ it('renders with match', async () => {
   })
 
   expect(document.querySelector('h1').textContent).toBe('Edit Map: Asian Cultural Council records')
-  expect(document.querySelector('.btn--publish')).toBeVisible()
-})
-
-it('handles publish correctly', async () => {
-  axios.get.mockImplementation(() => Promise.resolve({ data: mapResponse }))
-  axios.put.mockImplementationOnce(() => Promise.resolve({ mapResponse }))
-
-  await act(async () => {
-    await render(
-        <MemoryRouter initialEntries={['/maps/1']}>
-          <Routes>
-            <Route path='/maps/:id' element={<MapForm appElement={container} />} />
-          </Routes>
-        </MemoryRouter>)
-  })
-
-  const modalButton = document.querySelector('.btn--publish')
-  expect(modalButton.textContent).toBe('Publish Map')
-
-  // Toggle publish modal
-  act(() => {
-    modalButton.click()
-  })
-  expect(document.querySelector('.modal--confirm')).toBeVisible()
-
-  const publishButton = document.querySelector('.modal--confirm .btn--blue')
-
-  // Publish current map
-  await act(async () => {
-    await publishButton.click()
-  })
-
-  expect(axios.put).toHaveBeenCalledTimes(1)
-  expect(modalButton.textContent).toBe('Unpublish Map')
 })
