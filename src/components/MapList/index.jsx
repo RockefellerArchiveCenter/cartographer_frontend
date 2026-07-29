@@ -80,6 +80,7 @@ const MapList = ({ appElement }) => {
                   className={classnames('btn', 'btn--sm', 'btn--orange', 'mr-2')}
                   label='Delete' />
                 <Button
+                  ariaLabel={(`${item.publish ? 'Unpublish' : 'Publish'} ${item.title}`)}
                   className={classnames('btn', 'btn--sm', 'btn--dark-gray', 'btn--publish')}
                   onClick={() => togglePublishModal(item)}
                   label={item.publish ? 'Unpublish Map' : 'Publish Map'} />
