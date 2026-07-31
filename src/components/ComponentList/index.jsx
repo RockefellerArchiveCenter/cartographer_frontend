@@ -7,8 +7,6 @@ import {
   insertNode,
   removeNode
 } from '@nosferatu500/react-sortable-tree'
-import { ResizableBox } from 'react-resizable'
-import 'react-resizable/css/styles.css'
 import { MapComponentModal, ConfirmModal } from '../Modals'
 
 
@@ -105,55 +103,48 @@ const ComponentList = ({ appElement, items, onChange }) => {
         className='btn btn--md btn--orange'>
             Add map component
         </button>
-        <ResizableBox
-          handleSize={[20, 20]}
-          axis='y'
-          resizeHandles={['s']}
-          height={400}
-          width={Infinity}>
-          <SortableTree
-            treeData={items}
-            onChange={onChange}
-            getNodeKey={({ node }) => node.id}
-            generateNodeProps={ (node) => ({
-              buttons: [
-                <button
-                  key={`${node.id}-add`}
-                  className='btn btn--sm btn--blue mr-2'
-                  aria-label={`Add child to ${node.node.title}`}
-                  onClick={
-                    () => toggleDetailModal({
-                      node: {
-                        title: '',
-                        archivesspace_uri: '',
-                        parent: node.node.id,
-                        level: ''
-                      }
-                    })
-                  }
-                >
-                  Add Child
-                </button>,
-                <button
-                  key={`${node.id}-edit`}
-                  className='btn btn--sm btn--dark-gray mr-2'
-                  aria-label={`Edit ${node.node.title}`}
-                  onClick={() => toggleDetailModal(node)}
-                >
-                  Edit
-                </button>,
-                <button
-                  key={`${node.id}-delete`}
-                  className='btn btn--sm btn--orange'
-                  aria-label={`Delete ${node.node.title}`}
-                  onClick={() => toggleConfirmModal(node)}
-                >
-                  Delete
-                </button>
-              ]
-            })}
-          />
-        </ResizableBox>
+        <SortableTree
+          treeData={items}
+          onChange={onChange}
+          getNodeKey={({ node }) => node.id}
+          generateNodeProps={ (node) => ({
+            buttons: [
+              <button
+                key={`${node.id}-add`}
+                className='btn btn--sm btn--blue mr-2'
+                aria-label={`Add child to ${node.node.title}`}
+                onClick={
+                  () => toggleDetailModal({
+                    node: {
+                      title: '',
+                      archivesspace_uri: '',
+                      parent: node.node.id,
+                      level: ''
+                    }
+                  })
+                }
+              >
+                Add Child
+              </button>,
+              <button
+                key={`${node.id}-edit`}
+                className='btn btn--sm btn--dark-gray mr-2'
+                aria-label={`Edit ${node.node.title}`}
+                onClick={() => toggleDetailModal(node)}
+              >
+                Edit
+              </button>,
+              <button
+                key={`${node.id}-delete`}
+                className='btn btn--sm btn--orange'
+                aria-label={`Delete ${node.node.title}`}
+                onClick={() => toggleConfirmModal(node)}
+              >
+                Delete
+              </button>
+            ]
+          })}
+        />
       </div>
       <MapComponentModal
         appElement={appElement}
