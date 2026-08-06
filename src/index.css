@@ -44,7 +44,8 @@
 }
 
 .card--block {
-  display: block
+  display: block;
+  height: 100vh;
 }
 
 .modal--component {
