@@ -279,7 +279,7 @@
   dependencies:
     "@tybys/wasm-util" "^0.10.3"
 
-"@nosferatu500/react-sortable-tree@^5.0.0":
+"@nosferatu500/react-sortable-tree@5.1.0":
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/@nosferatu500/react-sortable-tree/-/react-sortable-tree-5.1.0.tgz#b37309f7ea47f0c1019dd544ff0dd139b4868d21"
   integrity sha512-2lSs2FXMoDgFXXzzOjAjcWqll930cShZlFhV7v9GEFdSMwgC+hEEMmAXKmOWffo66wLQSGQZCCS4+vw6jV+fUg==

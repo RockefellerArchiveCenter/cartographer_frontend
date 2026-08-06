@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@nosferatu500/react-sortable-tree": "^5.0.0",
+    "@nosferatu500/react-sortable-tree": "5.1.0",
     "axios": "^1.18.1",
     "classnames": "^2.5.1",
     "latest": "^0.2.0",
