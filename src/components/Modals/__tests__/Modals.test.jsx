@@ -1,9 +1,7 @@
-import React from 'react'
-import { render, unmountComponentAtNode } from 'react-dom'
-import { act } from 'react-dom/test-utils'
+import { render, act } from '@testing-library/react'
 
-import { mapComponent } from '../__fixtures__/mapResponse'
-import { MapComponentModal, ConfirmModal } from './Modals'
+import { mapComponent } from '../../../__fixtures__/mapResponse'
+import { MapComponentModal, ConfirmModal } from '../index.jsx'
 
 let container = null
 beforeEach(() => {
@@ -13,7 +11,6 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  unmountComponentAtNode(container)
   container.remove()
   container = null
 })
@@ -22,7 +19,7 @@ it('renders with ArchivesSpace resource', () => {
   render(<MapComponentModal
     isOpen={true}
     initialComponent={mapComponent}
-    appElement={container}/>, container)
+    appElement={container}/>)
   const title = document.querySelector('.component__title')
   const uri = document.querySelector('.component__uri')
   expect(title.textContent).toBe('Asian Cultural Council records, Administrative Files, RG 1')
@@ -33,9 +30,9 @@ it('renders without ArchivesSpace resource', () => {
   render(<MapComponentModal
     isOpen={true}
     initialComponent={{}}
-    appElement={container} />, container)
+    appElement={container} />)
   const title = document.querySelector('input#resourceId')
-  expect(title.textContent).toBe('')
+    expect(title.value).toBe('')
 })
 
 it('clears ComponentDetailModal', () => {
@@ -43,7 +40,7 @@ it('clears ComponentDetailModal', () => {
     isOpen={true}
     initialComponent={mapComponent}
     appElement={container}
-  />, container)
+  />)
   const title = document.querySelector('.component__title')
   const uri = document.querySelector('.component__uri')
   expect(title.textContent).toBe('Asian Cultural Council records, Administrative Files, RG 1')
@@ -55,7 +52,7 @@ it('clears ComponentDetailModal', () => {
   })
 
   const updatedTitle = document.querySelector('input#resourceId')
-  expect(updatedTitle.textContent).toBe('')
+  expect(updatedTitle.value).toBe('')
 })
 
 it('renders props correctly', () => {
@@ -70,13 +67,15 @@ it('renders props correctly', () => {
   render(<ConfirmModal
     appElement={container}
     isOpen={true}
-    toggle={jest.fn()}
+    toggle={vi.fn()}
     title='Confirm delete'
     activeItem={component}
     message={`Are you sure you want to delete ${component.title}?`}
     confirmButtonText='Yes, delete it'
     cancelButtonText='Nope, cancel'
-  />, container)
+  />)
+
+  const dialog = document.querySelector('.ReactModal__Content')
 
   expect(document.querySelector('.modal__header-title').textContent).toBe('Confirm delete')
   expect(
@@ -84,4 +83,6 @@ it('renders props correctly', () => {
       `Are you sure you want to delete ${component.title}?`)
   expect(document.querySelector('.btn--blue').textContent).toBe('Yes, delete it')
   expect(document.querySelector('.btn--orange').textContent).toBe('Nope, cancel')
+  expect(dialog.getAttribute('aria-labelledby')).toBe('confirm-modal')
 })
+

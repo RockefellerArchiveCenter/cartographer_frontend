@@ -1,0 +1,172 @@
+import { useState } from 'react'
+import axios from 'axios'
+import {
+  SortableTree,
+  addNodeUnderParent,
+  changeNodeAtPath,
+  insertNode,
+  removeNode
+} from '@nosferatu500/react-sortable-tree'
+import { MapComponentModal, ConfirmModal } from '../Modals'
+
+
+const ComponentList = ({ appElement, items, onChange }) => {
+  const [detailModal, setDetailModal] = useState(false)
+  const [confirmModal, setConfirmModal] = useState(false)
+  const [activeComponent, setActiveComponent] = useState({ title: '', archivesspace_uri: '' })
+
+  const toggleDetailModal = (item) => {
+    setActiveComponent(item)
+    setDetailModal(!detailModal)
+  }
+
+  const toggleConfirmModal = (item) => {
+    setActiveComponent(item)
+    setConfirmModal(!confirmModal)
+  }
+
+  const handleDelete = (component) => {
+    axios
+      .delete(`/api/components/${component.id}`)
+      .then((res) => {
+        return true
+      })
+      .catch((err) => console.log(err))
+  }
+
+  const handleNodeAction = async (e, path) => {
+    let treeData = {}
+    if (e.id) {
+      treeData = await nodeUpdate(e, path)
+    } else if (e.parent) {
+      treeData = await nodeAddChild(e)
+    } else {
+      treeData = await nodeAddNew(e)
+    }
+    onChange(treeData)
+    setDetailModal(false)
+  }
+
+  const nodeAddChild = (e) => {
+    e.updated = true
+    const { treeData } = addNodeUnderParent({
+      treeData: items,
+      newNode: e,
+      parentKey: e.parent,
+      getNodeKey: ({ node }) => node.id,
+      ignoreCollapsed: false,
+      expandParent: true
+    })
+    return treeData
+  }
+
+  const nodeAddNew = (e) => {
+    e.updated = true
+    const { treeData } = insertNode({
+      treeData: items,
+      depth: 1,
+      newNode: e,
+      getNodeKey: ({ node }) => node.id,
+      minimumTreeIndex: 0
+    })
+    return treeData
+  }
+
+  const nodeDelete = async (e) => {
+    const { node, path } = e
+    const { treeData } = removeNode({
+      treeData: items,
+      path,
+      getNodeKey: ({ node }) => node.id
+    })
+    onChange(treeData)
+    handleDelete(node)
+    setConfirmModal(false)
+  }
+
+  const nodeUpdate = (e, path) => {
+    e.updated = true
+    const treeData = changeNodeAtPath({
+      treeData: items,
+      path,
+      newNode: e,
+      getNodeKey: ({ node }) => node.id
+    })
+    return treeData
+  }
+
+  return (
+    <div>
+      <div className='card card--container card--block'>
+        <button onClick={
+          () => toggleDetailModal({ node: { title: '', archivesspace_uri: '', level: '' } })}
+        className='btn btn--md btn--orange'>
+            Add map component
+        </button>
+        <SortableTree
+          treeData={items}
+          onChange={onChange}
+          getNodeKey={({ node }) => node.id}
+          generateNodeProps={ (node) => ({
+            buttons: [
+              <button
+                key={`${node.id}-add`}
+                className='btn btn--sm btn--blue mr-2'
+                aria-label={`Add child to ${node.node.title}`}
+                onClick={
+                  () => toggleDetailModal({
+                    node: {
+                      title: '',
+                      archivesspace_uri: '',
+                      parent: node.node.id,
+                      level: ''
+                    }
+                  })
+                }
+              >
+                Add Child
+              </button>,
+              <button
+                key={`${node.id}-edit`}
+                className='btn btn--sm btn--dark-gray mr-2'
+                aria-label={`Edit ${node.node.title}`}
+                onClick={() => toggleDetailModal(node)}
+              >
+                Edit
+              </button>,
+              <button
+                key={`${node.id}-delete`}
+                className='btn btn--sm btn--orange'
+                aria-label={`Delete ${node.node.title}`}
+                onClick={() => toggleConfirmModal(node)}
+              >
+                Delete
+              </button>
+            ]
+          })}
+        />
+      </div>
+      <MapComponentModal
+        appElement={appElement}
+        isOpen={detailModal}
+        initialComponent={activeComponent.node}
+        path={activeComponent.path}
+        toggle={toggleDetailModal}
+        onSubmit={handleNodeAction} />
+      <ConfirmModal
+        appElement={appElement}
+        isOpen={confirmModal}
+        title='Confirm delete'
+        activeItem={activeComponent}
+        toggle={toggleConfirmModal}
+        onConfirm={() => nodeDelete(activeComponent)}
+        message={
+          `Are you sure you want to delete \
+          ${activeComponent.node && activeComponent.node.title}?`}
+        confirmButtonText='Yes, delete'
+        cancelButtonText='No, cancel' />
+    </div>
+  )
+}
+
+export default ComponentList

@@ -1,10 +1,10 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import Header from './components/Header'
-import MapForm from './components/MapForm'
-import MapList from './components/MapList'
-import SkipLink from './components/SkipLink'
+import Header from './components/Header/index.jsx'
+import MapForm from './components/MapForm/index.jsx'
+import MapList from './components/MapList/index.jsx'
+import SkipLink from './components/SkipLink/index.jsx'
 
 const App = ({ appElement }) => (
   <>
