@@ -13,7 +13,7 @@ Install [git](https://git-scm.com/) and clone the repository
 Install dependencies and run the development server:
 
     $ yarn install
-    $ yarn start
+    $ yarn dev
 
 
 This repository contains a configuration file for a git pre-commit hooks which help ensure that code is linted before it is checked into version control. It is strongly recommended that you install these hooks locally by running `yarn prepare`.
@@ -21,15 +21,11 @@ This repository contains a configuration file for a git pre-commit hooks which h
 
 ## Accessibility
 
-The drag and drop interface for arrangement maps (built using [`react-sortable-tree`](https://github.com/frontend-collective/react-sortable-tree)) has a number of accessibility issues:
-- The interface does not fully support keyboard-only interactions, as arrangement map components cannot be moved via the keyboard.
-- Screen readers are not able to effectively read the element:
-  - An aria-label with a value of "grid" is applied to the top-level element containing the draggable tree.
-  - The draggable tree is seen aas a table with 0 columns and 0 rows.
-  - The title and text of arrangement map components could not be read.
-  - Buttons are not associated with the component they are related to.
+The drag and drop interface for arrangement maps (built using [`nosferatu500/react-sortable-tree`](https://github.com/nosferatu500/react-sortable-tree)) has significant accessibility issues related to WCAG 2.2 AA success criteria 1.3.1 Info and Relationships, 2.1.1 Keyboard, 2.5.7 Dragging Movements, and 4.1.2 Name, Role, Value:
+- The drag-and-drop interface does not support keyboard-only interactions; arrangement map components cannot be moved via the keyboard.
+- The hierarchy between parent and child map components is only conveyed visually, and therefore does not convey structure, hierarchy, or the full context to screen readers.
 
-We have opted to use this library despite these issues because it is the only one we can find which supports dragging and dropping in a multi-level tree. If you know of a more accessible option, please file an issue or get in touch!
+We have opted to use this library despite these issues because it is the only one we can find that supports dragging and dropping in a multi-level tree. If you know of a more accessible option, please file an issue or get in touch!
 
 
 ## License

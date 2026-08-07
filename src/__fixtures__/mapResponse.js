@@ -10,7 +10,8 @@ const mapResponse = {
         ref: '/api/components/1/',
         parent: null,
         archivesspace_uri: '/repositories/2/resources/626',
-        order: 0
+        order: 0,
+        level: 'resource'
       },
       {
         id: 2,
@@ -18,7 +19,8 @@ const mapResponse = {
         ref: '/api/components/2/',
         parent: null,
         archivesspace_uri: '/repositories/2/resources/12464',
-        order: 1
+        order: 1,
+        level: 'resource'
       }
     ],
   publish: false,
