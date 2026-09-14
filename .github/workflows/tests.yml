@@ -23,7 +23,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --ignore-scripts
 
       - name: Run linter
         run: yarn lint
