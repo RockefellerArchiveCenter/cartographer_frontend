@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.3](https://github.com/RockefellerArchiveCenter/cartographer_frontend/compare/v2.0.2...v2.0.3) (2026-11-02)
+
+
+### Bug Fixes
+
+* **deps:** Dependency Updates ([f405df9](https://github.com/RockefellerArchiveCenter/cartographer_frontend/commit/f405df9385d91d5f49432bf5a17af6b8c5a4b84b))
+* **deps:** Scheduled dependency updates ([870dfa0](https://github.com/RockefellerArchiveCenter/cartographer_frontend/commit/870dfa064e5fecde38c5876f20d71d1b3d23c14d))
+
 ## [2.0.2](https://github.com/RockefellerArchiveCenter/cartographer_frontend/compare/v2.0.1...v2.0.2) (2026-10-22)
 
 
