@@ -7,6 +7,7 @@ import {
   insertNode,
   removeNode
 } from '@nosferatu500/react-sortable-tree'
+import '@nosferatu500/react-sortable-tree/style.css'
 import { MapComponentModal, ConfirmModal } from '../Modals'
 
 
