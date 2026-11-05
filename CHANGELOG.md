@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.4](https://github.com/RockefellerArchiveCenter/cartographer_frontend/compare/v2.0.3...v2.0.4) (2026-11-05)
+
+
+### Bug Fixes
+
+* restore saving component positions in map tree ([4f4b8e2](https://github.com/RockefellerArchiveCenter/cartographer_frontend/commit/4f4b8e2bac4475e464de04a58c176fb0d985018a))
+
 ## [2.0.3](https://github.com/RockefellerArchiveCenter/cartographer_frontend/compare/v2.0.2...v2.0.3) (2026-11-02)
 
 
